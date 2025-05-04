@@ -1,6 +1,5 @@
-package hitsedu.mobile_codeblock.ui.theme
+package hitsedu.mobile_codeblock.ui_kit.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

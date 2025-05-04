@@ -1,4 +1,4 @@
-package hitsedu.mobile_codeblock.ui.theme
+package hitsedu.mobile_codeblock.ui_kit.theme
 
 import androidx.compose.ui.graphics.Color
 

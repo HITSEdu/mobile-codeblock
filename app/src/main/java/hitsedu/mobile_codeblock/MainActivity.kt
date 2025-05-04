@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import hitsedu.mobile_codeblock.ui.theme.MobilecodeblockTheme
+import hitsedu.mobile_codeblock.ui_kit.theme.MobilecodeblockTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
