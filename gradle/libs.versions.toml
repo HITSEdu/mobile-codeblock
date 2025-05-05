@@ -19,6 +19,9 @@ viewModel = "2.8.7"
 # Navigation
 navigationCompose = "2.8.6"
 
+# Splash screen
+coreSplashscreen = "1.0.0"
+
 # Project settings
 minSdk = "24"
 compileSdk = "34"
@@ -49,6 +52,9 @@ material = { group = "com.google.android.material", name = "material", version.r
 
 # Navigation
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
+# Splash screen
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
