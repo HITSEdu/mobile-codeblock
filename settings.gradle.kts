@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "mobile-codeblock"
 include(":app")
 include(":ui-kit")
+include(":feature:main:ui")
