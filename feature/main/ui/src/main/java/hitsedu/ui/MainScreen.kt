@@ -20,21 +20,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import hitsedu.feature.main.ui.R
+import androidx.navigation.NavHostController
 import hitsedu.ui_kit.components.BottomContainer
 import hitsedu.ui_kit.components.ButtonCreate
 import hitsedu.ui_kit.components.ButtonInfo
 import hitsedu.ui_kit.components.Header
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    navController: NavHostController,
+) {
 //    val viewModel = MainViewModel()
-    MainScreenUI()
+    MainScreenUI(navController)
 }
 
 @Composable
 private fun MainScreenUI(
 //    viewModel: MainViewModel,
+    navController: NavHostController,
 ) {
     Scaffold(
         topBar = { Header() },
@@ -90,7 +93,7 @@ private fun MainScreenUI(
                     modifier = Modifier
                 )
                 IconButton(
-                    onClick = {TODO("Filter")}
+                    onClick = { TODO("Filter") }
                 ) {
                     Icon(
                         painter = painterResource(hitsedu.ui_kit.R.drawable.icon_filter),
@@ -102,7 +105,9 @@ private fun MainScreenUI(
             }
 //            LazyColumn(
 //                modifier = Modifier
-//            ) {  }
+//            ) {
+//            TODO("Navigate to project")
+//            }
             Spacer(modifier = Modifier.weight(1f))
             BottomContainer {
                 Row(
@@ -118,7 +123,7 @@ private fun MainScreenUI(
                         modifier = Modifier
                     )
                     IconButton(
-                        onClick = {TODO("Navigate to settings")}
+                        onClick = { TODO("Navigate to settings") }
                     ) {
                         Icon(
                             painter = painterResource(hitsedu.ui_kit.R.drawable.icon_settings),

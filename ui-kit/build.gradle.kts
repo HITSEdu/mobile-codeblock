@@ -24,6 +24,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
+    api(libs.androidx.navigation.compose)
     api(libs.androidx.ui)
     api(libs.androidx.ui.graphics)
     api(libs.androidx.ui.tooling.preview)
