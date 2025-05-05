@@ -2,33 +2,45 @@ package hitsedu.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import hitsedu.ui_kit.components.BottomContainer
+import hitsedu.ui_kit.components.BottomSheet
 import hitsedu.ui_kit.components.ButtonCreate
 import hitsedu.ui_kit.components.ButtonInfo
 import hitsedu.ui_kit.components.Header
 import hitsedu.ui_kit.components.ProjectItem
-import hitsedu.ui_kit.models.ProjectUI
 import hitsedu.ui_kit.models.ProjectType
+import hitsedu.ui_kit.models.ProjectUI
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(
@@ -38,6 +50,7 @@ fun MainScreen(
     MainScreenUI(navController)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MainScreenUI(
 //    viewModel: MainViewModel,
@@ -53,6 +66,13 @@ private fun MainScreenUI(
         ProjectUI("Сортировка пузырьком", ProjectType.BOARD),
     )
 
+    var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+    val scope = rememberCoroutineScope()
+    var text: Int = hitsedu.ui_kit.R.string.board_description
+
     Scaffold(
         topBar = { Header() },
         containerColor = MaterialTheme.colorScheme.background,
@@ -63,7 +83,22 @@ private fun MainScreenUI(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            TopInfoSection()
+            TopInfoSection(
+                onHelpClick = {
+                    scope.launch {
+                        text = hitsedu.ui_kit.R.string.documentation_description
+                        isBottomSheetVisible = true
+                        sheetState.expand()
+                    }
+                },
+                onInfoClick = {
+                    scope.launch {
+                        text = hitsedu.ui_kit.R.string.board_description
+                        isBottomSheetVisible = true
+                        sheetState.expand()
+                    }
+                },
+            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,11 +145,43 @@ private fun MainScreenUI(
             }
             BottomSection()
         }
+        BottomSheet(
+            isBottomSheetVisible = isBottomSheetVisible,
+            sheetState = sheetState,
+            onDismiss = {
+                scope.launch { sheetState.hide() }
+                    .invokeOnCompletion { isBottomSheetVisible = false }
+            }
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(
+                        start = 12.dp,
+                        top = 8.dp,
+                        end = 12.dp,
+                        bottom = 24.dp,
+                    ),
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                Text(
+                    text = stringResource(text),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
     }
 }
 
 @Composable
-fun TopInfoSection() {
+fun TopInfoSection(
+    onHelpClick: () -> Unit,
+    onInfoClick: () -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -128,16 +195,12 @@ fun TopInfoSection() {
         ButtonInfo(
             icon = hitsedu.ui_kit.R.drawable.icon_help,
             text = hitsedu.ui_kit.R.string.documentation,
-            onClick = {
-                Log.i("MainScreen", "click docs")
-            }
+            onClick = { onHelpClick() }
         )
         ButtonInfo(
             icon = hitsedu.ui_kit.R.drawable.icon_info,
             text = hitsedu.ui_kit.R.string.about,
-            onClick = {
-                Log.i("MainScreen", "click about")
-            }
+            onClick = { onInfoClick() }
         )
     }
 }
@@ -159,7 +222,7 @@ fun BottomSection() {
             )
             IconButton(
                 onClick = {
-                    TODO("Navigate to settings")
+//                    TODO("Navigate to settings")
                 }
             ) {
                 Icon(

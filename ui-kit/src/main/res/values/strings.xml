@@ -6,4 +6,13 @@
     <string name="board">Board</string>
     <string name="script">Script</string>
     <string name="create">Create</string>
+    <string name="documentation_description">
+        This is a long description of the documentation,
+        which will describe the syntactic constructions for the compiler,
+        the basic functionality and other important things that no one will read.
+    </string>
+    <string name="board_description">
+        Here you will find a description of all the commands for the board,
+        a description of the colors and the basics of interacting with the board.
+    </string>
 </resources>
