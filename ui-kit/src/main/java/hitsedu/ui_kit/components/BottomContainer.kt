@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
@@ -24,18 +23,13 @@ fun BottomContainer(
 ) {
     Column(
         modifier = Modifier
-            .clip(RoundedCornerShape(32.dp, 32.dp, 0.dp, 0.dp))
+            .clip(RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp))
             .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.tertiary.copy(0.3f),
-                        MaterialTheme.colorScheme.primary,
-                    )
-                )
+                MaterialTheme.colorScheme.primary,
             )
             .padding(horizontal = 24.dp, vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Box(
             modifier = Modifier
