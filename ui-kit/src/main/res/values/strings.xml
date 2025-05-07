@@ -15,4 +15,5 @@
         Here you will find a description of all the commands for the board,
         a description of the colors and the basics of interacting with the board.
     </string>
+    <string name="run">Run</string>
 </resources>

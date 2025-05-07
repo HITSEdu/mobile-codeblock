@@ -32,6 +32,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import hitsedu.ui.components.BottomSection
+import hitsedu.ui.components.TopInfoSection
+import hitsedu.ui_kit.Destinations
 import hitsedu.ui_kit.components.BottomContainer
 import hitsedu.ui_kit.components.BottomSheet
 import hitsedu.ui_kit.components.ButtonCreate
@@ -116,7 +119,7 @@ private fun MainScreenUI(
                 )
                 IconButton(
                     onClick = {
-                        TODO("Filter")
+//                        TODO("Filter")
                     }
                 ) {
                     Icon(
@@ -143,7 +146,14 @@ private fun MainScreenUI(
                     )
                 }
             }
-            BottomSection()
+            BottomSection(
+                onBoardClick = {
+                    navController.navigate(Destinations.BOARD_SCREEN)
+                },
+                onScriptClick = {
+
+                },
+            )
         }
         BottomSheet(
             isBottomSheetVisible = isBottomSheetVisible,
@@ -173,88 +183,6 @@ private fun MainScreenUI(
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun TopInfoSection(
-    onHelpClick: () -> Unit,
-    onInfoClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = 24.dp,
-                vertical = 12.dp,
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        ButtonInfo(
-            icon = hitsedu.ui_kit.R.drawable.icon_help,
-            text = hitsedu.ui_kit.R.string.documentation,
-            onClick = { onHelpClick() }
-        )
-        ButtonInfo(
-            icon = hitsedu.ui_kit.R.drawable.icon_info,
-            text = hitsedu.ui_kit.R.string.about,
-            onClick = { onInfoClick() }
-        )
-    }
-}
-
-@Composable
-fun BottomSection() {
-    BottomContainer {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = stringResource(hitsedu.ui_kit.R.string.create),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier
-            )
-            IconButton(
-                onClick = {
-//                    TODO("Navigate to settings")
-                }
-            ) {
-                Icon(
-                    painter = painterResource(hitsedu.ui_kit.R.drawable.icon_settings),
-                    contentDescription = "Filter",
-                    modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                )
-            }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            ButtonCreate(
-                icon = hitsedu.ui_kit.R.drawable.icon_board,
-                text = hitsedu.ui_kit.R.string.board,
-                backgroundColor = MaterialTheme.colorScheme.primary,
-                onClick = {
-                    Log.i("Button Create", "board")
-                }
-            )
-            ButtonCreate(
-                icon = hitsedu.ui_kit.R.drawable.icon_script,
-                text = hitsedu.ui_kit.R.string.script,
-                backgroundColor = MaterialTheme.colorScheme.secondary,
-                onClick = {
-                    Log.i("Button Create", "script")
-                }
-            )
         }
     }
 }

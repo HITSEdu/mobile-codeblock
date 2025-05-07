@@ -1,14 +1,14 @@
-package hitsedu.ui
+package hitsedu.board
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import hitsedu.ui_kit.Destinations
 
-fun NavGraphBuilder.mainScreen(
+fun NavGraphBuilder.boardScreen(
     navController: NavHostController,
 ) {
-    composable(Destinations.MAIN_SCREEN) {
-        MainScreen(navController)
+    composable(Destinations.BOARD_SCREEN) {
+        BoardScreen(navController)
     }
 }

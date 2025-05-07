@@ -23,6 +23,8 @@ fun BottomSheet(
             containerColor = MaterialTheme.colorScheme.background,
             dragHandle = { BottomSheetDefaults.DragHandle() },
             scrimColor = Black.copy(alpha = 0.8f),
-        ) { content() }
+        ) {
+            content()
+        }
     }
 }
