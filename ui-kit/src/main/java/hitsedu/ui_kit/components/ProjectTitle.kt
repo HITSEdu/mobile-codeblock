@@ -1,11 +1,9 @@
 package hitsedu.ui_kit.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -13,6 +11,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -22,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import hitsedu.ui_kit.R
+import hitsedu.ui_kit.theme.red
 
 @Composable
 fun ProjectTitle(
@@ -31,6 +31,7 @@ fun ProjectTitle(
 ) {
     var isEditing by remember { mutableStateOf(false) }
     var editableTitle by remember { mutableStateOf(title) }
+    var icon by remember { mutableIntStateOf(R.drawable.icon_edit) }
 
     Row(
         modifier = Modifier
@@ -51,12 +52,13 @@ fun ProjectTitle(
         TextField(
             value = editableTitle,
             onValueChange = {
-                if (it.length <= 30 && it.isNotBlank())
+                if (checkTitleLength(it))
                     editableTitle = it
             },
             singleLine = true,
             enabled = isEditing,
             readOnly = !isEditing,
+//            isError = !checkTitleLength(editableTitle),
             textStyle = MaterialTheme.typography.bodyLarge,
             colors = TextFieldDefaults.colors(
                 cursorColor = MaterialTheme.colorScheme.onPrimary,
@@ -67,26 +69,30 @@ fun ProjectTitle(
                 disabledIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
+                errorContainerColor = red,
             ),
         )
-
         IconButton(
             onClick = {
                 if (isEditing) {
                     onTitleChange(editableTitle)
+                    icon = R.drawable.icon_edit
+                } else {
+                    icon = R.drawable.icon_done
                 }
                 isEditing = !isEditing
             }
         ) {
             Icon(
-                painter = painterResource(
-                    id = if (isEditing)
-                        R.drawable.icon_done else R.drawable.icon_edit
-                ),
+                painter = painterResource(icon),
                 contentDescription = "Edit",
                 modifier = Modifier.size(24.dp),
                 tint = MaterialTheme.colorScheme.onPrimary
             )
         }
     }
+}
+
+fun checkTitleLength(title: String): Boolean {
+    return !(title.length <= 1 || title.length >= 30)
 }

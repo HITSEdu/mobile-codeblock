@@ -1,15 +1,12 @@
 package hitsedu.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,16 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import hitsedu.ui.components.AboutContent
 import hitsedu.ui.components.BottomSection
+import hitsedu.ui.components.DocumentationContent
 import hitsedu.ui.components.TopInfoSection
 import hitsedu.ui_kit.Destinations
-import hitsedu.ui_kit.components.BottomContainer
 import hitsedu.ui_kit.components.BottomSheet
-import hitsedu.ui_kit.components.ButtonCreate
-import hitsedu.ui_kit.components.ButtonInfo
 import hitsedu.ui_kit.components.Header
 import hitsedu.ui_kit.components.ProjectItem
 import hitsedu.ui_kit.models.ProjectType
@@ -74,7 +69,7 @@ private fun MainScreenUI(
         skipPartiallyExpanded = true
     )
     val scope = rememberCoroutineScope()
-    var text: Int = hitsedu.ui_kit.R.string.board_description
+    var topSectionClick = TopSectionClick.ABOUT
 
     Scaffold(
         topBar = { Header() },
@@ -89,14 +84,14 @@ private fun MainScreenUI(
             TopInfoSection(
                 onHelpClick = {
                     scope.launch {
-                        text = hitsedu.ui_kit.R.string.documentation_description
+                        topSectionClick = TopSectionClick.DOCUMENTATION
                         isBottomSheetVisible = true
                         sheetState.expand()
                     }
                 },
                 onInfoClick = {
                     scope.launch {
-                        text = hitsedu.ui_kit.R.string.board_description
+                        topSectionClick = TopSectionClick.ABOUT
                         isBottomSheetVisible = true
                         sheetState.expand()
                     }
@@ -163,25 +158,9 @@ private fun MainScreenUI(
                     .invokeOnCompletion { isBottomSheetVisible = false }
             }
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(
-                        start = 12.dp,
-                        top = 8.dp,
-                        end = 12.dp,
-                        bottom = 24.dp,
-                    ),
-                contentAlignment = Alignment.TopCenter,
-            ) {
-                Text(
-                    text = stringResource(text),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier,
-                    overflow = TextOverflow.Ellipsis,
-                )
+            when (topSectionClick) {
+                TopSectionClick.DOCUMENTATION -> DocumentationContent()
+                TopSectionClick.ABOUT -> AboutContent()
             }
         }
     }
