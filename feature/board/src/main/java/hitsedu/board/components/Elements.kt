@@ -77,16 +77,18 @@ fun Elements(
                     onDragStart,
                     onDragStop,
                 )
+
                 Elements.Condition -> ConditionContent(
                     viewModel,
                     onDragStart,
                     onDragStop,
                 )
+
                 Elements.Loop -> LoopContent()
                 Elements.Array -> ArrayContent()
                 Elements.Function -> FunctionContent()
                 Elements.Output -> OutputContent()
-                Elements.Value -> { }
+                Elements.Value -> {}
             }
         }
     }

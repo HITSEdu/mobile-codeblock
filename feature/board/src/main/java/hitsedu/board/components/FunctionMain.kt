@@ -45,7 +45,7 @@ import hitsedu.ui_kit.models.operation.OperationVariable
 fun FunctionMain(
     viewModel: BoardViewModel,
 
-) {
+    ) {
     val items by viewModel.items.collectAsState()
 
     Box(
@@ -79,10 +79,11 @@ fun FunctionMain(
                             viewModel = viewModel,
                         )
                     }
+
                     is OperationConditionElse -> TODO()
                     is OperationConditionIf -> TODO()
                     is OperationArray -> TODO()
-                    is OperationValue -> { }
+                    is OperationValue -> {}
                 }
             }
             Spacer(modifier = Modifier.height(2.dp))

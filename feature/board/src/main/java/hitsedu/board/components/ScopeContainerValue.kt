@@ -1,6 +1,5 @@
 package hitsedu.board.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -32,7 +31,8 @@ fun ScopeContainerValue(
                 viewModel.addValue(operation, parent)
             }
         }
-        val text = if (isInBound) hitsedu.ui_kit.R.string.drop else hitsedu.ui_kit.R.string.drag_value
+        val text =
+            if (isInBound) hitsedu.ui_kit.R.string.drop else hitsedu.ui_kit.R.string.drag_value
         val color = if (isInBound) red else MaterialTheme.colorScheme.primary
         Box(
             modifier = Modifier

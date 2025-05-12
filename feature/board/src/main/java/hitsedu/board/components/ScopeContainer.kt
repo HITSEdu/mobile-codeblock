@@ -29,7 +29,8 @@ fun ScopeContainer(
                 viewModel.addVariable(operation)
             }
         }
-        val text = if (isInBound) hitsedu.ui_kit.R.string.drop else hitsedu.ui_kit.R.string.drag_operation
+        val text =
+            if (isInBound) hitsedu.ui_kit.R.string.drop else hitsedu.ui_kit.R.string.drag_operation
         val color = if (isInBound) red else MaterialTheme.colorScheme.onPrimary
         Box(
             modifier = Modifier

@@ -7,4 +7,4 @@ data class FunctionScope(
     override val operations: List<Operation>,
     override val childScopes: List<LocalScope>,
     val offset: Offset,
-): LocalScope()
+) : LocalScope()

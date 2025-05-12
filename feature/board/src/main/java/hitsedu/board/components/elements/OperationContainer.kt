@@ -26,8 +26,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.BoardViewModel
-import hitsedu.ui_kit.R
 import hitsedu.board.components.EditAlertDialog
+import hitsedu.ui_kit.R
 import hitsedu.ui_kit.models.operation.Operation
 
 @Composable
@@ -42,7 +42,7 @@ fun OperationContainer(
 
     when {
         openAlertDialog.value -> {
-            EditAlertDialog (
+            EditAlertDialog(
                 operation = operation!!,
                 viewModel = viewModel!!,
                 onDismissRequest = { openAlertDialog.value = false },

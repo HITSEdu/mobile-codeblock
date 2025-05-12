@@ -1,6 +1,5 @@
 package hitsedu.board.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -103,9 +102,11 @@ fun EditAlertDialog(
                         is OperationVariable -> {
                             viewModel.changeVariableName(operation, input)
                         }
+
                         is OperationValue -> {
                             viewModel.changeValue(operation, input)
                         }
+
                         else -> Unit
                     }
                     onDismissRequest()
