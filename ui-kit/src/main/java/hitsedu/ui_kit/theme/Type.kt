@@ -18,6 +18,11 @@ val Typography = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
     ),
+    bodyMedium = TextStyle(
+        fontFamily = Tektur,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp,
+    ),
     titleLarge = TextStyle(
         fontFamily = Tektur,
         fontWeight = FontWeight.Bold,
@@ -28,9 +33,16 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
     ),
+    titleSmall = TextStyle(
+        fontFamily = Tektur,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+    ),
     labelSmall = TextStyle(
         fontFamily = Tektur,
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
     ),
+
+
 )

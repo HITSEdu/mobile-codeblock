@@ -16,4 +16,26 @@
         a description of the colors and the basics of interacting with the board.
     </string>
     <string name="run">Run</string>
+    <string name="show_elements">Show components</string>
+    <string name="variable">Variable</string>
+    <string name="conditions">Condition</string>
+    <string name="loop">Loop</string>
+    <string name="array">Array</string>
+    <string name="function">Function</string>
+    <string name="output">Output</string>
+    <string name="value">Value</string>
+    <string name="variable_declare">Declare a variable</string>
+    <string name="value_declare">Create a value</string>
+    <string name="drag_operation">Drag operation</string>
+    <string name="drag_value">Drag value</string>
+    <string name="drop">Drop it!</string>
+    <string name="if_statement">If statement</string>
+    <string name="edit_variable">Here you can change variable name</string>
+    <string name="edit_value">Here you can change value</string>
+    <string name="edit_array">Here you can change name and size of array</string>
+    <string name="edit_loop">Here you can change value and condition in loop</string>
+    <string name="edit_condition">Here you can change condition</string>
+    <string name="edit_function">Here you can change function name</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
 </resources>

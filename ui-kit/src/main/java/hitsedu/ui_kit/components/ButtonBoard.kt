@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import hitsedu.ui_kit.R
 
 @Composable
-fun ButtonRun(
+fun ButtonBoard(
     onClick: () -> Unit,
 ) {
     Button(
