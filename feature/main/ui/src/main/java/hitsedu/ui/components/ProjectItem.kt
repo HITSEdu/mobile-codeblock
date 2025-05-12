@@ -1,4 +1,4 @@
-package hitsedu.ui_kit.components
+package hitsedu.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

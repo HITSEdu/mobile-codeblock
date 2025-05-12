@@ -35,8 +35,7 @@ import hitsedu.ui.components.TopInfoSection
 import hitsedu.ui_kit.Destinations
 import hitsedu.ui_kit.components.BottomSheet
 import hitsedu.ui_kit.components.Header
-import hitsedu.ui_kit.components.ProjectItem
-import hitsedu.ui_kit.models.ProjectType
+import hitsedu.ui.components.ProjectItem
 import hitsedu.ui_kit.models.ProjectUI
 import kotlinx.coroutines.launch
 
@@ -54,15 +53,7 @@ private fun MainScreenUI(
 //    viewModel: MainViewModel,
     navController: NavHostController,
 ) {
-    val projects = listOf(
-        ProjectUI("Сортировка пузырьком", ProjectType.BOARD),
-        ProjectUI("Поиск в ширину", ProjectType.SCRIPT),
-        ProjectUI("Сортировка пузырьком", ProjectType.BOARD),
-        ProjectUI("Быстрая сортировка", ProjectType.SCRIPT),
-        ProjectUI("Дерево решений", ProjectType.BOARD),
-        ProjectUI("Поиск в ширину", ProjectType.SCRIPT),
-        ProjectUI("Сортировка пузырьком", ProjectType.BOARD),
-    )
+    val projects: List<ProjectUI> = emptyList()
 
     var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(
