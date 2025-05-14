@@ -3,7 +3,7 @@ package hitsedu.mobile_codeblock
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import hitsedu.board.boardScreen
+import hitsedu.board.ui.boardScreen
 import hitsedu.ui.mainScreen
 import hitsedu.ui_kit.Destinations
 import hitsedu.ui_kit.theme.MobilecodeblockTheme

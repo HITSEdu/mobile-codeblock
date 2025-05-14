@@ -23,4 +23,7 @@ rootProject.name = "mobile-codeblock"
 include(":app")
 include(":ui-kit")
 include(":feature:main:ui")
+include(":feature:main:logic")
 include(":feature:board")
+include(":core:interpreter")
+include(":core:data")
