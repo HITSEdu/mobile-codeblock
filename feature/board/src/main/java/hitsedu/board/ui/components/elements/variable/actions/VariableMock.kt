@@ -11,8 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import hitsedu.board.ui
-    .components.elements.OperationContainer
+import hitsedu.board.ui.components.elements.OperationContainer
 import hitsedu.ui_kit.theme.orange
 
 @Composable
