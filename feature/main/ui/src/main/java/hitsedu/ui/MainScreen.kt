@@ -128,7 +128,6 @@ private fun MainScreenUI(
                 items(projects) { p ->
                     ProjectItem(
                         p.caption,
-                        p.type,
                     )
                 }
             }

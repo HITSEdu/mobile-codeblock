@@ -4,12 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import hitsedu.ui_kit.models.data.DataType
 import hitsedu.ui_kit.models.operation.OperationUIO
-import hitsedu.ui_kit.models.operation.OperationUIOConditionIf
-import hitsedu.ui_kit.models.operation.OperationUIOValue
-import hitsedu.ui_kit.models.operation.OperationUIOVariable
-import hitsedu.ui_kit.models.scope.ScopeGlobalUIO
+import hitsedu.ui_kit.models.operation.OperationVariableUIO
+import hitsedu.ui_kit.models.ValueUIO
+import hitsedu.ui_kit.models.operation.OperationIfUIO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,20 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 class BoardViewModel(
 
 ) : ViewModel() {
-    val globalScope = ScopeGlobalUIO(
-        operationUIOS = emptyList(),
-        functions = listOf(),
-    )
-
-    fun runMain() {
-
-    }
-
-    fun updateMainScope() {
-
-    }
-
-    // DND
     private var isCurrentlyDragging by mutableStateOf(false)
 
     private val _items = MutableStateFlow<List<OperationUIO>>(emptyList())
@@ -38,15 +22,13 @@ class BoardViewModel(
 
     init {
         _items.value = listOf(
-            OperationUIOVariable(
+            OperationVariableUIO(
                 name = "a",
-                type = DataType.Integer,
-                value = OperationUIOValue("15"),
+                value = ValueUIO(),
             ),
-            OperationUIOVariable(
+            OperationVariableUIO(
                 name = "b",
-                type = DataType.Boolean,
-                value = OperationUIOValue("true"),
+                value = ValueUIO(),
             ),
         )
     }
@@ -67,25 +49,28 @@ class BoardViewModel(
         _items.value = _items.value.filterNot { it == o }
     }
 
-    fun addValue(value: OperationUIOValue, parent: OperationUIO) {
+    fun addValue(value: ValueUIO, parent: OperationUIO) {
+        //TODO("Change for nested structures")
         _items.value = _items.value.map { item ->
             when {
-                item == parent && item is OperationUIOVariable -> item.copy(value = value)
-                item == parent && item is OperationUIOConditionIf -> item.copy(value = value)
+                item == parent && item is OperationVariableUIO -> item.copy(value = value)
+                item == parent && item is OperationIfUIO -> item.copy(value = value)
                 else -> item
             }
         }
     }
 
-    fun removeValue(o: OperationUIOValue) {
+    fun removeValue(o: ValueUIO) {
+        //TODO("Change for nested structures")
         _items.value = _items.value.map { item ->
-            if (item is OperationUIOVariable && item.value == o) {
-                item.copy(value = OperationUIOValue(""))
+            if (item is OperationVariableUIO && item.value == o) {
+                item.copy(value = ValueUIO())
             } else item
         }
     }
 
-    fun changeVariableName(o: OperationUIOVariable, name: String) {
+    fun changeVariableName(o: OperationVariableUIO, name: String) {
+        //TODO("Change for nested structures")
         val currentList = _items.value.toMutableList()
         val index = currentList.indexOf(o)
         if (index != -1) {
@@ -94,10 +79,11 @@ class BoardViewModel(
         }
     }
 
-    fun changeValue(o: OperationUIOValue, value: String) {
+    fun changeValue(value: ValueUIO, newValue: String) {
+        //TODO("Change for nested structures")
         _items.value = _items.value.map { item ->
-            if (item is OperationUIOVariable && item.value == o) {
-                item.copy(value = OperationUIOValue(value))
+            if (item is OperationVariableUIO && item.value == value) {
+                item.copy(value = ValueUIO(newValue))
             } else item
         }
     }

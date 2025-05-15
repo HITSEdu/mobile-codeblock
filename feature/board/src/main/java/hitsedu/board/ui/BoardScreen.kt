@@ -53,11 +53,6 @@ private fun BoardScreenUI(
     )
     val scope = rememberCoroutineScope()
 
-    val openBottomSheet: () -> Unit = {
-        isBottomSheetVisible = true
-        scope.launch { sheetState.show() }
-    }
-
     DraggableScreen {
         Scaffold(
             topBar = {

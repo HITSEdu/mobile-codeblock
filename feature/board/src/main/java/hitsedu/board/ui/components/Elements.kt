@@ -18,12 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
-import hitsedu.board.ui.components.elements.array.ArrayContent
-import hitsedu.board.ui.components.elements.condition.ConditionContent
-import hitsedu.board.ui.components.elements.function.FunctionContent
-import hitsedu.board.ui.components.elements.loop.LoopContent
-import hitsedu.board.ui.components.elements.output.OutputContent
-import hitsedu.board.ui.components.elements.variable.VariableContent
+import hitsedu.board.ui.components.elements.operation.array.ArrayContent
+import hitsedu.board.ui.components.elements.operation.condition.ConditionContent
+import hitsedu.board.ui.components.elements.operation.function.FunctionContent
+import hitsedu.board.ui.components.elements.operation.loop.LoopContent
+import hitsedu.board.ui.components.elements.operation.output.OutputContent
+import hitsedu.board.ui.components.elements.operation.variable.VariableContent
+import hitsedu.board.ui.components.elements.value.ValueContent
 import hitsedu.ui_kit.utils.ELEMENT_COLORS
 import hitsedu.ui_kit.utils.Elements
 import hitsedu.ui_kit.utils.TITLES
@@ -84,11 +85,23 @@ fun Elements(
                     onDragStop,
                 )
 
-                Elements.Loop -> LoopContent()
-                Elements.Array -> ArrayContent()
+                Elements.Loop -> LoopContent(
+                    viewModel,
+                    onDragStart,
+                    onDragStop,
+                )
+                Elements.Array -> ArrayContent(
+                    viewModel,
+                    onDragStart,
+                    onDragStop,
+                )
                 Elements.Function -> FunctionContent()
                 Elements.Output -> OutputContent()
-                Elements.Value -> {}
+                Elements.Value -> ValueContent(
+                    viewModel,
+                    onDragStart,
+                    onDragStop,
+                )
             }
         }
     }

@@ -27,22 +27,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import hitsedu.ui_kit.R
-import hitsedu.ui_kit.models.ProjectType
 
 @Composable
 fun ProjectItem(
     caption: String,
-    type: ProjectType,
     // navController
 ) {
-    val containerColor = when (type) {
-        ProjectType.BOARD -> MaterialTheme.colorScheme.primary
-        ProjectType.SCRIPT -> MaterialTheme.colorScheme.secondary
-    }
-    val icon = when (type) {
-        ProjectType.BOARD -> R.drawable.icon_board
-        ProjectType.SCRIPT -> R.drawable.icon_script
-    }
+    val containerColor = MaterialTheme.colorScheme.primary
+    val icon = R.drawable.icon_board
 
     Card(
         modifier = Modifier

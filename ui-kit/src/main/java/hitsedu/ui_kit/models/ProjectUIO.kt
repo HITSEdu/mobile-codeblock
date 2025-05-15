@@ -1,12 +1,8 @@
 package hitsedu.ui_kit.models
 
-import hitsedu.ui_kit.models.scope.ScopeUIO
-import java.util.UUID
-
 data class ProjectUIO(
-    val id: UUID,
+    val id: Long = 0,
     val caption: String,
-    val type: ProjectType,
     val scale: Float,
     val scopeUIOS: List<ScopeUIO>,
 )
