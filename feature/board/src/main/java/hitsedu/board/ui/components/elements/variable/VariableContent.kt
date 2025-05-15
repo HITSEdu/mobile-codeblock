@@ -16,7 +16,7 @@ import hitsedu.board.ui.components.dnd.DraggableItem
 import hitsedu.board.ui.components.elements.variable.actions.Value
 import hitsedu.board.ui.components.elements.variable.actions.VariableMock
 import hitsedu.board.ui.utils.Default
-import hitsedu.ui_kit.models.operation.OperationValue
+import hitsedu.ui_kit.models.operation.OperationUIOValue
 
 @Composable
 fun VariableContent(
@@ -55,7 +55,7 @@ fun VariableContent(
             onDragStart = onDragStart,
             onDragStop = onDragStop,
         ) {
-            Value(OperationValue("10 + 3 - 8"))
+            Value(OperationUIOValue("10 + 3 - 8"))
         }
     }
 }

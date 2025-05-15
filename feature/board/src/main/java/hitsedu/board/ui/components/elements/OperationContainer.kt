@@ -28,11 +28,11 @@ import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.EditAlertDialog
 import hitsedu.ui_kit.R
-import hitsedu.ui_kit.models.operation.Operation
+import hitsedu.ui_kit.models.operation.OperationUIO
 
 @Composable
 fun OperationContainer(
-    operation: Operation? = null,
+    operationUIO: OperationUIO? = null,
     viewModel: BoardViewModel? = null,
     backgroundColor: Color,
     onDeleteClick: () -> Unit = { },
@@ -43,7 +43,7 @@ fun OperationContainer(
     when {
         openAlertDialog.value -> {
             EditAlertDialog(
-                operation = operation!!,
+                operationUIO = operationUIO!!,
                 viewModel = viewModel!!,
                 onDismissRequest = { openAlertDialog.value = false },
             )

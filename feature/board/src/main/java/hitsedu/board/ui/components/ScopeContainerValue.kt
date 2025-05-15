@@ -16,17 +16,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.dnd.DropHere
-import hitsedu.ui_kit.models.operation.Operation
-import hitsedu.ui_kit.models.operation.OperationValue
+import hitsedu.ui_kit.models.operation.OperationUIO
+import hitsedu.ui_kit.models.operation.OperationUIOValue
 import hitsedu.ui_kit.theme.red
 
 @Composable
 fun ScopeContainerValue(
-    parent: Operation,
+    parent: OperationUIO,
     viewModel: BoardViewModel,
 ) {
-    DropHere<OperationValue> { isInBound, operation ->
-        if (operation is OperationValue) {
+    DropHere<OperationUIOValue> { isInBound, operation ->
+        if (operation is OperationUIOValue) {
             LaunchedEffect(key1 = operation) {
                 viewModel.addValue(operation, parent)
             }

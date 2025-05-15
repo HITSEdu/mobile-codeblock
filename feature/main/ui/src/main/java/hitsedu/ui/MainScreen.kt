@@ -31,12 +31,12 @@ import androidx.navigation.NavHostController
 import hitsedu.ui.components.AboutContent
 import hitsedu.ui.components.BottomSection
 import hitsedu.ui.components.DocumentationContent
+import hitsedu.ui.components.ProjectItem
 import hitsedu.ui.components.TopInfoSection
 import hitsedu.ui_kit.Destinations
 import hitsedu.ui_kit.components.BottomSheet
 import hitsedu.ui_kit.components.Header
-import hitsedu.ui.components.ProjectItem
-import hitsedu.ui_kit.models.ProjectUI
+import hitsedu.ui_kit.models.ProjectUIO
 import kotlinx.coroutines.launch
 
 @Composable
@@ -53,7 +53,7 @@ private fun MainScreenUI(
 //    viewModel: MainViewModel,
     navController: NavHostController,
 ) {
-    val projects: List<ProjectUI> = emptyList()
+    val projects: List<ProjectUIO> = emptyList()
 
     var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(

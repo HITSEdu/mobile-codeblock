@@ -9,11 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.elements.OperationContainer
-import hitsedu.ui_kit.models.operation.OperationValue
+import hitsedu.ui_kit.models.operation.OperationUIOValue
 
 @Composable
 fun Value(
-    value: OperationValue,
+    value: OperationUIOValue,
     viewModel: BoardViewModel? = null,
     onDeleteClick: () -> Unit = {},
 ) {
@@ -22,7 +22,7 @@ fun Value(
             .offset(y = (-4).dp),
     ) {
         OperationContainer(
-            operation = value,
+            operationUIO = value,
             viewModel = viewModel,
             backgroundColor = MaterialTheme.colorScheme.secondary,
             onDeleteClick = onDeleteClick,

@@ -6,16 +6,16 @@ import androidx.compose.runtime.Composable
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.ScopeContainerValue
 import hitsedu.board.ui.components.elements.OperationContainer
-import hitsedu.ui_kit.models.operation.OperationVariable
+import hitsedu.ui_kit.models.operation.OperationUIOVariable
 import hitsedu.ui_kit.theme.orange
 
 @Composable
 fun Variable(
-    variable: OperationVariable,
+    variable: OperationUIOVariable,
     viewModel: BoardViewModel,
 ) {
     OperationContainer(
-        operation = variable,
+        operationUIO = variable,
         viewModel = viewModel,
         backgroundColor = orange,
         onDeleteClick = { viewModel.removeVariable(variable) },

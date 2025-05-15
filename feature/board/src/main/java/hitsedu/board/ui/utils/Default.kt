@@ -1,25 +1,25 @@
 package hitsedu.board.ui.utils
 
 import hitsedu.ui_kit.models.data.DataType
-import hitsedu.ui_kit.models.operation.OperationConditionIf
-import hitsedu.ui_kit.models.operation.OperationValue
-import hitsedu.ui_kit.models.operation.OperationVariable
-import hitsedu.ui_kit.models.scope.ConditionScope
+import hitsedu.ui_kit.models.operation.OperationUIOConditionIf
+import hitsedu.ui_kit.models.operation.OperationUIOValue
+import hitsedu.ui_kit.models.operation.OperationUIOVariable
+import hitsedu.ui_kit.models.scope.ScopeConditionUIO
 
 object Default {
-    val value = OperationValue("0")
+    val value = OperationUIOValue("0")
 
-    val variable = OperationVariable(
+    val variable = OperationUIOVariable(
         name = "new_variable",
         type = DataType.Integer,
-        value = OperationValue(""),
+        value = OperationUIOValue(""),
     )
 
-    val condition = OperationConditionIf(
-        scope = ConditionScope(
-            operations = emptyList(),
-            childScopes = emptyList(),
+    val condition = OperationUIOConditionIf(
+        scope = ScopeConditionUIO(
+            operationUIOS = emptyList(),
+            childScopeUIOS = emptyList(),
         ),
-        value = OperationValue(""),
+        value = OperationUIOValue(""),
     )
 }

@@ -35,11 +35,11 @@ import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.elements.variable.actions.Variable
 import hitsedu.ui_kit.R
-import hitsedu.ui_kit.models.operation.OperationArray
-import hitsedu.ui_kit.models.operation.OperationConditionElse
-import hitsedu.ui_kit.models.operation.OperationConditionIf
-import hitsedu.ui_kit.models.operation.OperationValue
-import hitsedu.ui_kit.models.operation.OperationVariable
+import hitsedu.ui_kit.models.operation.OperationUIOArray
+import hitsedu.ui_kit.models.operation.OperationUIOConditionElse
+import hitsedu.ui_kit.models.operation.OperationUIOConditionIf
+import hitsedu.ui_kit.models.operation.OperationUIOValue
+import hitsedu.ui_kit.models.operation.OperationUIOVariable
 
 @Composable
 fun FunctionMain(
@@ -73,17 +73,17 @@ fun FunctionMain(
         ) {
             items.forEach { operation ->
                 when (operation) {
-                    is OperationVariable -> {
+                    is OperationUIOVariable -> {
                         Variable(
                             variable = operation,
                             viewModel = viewModel,
                         )
                     }
 
-                    is OperationConditionElse -> TODO()
-                    is OperationConditionIf -> TODO()
-                    is OperationArray -> TODO()
-                    is OperationValue -> {}
+                    is OperationUIOConditionElse -> TODO()
+                    is OperationUIOConditionIf -> TODO()
+                    is OperationUIOArray -> TODO()
+                    is OperationUIOValue -> {}
                 }
             }
             Spacer(modifier = Modifier.height(2.dp))
