@@ -23,19 +23,12 @@ navigationCompose = "2.8.6"
 # Splash screen
 coreSplashscreen = "1.0.0"
 
-# Room
-room = "2.7.1"
-ksp = "2.0.21-1.0.27"
-
 # Project settings
 minSdk = "24"
 compileSdk = "34"
 targetSdk = "34"
 jvmTarget = "11"
 jetbrainsKotlinJvm = "2.0.21"
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
 
 [libraries]
 # Core
@@ -66,17 +59,9 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 # Splash screen
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 
-# Room
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -9,4 +9,5 @@ val TITLES = listOf(
     Elements.Array to R.string.array,
     Elements.Function to R.string.function,
     Elements.Output to R.string.output,
+    Elements.Value to R.string.value,
 )

@@ -18,12 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
-import hitsedu.board.ui.components.elements.array.ArrayContent
-import hitsedu.board.ui.components.elements.condition.ConditionContent
-import hitsedu.board.ui.components.elements.function.FunctionContent
-import hitsedu.board.ui.components.elements.loop.LoopContent
-import hitsedu.board.ui.components.elements.output.OutputContent
-import hitsedu.board.ui.components.elements.variable.VariableContent
+import hitsedu.board.ui.components.elements.operation.array.ArrayContent
+import hitsedu.board.ui.components.elements.operation.condition.ConditionContent
+import hitsedu.board.ui.components.elements.operation.function.FunctionContent
+import hitsedu.board.ui.components.elements.operation.loop.LoopContent
+import hitsedu.board.ui.components.elements.operation.output.OutputContent
+import hitsedu.board.ui.components.elements.operation.variable.VariableContent
+import hitsedu.board.ui.components.elements.value.ValueContent
+import hitsedu.ui_kit.theme.red
 import hitsedu.ui_kit.utils.ELEMENT_COLORS
 import hitsedu.ui_kit.utils.Elements
 import hitsedu.ui_kit.utils.TITLES
@@ -32,7 +34,6 @@ import hitsedu.ui_kit.utils.TITLES
 fun Elements(
     viewModel: BoardViewModel,
     onDragStart: () -> Unit,
-    onDragStop: () -> Unit,
 ) {
     var selected by remember { mutableStateOf(Elements.Variable) }
 
@@ -44,7 +45,7 @@ fun Elements(
                 shape = RoundedCornerShape(0.dp, 24.dp, 0.dp, 0.dp),
             ),
         horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.Top,
+        verticalAlignment = Alignment.Bottom,
     ) {
         Column(
             modifier = Modifier
@@ -60,7 +61,7 @@ fun Elements(
             TITLES.forEach { (element, title) ->
                 ElementItem(
                     title = title,
-                    color = ELEMENT_COLORS[element]!!,
+                    color = ELEMENT_COLORS[element] ?: red,
                     isSelected = selected == element,
                     onClick = { selected = element }
                 )
@@ -70,25 +71,40 @@ fun Elements(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
+            verticalArrangement = Arrangement.Bottom,
         ) {
             when (selected) {
                 Elements.Variable -> VariableContent(
                     viewModel,
                     onDragStart,
-                    onDragStop,
                 )
 
                 Elements.Condition -> ConditionContent(
                     viewModel,
                     onDragStart,
-                    onDragStop,
                 )
 
-                Elements.Loop -> LoopContent()
-                Elements.Array -> ArrayContent()
+                Elements.Loop -> LoopContent(
+                    viewModel,
+                    onDragStart,
+                )
+
+                Elements.Array -> ArrayContent(
+                    viewModel,
+                    onDragStart,
+                )
+
+                //TODO("create function ui element")
                 Elements.Function -> FunctionContent()
-                Elements.Output -> OutputContent()
-                Elements.Value -> {}
+                Elements.Output -> OutputContent(
+                    viewModel,
+                    onDragStart,
+                )
+
+                Elements.Value -> ValueContent(
+                    viewModel,
+                    onDragStart,
+                )
             }
         }
     }

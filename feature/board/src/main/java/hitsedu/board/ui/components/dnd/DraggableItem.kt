@@ -19,7 +19,6 @@ fun <T> DraggableItem(
     dataToDrop: T,
     viewModel: BoardViewModel,
     onDragStart: () -> Unit = { },
-    onDragStop: () -> Unit = { },
     content: @Composable (() -> Unit),
 ) {
 
@@ -48,13 +47,13 @@ fun <T> DraggableItem(
                         currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
                     },
                     onDragEnd = {
-                        onDragStop()
+                        viewModel.hideBottomSheet()
                         viewModel.stopDragging()
                         currentState.isDragging = false
                         currentState.dragOffset = Offset.Zero
                     },
                     onDragCancel = {
-                        onDragStop()
+                        viewModel.hideBottomSheet()
                         viewModel.stopDragging()
                         currentState.dragOffset = Offset.Zero
                         currentState.isDragging = false

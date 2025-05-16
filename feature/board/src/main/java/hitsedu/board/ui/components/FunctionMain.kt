@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -33,20 +35,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
-import hitsedu.board.ui.components.elements.variable.actions.Variable
+import hitsedu.board.ui.components.elements.operation.ContainerOperation
+import hitsedu.board.ui.utils.RenderOperation
 import hitsedu.ui_kit.R
-import hitsedu.ui_kit.models.operation.OperationUIOArray
-import hitsedu.ui_kit.models.operation.OperationUIOConditionElse
-import hitsedu.ui_kit.models.operation.OperationUIOConditionIf
-import hitsedu.ui_kit.models.operation.OperationUIOValue
-import hitsedu.ui_kit.models.operation.OperationUIOVariable
 
 @Composable
 fun FunctionMain(
     viewModel: BoardViewModel,
-
-    ) {
-    val items by viewModel.items.collectAsState()
+) {
+    val globalScope by viewModel.globalScope.collectAsState()
 
     Box(
         modifier = Modifier
@@ -67,27 +64,17 @@ fun FunctionMain(
                     MaterialTheme.colorScheme.onPrimary,
                     RoundedCornerShape(24.dp),
                 )
-                .padding(20.dp),
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
-            items.forEach { operation ->
-                when (operation) {
-                    is OperationUIOVariable -> {
-                        Variable(
-                            variable = operation,
-                            viewModel = viewModel,
-                        )
-                    }
-
-                    is OperationUIOConditionElse -> TODO()
-                    is OperationUIOConditionIf -> TODO()
-                    is OperationUIOArray -> TODO()
-                    is OperationUIOValue -> {}
-                }
-            }
-            Spacer(modifier = Modifier.height(2.dp))
-            ScopeContainer(viewModel)
+            globalScope.operationUIOS.forEach { it.RenderOperation(globalScope, viewModel) }
+            Spacer(modifier = Modifier.height(4.dp))
+            ContainerOperation(
+                parentScope = globalScope,
+                viewModel = viewModel,
+            )
         }
         Row(
             modifier = Modifier
@@ -117,7 +104,7 @@ fun FunctionMain(
         }
         Button(
             onClick = {
-                //TODO("Run code")
+                //TODO("Run code - viewModel function")
             },
             modifier = Modifier
                 .widthIn(64.dp, 128.dp)

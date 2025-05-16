@@ -13,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -47,16 +46,10 @@ private fun BoardScreenUI(
     navController: NavHostController,
 ) {
     var title by remember { mutableStateOf("Main board") }
-    var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
     val scope = rememberCoroutineScope()
-
-    val openBottomSheet: () -> Unit = {
-        isBottomSheetVisible = true
-        scope.launch { sheetState.show() }
-    }
 
     DraggableScreen {
         Scaffold(
@@ -75,7 +68,7 @@ private fun BoardScreenUI(
                     ButtonBoard(
                         onClick = {
                             scope.launch {
-                                isBottomSheetVisible = true
+                                viewModel.expandBottomSheet()
                                 sheetState.expand()
                             }
                         }
@@ -99,17 +92,20 @@ private fun BoardScreenUI(
                 }
             }
             BottomSheet(
-                isBottomSheetVisible = isBottomSheetVisible,
+                isBottomSheetVisible = viewModel.isBottomSheetVisible,
                 sheetState = sheetState,
                 onDismiss = {
-                    scope.launch { sheetState.hide() }
-                        .invokeOnCompletion { isBottomSheetVisible = false }
+                    scope.launch {
+                        sheetState.hide()
+                        viewModel.hideBottomSheet()
+                    }
                 }
             ) {
                 Elements(
                     viewModel = viewModel,
-                    onDragStart = { scope.launch { sheetState.hide() } },
-                    onDragStop = { scope.launch { sheetState.expand() } },
+                    onDragStart = {
+                        scope.launch { sheetState.hide() }
+                    },
                 )
             }
         }

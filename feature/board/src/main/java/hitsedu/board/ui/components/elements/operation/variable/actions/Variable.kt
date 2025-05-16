@@ -1,0 +1,53 @@
+package hitsedu.board.ui.components.elements.operation.variable.actions
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import hitsedu.board.ui.BoardViewModel
+import hitsedu.board.ui.components.elements.operation.OperationBox
+import hitsedu.board.ui.components.elements.value.ContainerValue
+import hitsedu.board.ui.components.elements.value.Value
+import hitsedu.ui_kit.models.ScopeUIO
+import hitsedu.ui_kit.models.operation.OperationVariableUIO
+import hitsedu.ui_kit.theme.darkPrimary
+import hitsedu.ui_kit.theme.orange
+
+@Composable
+fun Variable(
+    parentScope: ScopeUIO,
+    variable: OperationVariableUIO,
+    viewModel: BoardViewModel,
+) {
+    OperationBox(
+        operationUIO = variable,
+        viewModel = viewModel,
+        backgroundColor = orange,
+        onDeleteClick = {
+            viewModel.removeOperation(parentScope, variable)
+        },
+    ) {
+        Text(
+            text = variable.name,
+            style = MaterialTheme.typography.titleSmall,
+            color = darkPrimary,
+        )
+        Text(
+            text = "=",
+            style = MaterialTheme.typography.titleSmall,
+            color = darkPrimary,
+        )
+        if (variable.value.value.isBlank())
+            ContainerValue(
+                parent = variable,
+                viewModel = viewModel,
+            )
+        else
+            Value(
+                value = variable.value,
+                viewModel = viewModel,
+                onDeleteClick = {
+                    // TODO("delete value from variable")
+                },
+            )
+    }
+}
