@@ -13,14 +13,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.dnd.DraggableItem
-import hitsedu.board.ui.components.elements.operation.loop.actions.LoopMock
+import hitsedu.board.ui.components.elements.operation.array.actions.ArrayMock
 import hitsedu.board.ui.utils.Default
 
 @Composable
 fun ArrayContent(
     viewModel: BoardViewModel,
     onDragStart: () -> Unit,
-    onDragStop: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -31,16 +30,15 @@ fun ArrayContent(
     ) {
         Text(
             text = stringResource(hitsedu.ui_kit.R.string.array),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
         DraggableItem(
             dataToDrop = Default.array,
             viewModel = viewModel,
             onDragStart = onDragStart,
-            onDragStop = onDragStop,
         ) {
-
+            ArrayMock()
         }
     }
 }

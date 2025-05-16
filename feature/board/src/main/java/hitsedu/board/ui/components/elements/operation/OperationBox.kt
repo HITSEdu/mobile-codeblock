@@ -62,6 +62,11 @@ fun OperationBox(
             modifier = Modifier
                 .wrapContentSize()
                 .align(Alignment.BottomCenter)
+                .border(
+                    2.dp,
+                    MaterialTheme.colorScheme.onPrimary,
+                    RoundedCornerShape(0.dp, 24.dp, 24.dp, 12.dp)
+                )
                 .background(
                     backgroundColor,
                     RoundedCornerShape(0.dp, 24.dp, 24.dp, 12.dp),

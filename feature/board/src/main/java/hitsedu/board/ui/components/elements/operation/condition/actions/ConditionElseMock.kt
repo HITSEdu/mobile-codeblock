@@ -19,23 +19,23 @@ import hitsedu.ui_kit.theme.yellow
 
 @Composable
 fun ConditionElseMock() {
-    MockBox (
+    MockBox(
         backgroundColor = yellow,
     ) {
         Column(
             modifier = Modifier
                 .wrapContentSize(),
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
                 text = "Else",
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimary,
             )
             Box(
                 modifier = Modifier
-                    .size(192.dp, 24.dp)
+                    .size(192.dp, 16.dp)
                     .background(
                         MaterialTheme.colorScheme.primary,
                         RoundedCornerShape(16.dp),

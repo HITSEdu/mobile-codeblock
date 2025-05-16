@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -41,7 +43,7 @@ import hitsedu.ui_kit.R
 fun FunctionMain(
     viewModel: BoardViewModel,
 ) {
-    val items by viewModel.items.collectAsState()
+    val globalScope by viewModel.globalScope.collectAsState()
 
     Box(
         modifier = Modifier
@@ -62,13 +64,17 @@ fun FunctionMain(
                     MaterialTheme.colorScheme.onPrimary,
                     RoundedCornerShape(24.dp),
                 )
-                .padding(20.dp),
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
-            items.forEach { it.RenderOperation(viewModel) }
+            globalScope.operationUIOS.forEach { it.RenderOperation(globalScope, viewModel) }
             Spacer(modifier = Modifier.height(4.dp))
-            ContainerOperation(viewModel)
+            ContainerOperation(
+                parentScope = globalScope,
+                viewModel = viewModel,
+            )
         }
         Row(
             modifier = Modifier
@@ -98,7 +104,7 @@ fun FunctionMain(
         }
         Button(
             onClick = {
-                //TODO("Run code")
+                //TODO("Run code - viewModel function")
             },
             modifier = Modifier
                 .widthIn(64.dp, 128.dp)

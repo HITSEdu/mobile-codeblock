@@ -20,29 +20,29 @@ import hitsedu.ui_kit.theme.yellow
 
 @Composable
 fun ConditionIfMock() {
-    MockBox (
+    MockBox(
         backgroundColor = yellow,
     ) {
         Column(
             modifier = Modifier
                 .wrapContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Row(
                 modifier = Modifier
-                    .size(192.dp, 32.dp),
+                    .size(192.dp, 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = "If",
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
                 Box(
                     modifier = Modifier
-                        .size(144.dp, 24.dp)
+                        .size(144.dp, 16.dp)
                         .background(
                             MaterialTheme.colorScheme.primary,
                             RoundedCornerShape(16.dp),
@@ -59,7 +59,7 @@ fun ConditionIfMock() {
             }
             Box(
                 modifier = Modifier
-                    .size(192.dp, 24.dp)
+                    .size(192.dp, 16.dp)
                     .background(
                         MaterialTheme.colorScheme.primary,
                         RoundedCornerShape(16.dp),

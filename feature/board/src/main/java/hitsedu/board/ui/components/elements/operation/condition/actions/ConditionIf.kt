@@ -15,16 +15,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.elements.operation.ContainerOperation
-import hitsedu.board.ui.components.elements.value.ContainerValue
 import hitsedu.board.ui.components.elements.operation.OperationBox
+import hitsedu.board.ui.components.elements.value.ContainerValue
 import hitsedu.board.ui.components.elements.value.Value
 import hitsedu.board.ui.utils.RenderOperation
 import hitsedu.ui_kit.R
+import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.operation.OperationIfUIO
+import hitsedu.ui_kit.theme.darkPrimary
 import hitsedu.ui_kit.theme.yellow
 
 @Composable
 fun ConditionIf(
+    parentScope: ScopeUIO,
     conditionIf: OperationIfUIO,
     viewModel: BoardViewModel,
 ) {
@@ -33,13 +36,13 @@ fun ConditionIf(
         viewModel = viewModel,
         backgroundColor = yellow,
         onDeleteClick = {
-            viewModel.removeVariable(conditionIf)
+            viewModel.removeOperation(parentScope, conditionIf)
         },
     ) {
         Column(
             modifier = Modifier
                 .wrapContentSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(
@@ -51,7 +54,7 @@ fun ConditionIf(
                 Text(
                     text = stringResource(R.string.condition_if),
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = darkPrimary,
                     modifier = Modifier.padding(end = 24.dp)
                 )
                 if (conditionIf.value.value.isBlank())
@@ -63,15 +66,34 @@ fun ConditionIf(
                     Value(
                         value = conditionIf.value,
                         viewModel = viewModel,
-                        onDeleteClick = { viewModel.removeValue(conditionIf.value) },
+                        onDeleteClick = {
+
+                        },
                     )
             }
             if (conditionIf.scope.operationUIOS.isEmpty())
                 ContainerOperation(
+                    parentScope = conditionIf.scope,
                     viewModel = viewModel,
                 )
-            else
-                conditionIf.scope.operationUIOS.forEach { it.RenderOperation(viewModel) }
+            else {
+                Column(
+                    modifier = Modifier,
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    conditionIf.scope.operationUIOS.forEach {
+                        it.RenderOperation(
+                            conditionIf.scope,
+                            viewModel
+                        )
+                    }
+                    ContainerOperation(
+                        parentScope = conditionIf.scope,
+                        viewModel = viewModel,
+                    )
+                }
+            }
         }
     }
 }

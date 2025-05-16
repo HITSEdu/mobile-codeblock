@@ -16,24 +16,40 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.dnd.DropHere
+import hitsedu.ui_kit.models.ScopeUIO
+import hitsedu.ui_kit.models.operation.OperationArrayUIO
+import hitsedu.ui_kit.models.operation.OperationElseUIO
+import hitsedu.ui_kit.models.operation.OperationForUIO
+import hitsedu.ui_kit.models.operation.OperationIfUIO
+import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
+import hitsedu.ui_kit.models.operation.OperationVariableUIO
 import hitsedu.ui_kit.theme.red
 
 @Composable
 fun ContainerOperation(
+    parentScope: ScopeUIO,
     viewModel: BoardViewModel,
 ) {
     DropHere(OperationUIO::class) { isInBound, operation ->
         if (operation != null) {
+            val operationWithId = when (operation) {
+                is OperationVariableUIO -> operation.copy(id = viewModel.getRandom())
+                is OperationIfUIO -> operation.copy(id = viewModel.getRandom())
+                is OperationArrayUIO -> operation.copy(id = viewModel.getRandom())
+                is OperationElseUIO -> operation.copy(id = viewModel.getRandom())
+                is OperationForUIO -> operation.copy(id = viewModel.getRandom())
+                is OperationOutputUIO -> operation.copy(id = viewModel.getRandom())
+            }
             LaunchedEffect(key1 = operation) {
-                viewModel.addVariable(operation)
+                viewModel.addOperation(parentScope, operationWithId)
             }
         }
         val text = if (isInBound) hitsedu.ui_kit.R.string.drop else hitsedu.ui_kit.R.string.drag_operation
         val color = if (isInBound) red else MaterialTheme.colorScheme.onPrimary
         Box(
             modifier = Modifier
-                .size(156.dp, 32.dp)
+                .size(156.dp, 28.dp)
                 .border(
                     2.dp,
                     color,
@@ -51,7 +67,7 @@ fun ContainerOperation(
         ) {
             Text(
                 text = stringResource(text),
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimary,
             )
         }

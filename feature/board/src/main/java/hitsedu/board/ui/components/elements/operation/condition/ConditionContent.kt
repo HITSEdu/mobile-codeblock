@@ -21,7 +21,6 @@ import hitsedu.board.ui.utils.Default
 fun ConditionContent(
     viewModel: BoardViewModel,
     onDragStart: () -> Unit,
-    onDragStop: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -32,27 +31,25 @@ fun ConditionContent(
     ) {
         Text(
             text = stringResource(hitsedu.ui_kit.R.string.if_statement),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
         DraggableItem(
             dataToDrop = Default.conditionIf,
             viewModel = viewModel,
             onDragStart = onDragStart,
-            onDragStop = onDragStop,
         ) {
             ConditionIfMock()
         }
         Text(
             text = stringResource(hitsedu.ui_kit.R.string.else_statement),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
         DraggableItem(
             dataToDrop = Default.conditionElse,
             viewModel = viewModel,
             onDragStart = onDragStart,
-            onDragStop = onDragStop,
         ) {
             ConditionElseMock()
         }

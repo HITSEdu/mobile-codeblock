@@ -30,6 +30,7 @@ fun EditNameAlertDialog(
     viewModel: BoardViewModel,
     onDismissRequest: () -> Unit,
 ) {
+    //TODO("fix ui")
     var input by remember { mutableStateOf("") }
 
     LaunchedEffect(operationUIO) {
@@ -93,7 +94,8 @@ fun EditNameAlertDialog(
                 onClick = {
                     when (operationUIO) {
                         is OperationVariableUIO -> {
-                            viewModel.changeVariableName(operationUIO, input)
+                            //TODO("change variable/array name")
+//                            viewModel.changeVariableName(operationUIO, input)
                         }
 
                         else -> Unit

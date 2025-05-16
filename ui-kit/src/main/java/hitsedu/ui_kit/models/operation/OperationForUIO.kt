@@ -8,4 +8,5 @@ data class OperationForUIO(
     val variable: OperationVariableUIO,
     val condition: ValueUIO,
     val value: ValueUIO,
-) : OperationUIO()
+    override val id: Long = 0,
+) : OperationUIO(id)

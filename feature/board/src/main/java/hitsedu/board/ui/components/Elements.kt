@@ -25,6 +25,7 @@ import hitsedu.board.ui.components.elements.operation.loop.LoopContent
 import hitsedu.board.ui.components.elements.operation.output.OutputContent
 import hitsedu.board.ui.components.elements.operation.variable.VariableContent
 import hitsedu.board.ui.components.elements.value.ValueContent
+import hitsedu.ui_kit.theme.red
 import hitsedu.ui_kit.utils.ELEMENT_COLORS
 import hitsedu.ui_kit.utils.Elements
 import hitsedu.ui_kit.utils.TITLES
@@ -33,7 +34,6 @@ import hitsedu.ui_kit.utils.TITLES
 fun Elements(
     viewModel: BoardViewModel,
     onDragStart: () -> Unit,
-    onDragStop: () -> Unit,
 ) {
     var selected by remember { mutableStateOf(Elements.Variable) }
 
@@ -45,7 +45,7 @@ fun Elements(
                 shape = RoundedCornerShape(0.dp, 24.dp, 0.dp, 0.dp),
             ),
         horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.Top,
+        verticalAlignment = Alignment.Bottom,
     ) {
         Column(
             modifier = Modifier
@@ -61,7 +61,7 @@ fun Elements(
             TITLES.forEach { (element, title) ->
                 ElementItem(
                     title = title,
-                    color = ELEMENT_COLORS[element]!!,
+                    color = ELEMENT_COLORS[element] ?: red,
                     isSelected = selected == element,
                     onClick = { selected = element }
                 )
@@ -71,36 +71,39 @@ fun Elements(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
+            verticalArrangement = Arrangement.Bottom,
         ) {
             when (selected) {
                 Elements.Variable -> VariableContent(
                     viewModel,
                     onDragStart,
-                    onDragStop,
                 )
 
                 Elements.Condition -> ConditionContent(
                     viewModel,
                     onDragStart,
-                    onDragStop,
                 )
 
                 Elements.Loop -> LoopContent(
                     viewModel,
                     onDragStart,
-                    onDragStop,
                 )
+
                 Elements.Array -> ArrayContent(
                     viewModel,
                     onDragStart,
-                    onDragStop,
                 )
+
+                //TODO("create function ui element")
                 Elements.Function -> FunctionContent()
-                Elements.Output -> OutputContent()
+                Elements.Output -> OutputContent(
+                    viewModel,
+                    onDragStart,
+                )
+
                 Elements.Value -> ValueContent(
                     viewModel,
                     onDragStart,
-                    onDragStop,
                 )
             }
         }

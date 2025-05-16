@@ -1,37 +1,30 @@
 package hitsedu.board.ui
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import hitsedu.ui_kit.models.operation.OperationUIO
-import hitsedu.ui_kit.models.operation.OperationVariableUIO
-import hitsedu.ui_kit.models.ValueUIO
+import hitsedu.board.ui.utils.UpdateType
+import hitsedu.ui_kit.models.ScopeUIO
+import hitsedu.ui_kit.models.operation.OperationElseUIO
+import hitsedu.ui_kit.models.operation.OperationForUIO
 import hitsedu.ui_kit.models.operation.OperationIfUIO
+import hitsedu.ui_kit.models.operation.OperationUIO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlin.random.Random
 
 class BoardViewModel(
 
 ) : ViewModel() {
+    //TODO("Update logic for tree, fix bugs")
+    //TODO("logic for change variable/array name and change value - use AlertDialog")
+    //TODO("create function for loop constructor")
+    //TODO("create function for condition constructor")
     private var isCurrentlyDragging by mutableStateOf(false)
-
-    private val _items = MutableStateFlow<List<OperationUIO>>(emptyList())
-    val items: StateFlow<List<OperationUIO>> = _items.asStateFlow()
-
-    init {
-        _items.value = listOf(
-            OperationVariableUIO(
-                name = "a",
-                value = ValueUIO(),
-            ),
-            OperationVariableUIO(
-                name = "b",
-                value = ValueUIO(),
-            ),
-        )
-    }
+    var isBottomSheetVisible by mutableStateOf(false)
 
     fun startDragging() {
         isCurrentlyDragging = true
@@ -41,50 +34,64 @@ class BoardViewModel(
         isCurrentlyDragging = false
     }
 
-    fun addVariable(o: OperationUIO) {
-        _items.value += o
+    fun expandBottomSheet() {
+        isBottomSheetVisible = true
     }
 
-    fun removeVariable(o: OperationUIO) {
-        _items.value = _items.value.filterNot { it == o }
+    fun hideBottomSheet() {
+        isBottomSheetVisible = false
     }
 
-    fun addValue(value: ValueUIO, parent: OperationUIO) {
-        //TODO("Change for nested structures")
-        _items.value = _items.value.map { item ->
-            when {
-                item == parent && item is OperationVariableUIO -> item.copy(value = value)
-                item == parent && item is OperationIfUIO -> item.copy(value = value)
-                else -> item
+    private var _globalScope = MutableStateFlow(ScopeUIO(emptyList()))
+    val globalScope: StateFlow<ScopeUIO> = _globalScope
+
+    fun getRandom(): Long {
+        val randomLong = Random.nextLong(1, Long.MAX_VALUE)
+        return randomLong
+    }
+
+    fun addOperation(parent: ScopeUIO, operation: OperationUIO) {
+        hideBottomSheet()
+        _globalScope.update { root ->
+            updateScope(root, parent, operation, UpdateType.ADD)
+        }
+        Log.e("add", _globalScope.value.toString())
+    }
+
+    fun removeOperation(parent: ScopeUIO, operation: OperationUIO) {
+        _globalScope.update { root ->
+            updateScope(root, parent, operation, UpdateType.DELETE)
+        }
+        Log.e("remove", _globalScope.value.toString())
+    }
+
+    private fun updateScope(
+        scope: ScopeUIO,
+        parent: ScopeUIO,
+        operation: OperationUIO,
+        type: UpdateType,
+    ): ScopeUIO = if (scope == parent) {
+        when (type) {
+            UpdateType.ADD -> {
+                Log.e("update", "${scope.operationUIOS}\n${operation}")
+                scope.copy(
+                    operationUIOS = scope.operationUIOS + operation
+                )
             }
-        }
-    }
 
-    fun removeValue(o: ValueUIO) {
-        //TODO("Change for nested structures")
-        _items.value = _items.value.map { item ->
-            if (item is OperationVariableUIO && item.value == o) {
-                item.copy(value = ValueUIO())
-            } else item
+            UpdateType.DELETE -> scope.copy(
+                operationUIOS = scope.operationUIOS.filterNot { it == operation })
         }
-    }
-
-    fun changeVariableName(o: OperationVariableUIO, name: String) {
-        //TODO("Change for nested structures")
-        val currentList = _items.value.toMutableList()
-        val index = currentList.indexOf(o)
-        if (index != -1) {
-            currentList[index] = o.copy(name = name)
-            _items.value = currentList
-        }
-    }
-
-    fun changeValue(value: ValueUIO, newValue: String) {
-        //TODO("Change for nested structures")
-        _items.value = _items.value.map { item ->
-            if (item is OperationVariableUIO && item.value == value) {
-                item.copy(value = ValueUIO(newValue))
-            } else item
-        }
+    } else {
+        scope.copy(
+            operationUIOS = scope.operationUIOS.map { o ->
+                when (o) {
+                    is OperationIfUIO -> o.copy(scope = updateScope(o.scope, parent, operation, type))
+                    is OperationForUIO -> o.copy(scope = updateScope(o.scope, parent, operation, type))
+                    is OperationElseUIO -> o.copy(scope = updateScope(o.scope, parent, operation, type))
+                    else -> o
+                }
+            }
+        )
     }
 }

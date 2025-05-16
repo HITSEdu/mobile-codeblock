@@ -41,7 +41,7 @@ fun ElementItem(
 
     Box(
         modifier = Modifier
-            .size(128.dp, 38.dp)
+            .size(92.dp, 24.dp)
             .border(
                 2.dp,
                 MaterialTheme.colorScheme.onPrimary.copy(0.3f),
@@ -68,7 +68,7 @@ fun ElementItem(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(28.dp)
+                        .size(16.dp)
                         .background(
                             color = color, shape = CircleShape
                         )
@@ -80,7 +80,7 @@ fun ElementItem(
                 )
                 Text(
                     text = stringResource(title),
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,

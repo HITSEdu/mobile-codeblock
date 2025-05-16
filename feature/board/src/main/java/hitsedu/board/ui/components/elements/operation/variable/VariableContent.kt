@@ -13,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.dnd.DraggableItem
-import hitsedu.board.ui.components.elements.value.ValueMock
 import hitsedu.board.ui.components.elements.operation.variable.actions.VariableMock
 import hitsedu.board.ui.utils.Default
 
@@ -21,7 +20,6 @@ import hitsedu.board.ui.utils.Default
 fun VariableContent(
     viewModel: BoardViewModel,
     onDragStart: () -> Unit,
-    onDragStop: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -32,14 +30,13 @@ fun VariableContent(
     ) {
         Text(
             text = stringResource(hitsedu.ui_kit.R.string.variable_declare),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
         DraggableItem(
             dataToDrop = Default.variable,
             viewModel = viewModel,
             onDragStart = onDragStart,
-            onDragStop = onDragStop,
         ) {
             VariableMock()
         }

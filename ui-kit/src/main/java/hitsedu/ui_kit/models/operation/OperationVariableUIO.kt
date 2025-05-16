@@ -6,4 +6,5 @@ import hitsedu.ui_kit.models.ValueUIO
 data class OperationVariableUIO(
     val name: String,
     val value: ValueUIO,
-) : OperationUIO()
+    override val id: Long = 0,
+) : OperationUIO(id)

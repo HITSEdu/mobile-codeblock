@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.ui_kit.models.ValueUIO
+import hitsedu.ui_kit.theme.darkPrimary
 
 @Composable
 fun Value(
@@ -29,7 +30,7 @@ fun Value(
             Text(
                 text = value.value,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = darkPrimary,
             )
         }
     }

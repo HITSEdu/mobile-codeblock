@@ -4,4 +4,5 @@ import hitsedu.ui_kit.models.ScopeUIO
 
 data class OperationElseUIO(
     val scope: ScopeUIO,
-) : OperationUIO()
+    override val id: Long = 0,
+) : OperationUIO(id)

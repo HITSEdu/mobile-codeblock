@@ -27,7 +27,7 @@ fun EditValueAlertDialog(
     viewModel: BoardViewModel,
     onDismissRequest: () -> Unit,
 ) {
-    //TODO()
+    //TODO("fix ui")
     var input by remember { mutableStateOf("") }
 
     AlertDialog(
@@ -71,7 +71,8 @@ fun EditValueAlertDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    viewModel.changeValue(value, input)
+                    //TODO("change value")
+//                    viewModel.changeValue(value, input)
                     onDismissRequest()
                 }
             ) {

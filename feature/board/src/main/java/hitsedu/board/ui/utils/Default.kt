@@ -6,6 +6,7 @@ import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationElseUIO
 import hitsedu.ui_kit.models.operation.OperationForUIO
 import hitsedu.ui_kit.models.operation.OperationIfUIO
+import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
 
 object Default {
@@ -36,5 +37,9 @@ object Default {
         name = "arr",
         size = 0,
         values = emptyList(),
+    )
+
+    val output = OperationOutputUIO(
+        value = ValueUIO(),
     )
 }
