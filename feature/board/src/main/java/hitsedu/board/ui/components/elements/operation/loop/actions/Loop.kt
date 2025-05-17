@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -46,26 +47,33 @@ fun Loop(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                text = stringResource(R.string.for_statement),
-                style = MaterialTheme.typography.titleSmall,
-                color = darkPrimary,
-                modifier = Modifier.align(Alignment.Start),
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-            if (loop.variable.value.value.isBlank())
-                ContainerVariable(
-                    parentOperation = loop,
-                    viewModel = viewModel,
+            Row(
+                modifier = Modifier
+                    .wrapContentSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = stringResource(R.string.for_statement),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = darkPrimary,
+                    modifier = Modifier.padding(end = 24.dp),
                 )
-            else
-                Value(
-                    value = loop.variable.value,
-                    viewModel = viewModel,
-                    onDeleteClick = {
+                Spacer(modifier = Modifier.height(2.dp))
+                if (loop.variable.value.value.isBlank())
+                    ContainerVariable(
+                        parentOperation = loop,
+                        viewModel = viewModel,
+                    )
+                else
+                    Value(
+                        value = loop.variable.value,
+                        viewModel = viewModel,
+                        onDeleteClick = {
 
-                    },
-                )
+                        },
+                    )
+            }
             Row(
                 modifier = Modifier
                     .wrapContentSize(),

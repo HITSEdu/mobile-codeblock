@@ -3,7 +3,10 @@ package hitsedu.board.ui.components.elements.value
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,10 +39,9 @@ fun ContainerValue(
         val color = if (isInBound) red else MaterialTheme.colorScheme.onPrimary
         Box(
             modifier = Modifier
-                .widthIn(92.dp, 128.dp)
-                .wrapContentHeight()
+                .size(84.dp, 24.dp)
                 .border(
-                    2.dp,
+                    1.dp,
                     color,
                     RoundedCornerShape(12.dp),
                 )

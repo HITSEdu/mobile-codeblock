@@ -40,9 +40,9 @@ fun ContainerVariable(
         val color = if (isInBound) red else MaterialTheme.colorScheme.onPrimary
         Box(
             modifier = Modifier
-                .size(156.dp, 28.dp)
+                .size(122.dp, 24.dp)
                 .border(
-                    2.dp,
+                    1.dp,
                     color,
                     RoundedCornerShape(16.dp),
                 )

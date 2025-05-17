@@ -32,21 +32,28 @@ fun LoopMock() {
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            Text(
-                text = stringResource(hitsedu.ui_kit.R.string.for_statement),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimary,
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Box(
+            Row(
                 modifier = Modifier
-                    .size(192.dp, 16.dp)
-                    .background(
-                        MaterialTheme.colorScheme.primary,
-                        RoundedCornerShape(16.dp),
-                    )
-                    .padding(horizontal = 4.dp),
-            )
+                    .size(192.dp, 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = stringResource(hitsedu.ui_kit.R.string.for_statement),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Box(
+                    modifier = Modifier
+                        .size(156.dp, 16.dp)
+                        .background(
+                            MaterialTheme.colorScheme.primary,
+                            RoundedCornerShape(16.dp),
+                        )
+//                        .padding(horizontal = 4.dp),
+                )
+            }
             Row(
                 modifier = Modifier
                     .size(192.dp, 16.dp),

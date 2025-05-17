@@ -24,22 +24,6 @@ fun ArrayMock() {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
-        Box(
-            modifier = Modifier
-                .size(24.dp, 16.dp)
-                .background(
-                    MaterialTheme.colorScheme.primary,
-                    RoundedCornerShape(16.dp),
-                )
-                .padding(horizontal = 4.dp),
-        ) {
-            Text(
-                text = "3",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
         Text(
             text = "=",
             style = MaterialTheme.typography.bodyMedium,

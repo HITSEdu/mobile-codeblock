@@ -28,12 +28,12 @@ fun Variable(
     ) {
         Text(
             text = variable.name,
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.bodyMedium,
             color = darkPrimary,
         )
         Text(
             text = "=",
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.bodyMedium,
             color = darkPrimary,
         )
         if (variable.value.value.isBlank())
