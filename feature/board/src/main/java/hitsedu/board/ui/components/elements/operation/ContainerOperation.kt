@@ -35,10 +35,37 @@ fun ContainerOperation(
         if (operation != null) {
             val operationWithId = when (operation) {
                 is OperationVariableUIO -> operation.copy(id = viewModel.getRandom())
-                is OperationIfUIO -> operation.copy(id = viewModel.getRandom())
                 is OperationArrayUIO -> operation.copy(id = viewModel.getRandom())
-                is OperationElseUIO -> operation.copy(id = viewModel.getRandom())
-                is OperationForUIO -> operation.copy(id = viewModel.getRandom())
+                is OperationIfUIO -> {
+                    val newScope = ScopeUIO(
+                        operationUIOS = operation.scope.operationUIOS,
+                        id = viewModel.getRandom()
+                    )
+                    operation.copy(
+                        id = viewModel.getRandom(),
+                        scope = newScope
+                    )
+                }
+                is OperationElseUIO -> {
+                    val newScope = ScopeUIO(
+                        operationUIOS = operation.scope.operationUIOS,
+                        id = viewModel.getRandom()
+                    )
+                    operation.copy(
+                        id = viewModel.getRandom(),
+                        scope = newScope
+                    )
+                }
+                is OperationForUIO -> {
+                    val newScope = ScopeUIO(
+                        operationUIOS = operation.scope.operationUIOS,
+                        id = viewModel.getRandom()
+                    )
+                    operation.copy(
+                        id = viewModel.getRandom(),
+                        scope = newScope
+                    )
+                }
                 is OperationOutputUIO -> operation.copy(id = viewModel.getRandom())
             }
             LaunchedEffect(key1 = operation) {
