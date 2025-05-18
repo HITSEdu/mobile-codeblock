@@ -1,3 +1,5 @@
 package hitsedu.interpreter.models.operation
 
-sealed class Operation
+sealed class Operation(
+    open val id: Long,
+)
