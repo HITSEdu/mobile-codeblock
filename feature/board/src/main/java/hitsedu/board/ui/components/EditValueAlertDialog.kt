@@ -19,16 +19,17 @@ import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.ui_kit.R
 import hitsedu.ui_kit.models.ValueUIO
+import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.theme.red
 
 @Composable
 fun EditValueAlertDialog(
+    parent: OperationUIO,
     value: ValueUIO,
     viewModel: BoardViewModel,
     onDismissRequest: () -> Unit,
 ) {
-    //TODO("fix ui")
-    var input by remember { mutableStateOf("") }
+    var input by remember { mutableStateOf(value.value) }
 
     AlertDialog(
         title = {
@@ -71,8 +72,7 @@ fun EditValueAlertDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    //TODO("change value")
-//                    viewModel.changeValue(value, input)
+                    viewModel.updateValue(parent, value, input)
                     onDismissRequest()
                 }
             ) {

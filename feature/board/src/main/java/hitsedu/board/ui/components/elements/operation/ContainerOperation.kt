@@ -46,6 +46,7 @@ fun ContainerOperation(
                         scope = newScope
                     )
                 }
+
                 is OperationElseUIO -> {
                     val newScope = ScopeUIO(
                         operationUIOS = operation.scope.operationUIOS,
@@ -56,6 +57,7 @@ fun ContainerOperation(
                         scope = newScope
                     )
                 }
+
                 is OperationForUIO -> {
                     val newScope = ScopeUIO(
                         operationUIOS = operation.scope.operationUIOS,
@@ -66,6 +68,7 @@ fun ContainerOperation(
                         scope = newScope
                     )
                 }
+
                 is OperationOutputUIO -> operation.copy(id = viewModel.getRandom())
             }
             LaunchedEffect(key1 = operation) {

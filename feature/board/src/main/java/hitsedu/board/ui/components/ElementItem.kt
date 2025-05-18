@@ -73,7 +73,7 @@ fun ElementItem(
                             color = color, shape = CircleShape
                         )
                         .border(
-                            4.dp,
+                            2.dp,
                             MaterialTheme.colorScheme.primary,
                             CircleShape,
                         ),

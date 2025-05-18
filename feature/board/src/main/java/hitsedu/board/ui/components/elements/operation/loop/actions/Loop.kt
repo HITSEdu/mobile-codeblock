@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -16,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.elements.operation.ContainerOperation
-import hitsedu.board.ui.components.elements.operation.ContainerVariable
 import hitsedu.board.ui.components.elements.operation.OperationBox
 import hitsedu.board.ui.components.elements.value.ContainerValue
 import hitsedu.board.ui.components.elements.value.Value
@@ -34,6 +32,7 @@ fun Loop(
     viewModel: BoardViewModel,
 ) {
     OperationBox(
+        parent = parentScope,
         operationUIO = loop,
         viewModel = viewModel,
         backgroundColor = green,
@@ -51,26 +50,25 @@ fun Loop(
                 modifier = Modifier
                     .wrapContentSize(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 Text(
                     text = stringResource(R.string.for_statement),
                     style = MaterialTheme.typography.titleSmall,
                     color = darkPrimary,
-                    modifier = Modifier.padding(end = 24.dp),
                 )
-                Spacer(modifier = Modifier.height(2.dp))
-                if (loop.variable.value.value.isBlank())
-                    ContainerVariable(
-                        parentOperation = loop,
+                if (loop.variable.value.isBlank())
+                    ContainerValue(
+                        parent = loop,
                         viewModel = viewModel,
                     )
                 else
                     Value(
-                        value = loop.variable.value,
+                        parent = loop,
+                        value = loop.variable,
                         viewModel = viewModel,
                         onDeleteClick = {
-
+                            viewModel.removeValue(loop, loop.value)
                         },
                     )
             }
@@ -78,19 +76,8 @@ fun Loop(
                 modifier = Modifier
                     .wrapContentSize(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                if (loop.value.value.isBlank())
-                    ContainerValue(
-                        parent = loop,
-                        viewModel = viewModel,
-                    )
-                else
-                    Value(
-                        value = loop.value,
-                        viewModel = viewModel,
-                        onDeleteClick = { },
-                    )
                 if (loop.condition.value.isBlank())
                     ContainerValue(
                         parent = loop,
@@ -98,9 +85,26 @@ fun Loop(
                     )
                 else
                     Value(
+                        parent = loop,
+                        value = loop.condition,
+                        viewModel = viewModel,
+                        onDeleteClick = {
+                            viewModel.removeValue(loop, loop.condition)
+                        },
+                    )
+                if (loop.value.value.isBlank())
+                    ContainerValue(
+                        parent = loop,
+                        viewModel = viewModel,
+                    )
+                else
+                    Value(
+                        parent = loop,
                         value = loop.value,
                         viewModel = viewModel,
-                        onDeleteClick = {},
+                        onDeleteClick = {
+                            viewModel.removeValue(loop, loop.value)
+                        },
                     )
             }
             if (loop.scope.operationUIOS.isEmpty())
@@ -115,6 +119,7 @@ fun Loop(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     loop.scope.operationUIOS.forEach { it.RenderOperation(loop.scope, viewModel) }
+                    Spacer(modifier = Modifier.height(2.dp))
                     ContainerOperation(
                         parentScope = loop.scope,
                         viewModel = viewModel,

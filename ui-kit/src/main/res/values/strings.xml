@@ -42,4 +42,7 @@
     <string name="edit_function">Here you can change function name</string>
     <string name="confirm">Confirm</string>
     <string name="dismiss">Dismiss</string>
+    <string name="for_start">start</string>
+    <string name="for_stop">stop</string>
+    <string name="for_step">step</string>
 </resources>

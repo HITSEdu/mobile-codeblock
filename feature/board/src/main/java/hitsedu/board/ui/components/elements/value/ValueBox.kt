@@ -28,9 +28,11 @@ import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.EditValueAlertDialog
 import hitsedu.ui_kit.R
 import hitsedu.ui_kit.models.ValueUIO
+import hitsedu.ui_kit.models.operation.OperationUIO
 
 @Composable
 fun ValueBox(
+    parent: OperationUIO,
     value: ValueUIO,
     viewModel: BoardViewModel,
     backgroundColor: Color,
@@ -42,6 +44,7 @@ fun ValueBox(
     when {
         openAlertDialog.value -> {
             EditValueAlertDialog(
+                parent = parent,
                 value = value,
                 viewModel = viewModel,
                 onDismissRequest = { openAlertDialog.value = false },

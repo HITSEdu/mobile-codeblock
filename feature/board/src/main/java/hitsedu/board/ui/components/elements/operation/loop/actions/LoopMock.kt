@@ -50,8 +50,7 @@ fun LoopMock() {
                         .background(
                             MaterialTheme.colorScheme.primary,
                             RoundedCornerShape(16.dp),
-                        )
-//                        .padding(horizontal = 4.dp),
+                        ),
                 )
             }
             Row(
@@ -67,7 +66,14 @@ fun LoopMock() {
                             MaterialTheme.colorScheme.primary,
                             RoundedCornerShape(16.dp),
                         )
-                )
+                ) {
+                    Text(
+                        text = stringResource(hitsedu.ui_kit.R.string.for_start),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.align(Alignment.Center),
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .size(92.dp, 16.dp)
@@ -75,7 +81,14 @@ fun LoopMock() {
                             MaterialTheme.colorScheme.primary,
                             RoundedCornerShape(16.dp),
                         )
-                )
+                ) {
+                    Text(
+                        text = stringResource(hitsedu.ui_kit.R.string.for_stop),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.align(Alignment.Center),
+                    )
+                }
             }
             Box(
                 modifier = Modifier
@@ -85,7 +98,14 @@ fun LoopMock() {
                         RoundedCornerShape(16.dp),
                     )
                     .padding(horizontal = 4.dp),
-            )
+            ) {
+                Text(
+                    text = stringResource(hitsedu.ui_kit.R.string.for_step),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
         }
     }
 }

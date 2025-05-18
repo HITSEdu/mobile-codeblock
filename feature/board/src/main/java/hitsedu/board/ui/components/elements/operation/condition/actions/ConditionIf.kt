@@ -3,6 +3,8 @@ package hitsedu.board.ui.components.elements.operation.condition.actions
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
@@ -32,6 +34,7 @@ fun ConditionIf(
     viewModel: BoardViewModel,
 ) {
     OperationBox(
+        parent = parentScope,
         operationUIO = conditionIf,
         viewModel = viewModel,
         backgroundColor = yellow,
@@ -64,10 +67,11 @@ fun ConditionIf(
                     )
                 else
                     Value(
+                        parent = conditionIf,
                         value = conditionIf.value,
                         viewModel = viewModel,
                         onDeleteClick = {
-
+                            viewModel.removeValue(conditionIf, conditionIf.value)
                         },
                     )
             }
@@ -88,6 +92,7 @@ fun ConditionIf(
                             viewModel
                         )
                     }
+                    Spacer(modifier = Modifier.height(2.dp))
                     ContainerOperation(
                         parentScope = conditionIf.scope,
                         viewModel = viewModel,

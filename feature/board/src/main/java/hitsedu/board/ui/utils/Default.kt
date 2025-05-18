@@ -28,7 +28,7 @@ object Default {
 
     val loop = OperationForUIO(
         scope = ScopeUIO(operationUIOS = emptyList()),
-        variable = variable,
+        variable = ValueUIO(),
         condition = ValueUIO(),
         value = ValueUIO(),
     )

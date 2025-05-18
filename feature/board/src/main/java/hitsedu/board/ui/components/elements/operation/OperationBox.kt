@@ -28,12 +28,14 @@ import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.EditNameAlertDialog
 import hitsedu.ui_kit.R
+import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
 
 @Composable
 fun OperationBox(
+    parent: ScopeUIO,
     operationUIO: OperationUIO,
     viewModel: BoardViewModel,
     backgroundColor: Color,
@@ -46,6 +48,7 @@ fun OperationBox(
     when {
         openAlertDialog.value -> {
             EditNameAlertDialog(
+                parent = parent,
                 operationUIO = operationUIO,
                 viewModel = viewModel,
                 onDismissRequest = { openAlertDialog.value = false },

@@ -5,7 +5,7 @@ import hitsedu.ui_kit.models.ValueUIO
 
 data class OperationForUIO(
     val scope: ScopeUIO,
-    val variable: OperationVariableUIO,
+    val variable: ValueUIO,
     val condition: ValueUIO,
     val value: ValueUIO,
     override val id: Long = 0,

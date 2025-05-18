@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.ui_kit.R
+import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
@@ -26,11 +27,11 @@ import hitsedu.ui_kit.theme.red
 
 @Composable
 fun EditNameAlertDialog(
+    parent: ScopeUIO,
     operationUIO: OperationUIO,
     viewModel: BoardViewModel,
     onDismissRequest: () -> Unit,
 ) {
-    //TODO("fix ui")
     var input by remember { mutableStateOf("") }
 
     LaunchedEffect(operationUIO) {
@@ -93,12 +94,9 @@ fun EditNameAlertDialog(
             TextButton(
                 onClick = {
                     when (operationUIO) {
-                        is OperationVariableUIO -> {
-                            //TODO("change variable/array name")
-//                            viewModel.changeVariableName(operationUIO, input)
-                        }
-
-                        else -> Unit
+                        is OperationVariableUIO -> viewModel.updateName(parent, operationUIO, input)
+                        is OperationArrayUIO -> viewModel.updateName(parent, operationUIO, input)
+                        else -> {}
                     }
                     onDismissRequest()
                 }

@@ -1,11 +1,15 @@
 package hitsedu.board.ui.components.elements.operation.array.actions
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
@@ -24,6 +28,7 @@ fun Array(
     viewModel: BoardViewModel,
 ) {
     OperationBox(
+        parent = parentScope,
         operationUIO = array,
         viewModel = viewModel,
         backgroundColor = blue,
@@ -41,24 +46,44 @@ fun Array(
             style = MaterialTheme.typography.bodyMedium,
             color = darkPrimary,
         )
-        Row(
-            modifier = Modifier,
-            verticalAlignment = Alignment.CenterVertically,
+        Text(
+            text = "{",
+            style = MaterialTheme.typography.bodyMedium,
+            color = darkPrimary,
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier
+                .fillMaxWidth(0.6f)
+                .heightIn(max = 52.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            userScrollEnabled = true,
+            contentPadding = PaddingValues(
+                vertical = 4.dp,
+            ),
         ) {
-            array.values.forEach {
+            items(array.values) { value ->
                 Value(
-                    value = it,
+                    parent = array,
+                    value = value,
                     viewModel = viewModel,
                     onDeleteClick = {
-
+                        viewModel.removeValue(array, value)
                     },
                 )
             }
-            ContainerValue(
-                parent = array,
-                viewModel = viewModel,
-            )
+            item {
+                ContainerValue(
+                    parent = array,
+                    viewModel = viewModel,
+                )
+            }
         }
+        Text(
+            text = "}",
+            style = MaterialTheme.typography.bodyMedium,
+            color = darkPrimary,
+        )
     }
 }

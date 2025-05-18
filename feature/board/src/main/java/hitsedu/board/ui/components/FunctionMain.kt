@@ -104,7 +104,7 @@ fun FunctionMain(
         }
         Button(
             onClick = {
-                //TODO("Run code - viewModel function")
+                viewModel.run()
             },
             modifier = Modifier
                 .widthIn(64.dp, 128.dp)

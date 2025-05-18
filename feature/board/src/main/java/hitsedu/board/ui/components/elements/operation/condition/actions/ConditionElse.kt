@@ -2,6 +2,8 @@ package hitsedu.board.ui.components.elements.operation.condition.actions
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,6 +29,7 @@ fun ConditionElse(
     viewModel: BoardViewModel,
 ) {
     OperationBox(
+        parent = parentScope,
         operationUIO = conditionElse,
         viewModel = viewModel,
         backgroundColor = yellow,
@@ -59,6 +62,7 @@ fun ConditionElse(
                     conditionElse.scope.operationUIOS.forEach {
                         it.RenderOperation(conditionElse.scope, viewModel)
                     }
+                    Spacer(modifier = Modifier.height(2.dp))
                     ContainerOperation(
                         parentScope = conditionElse.scope,
                         viewModel = viewModel,

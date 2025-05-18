@@ -19,6 +19,7 @@ fun Variable(
     viewModel: BoardViewModel,
 ) {
     OperationBox(
+        parent = parentScope,
         operationUIO = variable,
         viewModel = viewModel,
         backgroundColor = orange,
@@ -43,10 +44,14 @@ fun Variable(
             )
         else
             Value(
+                parent = variable,
                 value = variable.value,
                 viewModel = viewModel,
                 onDeleteClick = {
-                    // TODO("delete value from variable")
+                    viewModel.removeValue(
+                        variable,
+                        variable.value
+                    )
                 },
             )
     }

@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.components.MockBox
 import hitsedu.ui_kit.theme.blue
+import hitsedu.ui_kit.theme.darkPrimary
 
 @Composable
 fun ArrayMock() {
@@ -28,6 +29,11 @@ fun ArrayMock() {
             text = "=",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
+        )
+        Text(
+            text = "{",
+            style = MaterialTheme.typography.bodyMedium,
+            color = darkPrimary,
         )
         repeat(3) {
             Box(
@@ -47,5 +53,10 @@ fun ArrayMock() {
                 )
             }
         }
+        Text(
+            text = "}",
+            style = MaterialTheme.typography.bodyMedium,
+            color = darkPrimary,
+        )
     }
 }
