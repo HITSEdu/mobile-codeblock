@@ -34,4 +34,5 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(project(":ui-kit"))
+    implementation(project(":core:interpreter"))
 }
