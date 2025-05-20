@@ -5,10 +5,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import hitsedu.board.ui.components.elements.operation.variable.actions.Variable
 import hitsedu.board.ui.utils.UpdateType
 import hitsedu.ui_kit.models.ScopeGlobalUIO
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.ValueUIO
+import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationElseUIO
 import hitsedu.ui_kit.models.operation.OperationForUIO
@@ -95,6 +97,17 @@ class BoardViewModel(
                 updateGlobalScope(operation.copy(name = newName), UpdateType.REPLACE)
             }
 
+            is OperationArrayIndexUIO -> {
+                _globalScope.update { root ->
+                    updateScope(
+                        root,
+                        parent,
+                        operation.copy(name = newName),
+                        UpdateType.REPLACE
+                    ) as ScopeGlobalUIO
+                }
+            }
+
             else -> {}
         }
     }
@@ -105,12 +118,17 @@ class BoardViewModel(
             is OperationArrayUIO -> parent.copy(values = parent.values + value.copy(id = getRandom()))
             is OperationIfUIO -> parent.copy(value = value.copy(id = getRandom()))
             is OperationForUIO -> parent.copy(
-                variable = value.copy(id = getRandom()),
+                variable = parent.variable.copy(value = value.copy(id = getRandom())),
                 condition = value.copy(id = getRandom()),
                 value = value.copy(id = getRandom()),
             )
 
             is OperationOutputUIO -> parent.copy(value = value.copy(id = getRandom()))
+            is OperationArrayIndexUIO -> parent.copy(
+                index = value.copy(id = getRandom()),
+                value = value.copy(id = getRandom())
+            )
+
             else -> {
                 return
             }
@@ -132,12 +150,17 @@ class BoardViewModel(
             is OperationArrayUIO -> parent.copy(values = parent.values.filterNot { it == value })
             is OperationIfUIO -> parent.copy(value = ValueUIO())
             is OperationForUIO -> parent.copy(
-                variable = ValueUIO(),
+                variable = parent.variable.copy(value = ValueUIO()),
                 condition = ValueUIO(),
                 value = ValueUIO(),
             )
 
             is OperationOutputUIO -> parent.copy(value = ValueUIO())
+            is OperationArrayIndexUIO -> parent.copy(
+                index = ValueUIO(),
+                value = ValueUIO(),
+            )
+
             else -> {
                 return
             }
@@ -179,12 +202,30 @@ class BoardViewModel(
         updateGlobalScope(operation, UpdateType.DELETE)
     }
 
+    fun addVariableToFor(
+        parentScope: ScopeUIO,
+        parent: OperationForUIO,
+        operation: OperationVariableUIO,
+    ) {
+        val new = parent.copy(variable = operation.copy(id = getRandom()))
+
+        _globalScope.update { root ->
+            updateScope(
+                root,
+                parentScope,
+                new,
+                UpdateType.REPLACE,
+            ) as ScopeGlobalUIO
+        }
+    }
+
     private fun updateScope(
         scope: ScopeUIO,
         parent: ScopeUIO,
         operation: OperationUIO,
         type: UpdateType,
     ): ScopeUIO = if (scope == parent) {
+        Log.e("vm", operation.toString())
         when (type) {
             UpdateType.ADD -> copyScope(scope, scope.operationUIOS + operation)
             UpdateType.DELETE -> copyScope(scope, scope.operationUIOS.filterNot { it == operation })
@@ -198,7 +239,10 @@ class BoardViewModel(
             newOperationUIOS = scope.operationUIOS.map { o ->
                 when (o) {
                     is OperationIfUIO -> o.copy(scope = updateScope(o.scope, parent, operation, type))
-                    is OperationForUIO -> o.copy(scope = updateScope(o.scope, parent, operation, type))
+                    is OperationForUIO -> o.copy(
+                        variable = o.variable.copy(),
+                        scope = updateScope(o.scope, parent, operation, type)
+                    )
                     is OperationElseUIO -> o.copy(scope = updateScope(o.scope, parent, operation, type))
                     else -> o
                 }
@@ -247,7 +291,6 @@ class BoardViewModel(
             else -> {}
         }
     }
-
 
     private fun updateOperationValue(
         parent: OperationUIO,
@@ -312,13 +355,20 @@ class BoardViewModel(
             is OperationForUIO ->
                 when (type) {
                     UpdateType.ADD -> op.copy(
-                        variable = value.copy(id = getRandom()),
+                        variable = OperationVariableUIO(
+                            name = op.variable.name,
+                            value = value.copy(id = getRandom()),
+                            id = getRandom(),
+                        ),
                         condition = value.copy(id = getRandom()),
                         value = value.copy(id = getRandom()),
                     )
 
                     UpdateType.DELETE -> op.copy(
-                        variable = ValueUIO(),
+                        variable = OperationVariableUIO(
+                            name = op.variable.name,
+                            value = ValueUIO(),
+                        ),
                         condition = ValueUIO(),
                         value = ValueUIO(),
                     )
@@ -330,6 +380,21 @@ class BoardViewModel(
                 when (type) {
                     UpdateType.ADD -> op.copy(value = value.copy(id = newId))
                     UpdateType.DELETE -> op.copy(value = ValueUIO())
+                    UpdateType.REPLACE -> op
+                }
+
+            is OperationArrayIndexUIO ->
+                when (type) {
+                    UpdateType.ADD -> op.copy(
+                        index = value.copy(id = newId),
+                        value = value.copy(id = getRandom())
+                    )
+
+                    UpdateType.DELETE -> op.copy(
+                        index = ValueUIO(),
+                        value = ValueUIO(),
+                    )
+
                     UpdateType.REPLACE -> op
                 }
 
@@ -397,12 +462,16 @@ class BoardViewModel(
             is OperationIfUIO -> op.copy(value = newValue.copy(id = newId))
             is OperationForUIO ->
                 op.copy(
-                    variable = if (op.variable.id == oldValue.id) newValue.copy(id = getRandom()) else op.variable,
-                    condition = if (op.condition.id == oldValue.id) newValue else op.condition,
-                    value = if (op.value.id == oldValue.id) newValue else op.value,
+                    condition = if (op.condition.id == oldValue.id) newValue.copy(id = newId) else op.condition,
+                    value = if (op.value.id == oldValue.id) newValue.copy(id = newId) else op.value,
                 )
 
             is OperationOutputUIO -> op.copy(value = newValue.copy(id = newId))
+            is OperationArrayIndexUIO -> op.copy(
+                index = if (op.index.id == oldValue.id) newValue.copy(id = getRandom()) else op.index,
+                value = if (op.value.id == oldValue.id) newValue else op.value,
+            )
+
             else -> op
         }
     }

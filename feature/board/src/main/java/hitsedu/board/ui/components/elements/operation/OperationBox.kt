@@ -29,6 +29,7 @@ import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.EditNameAlertDialog
 import hitsedu.ui_kit.R
 import hitsedu.ui_kit.models.ScopeUIO
+import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
@@ -42,7 +43,8 @@ fun OperationBox(
     onDeleteClick: () -> Unit = { },
     content: @Composable () -> Unit,
 ) {
-    val isValid = operationUIO is OperationVariableUIO || operationUIO is OperationArrayUIO
+    val isValid = operationUIO is OperationVariableUIO ||
+            operationUIO is OperationArrayUIO || operationUIO is OperationArrayIndexUIO
     val openAlertDialog = remember { mutableStateOf(false) }
 
     when {

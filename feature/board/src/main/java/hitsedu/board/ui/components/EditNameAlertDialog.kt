@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.ui_kit.R
 import hitsedu.ui_kit.models.ScopeUIO
+import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
@@ -38,6 +39,7 @@ fun EditNameAlertDialog(
         input = when (operationUIO) {
             is OperationVariableUIO -> operationUIO.name
             is OperationArrayUIO -> operationUIO.name
+            is OperationArrayIndexUIO -> operationUIO.name
             else -> ""
         }
     }
@@ -47,6 +49,7 @@ fun EditNameAlertDialog(
             val text = when (operationUIO) {
                 is OperationArrayUIO -> R.string.array
                 is OperationVariableUIO -> R.string.variable
+                is OperationArrayIndexUIO -> R.string.array
                 else -> 0
             }
             Text(
@@ -62,6 +65,7 @@ fun EditNameAlertDialog(
                 val text = when (operationUIO) {
                     is OperationArrayUIO -> R.string.edit_array
                     is OperationVariableUIO -> R.string.edit_variable
+                    is OperationArrayIndexUIO -> R.string.edit_array
                     else -> 0
                 }
                 Text(
@@ -96,6 +100,7 @@ fun EditNameAlertDialog(
                     when (operationUIO) {
                         is OperationVariableUIO -> viewModel.updateName(parent, operationUIO, input)
                         is OperationArrayUIO -> viewModel.updateName(parent, operationUIO, input)
+                        is OperationArrayIndexUIO -> viewModel.updateName(parent, operationUIO, input)
                         else -> {}
                     }
                     onDismissRequest()

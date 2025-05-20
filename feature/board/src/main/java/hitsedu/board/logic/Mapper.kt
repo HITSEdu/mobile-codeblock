@@ -5,6 +5,7 @@ import hitsedu.interpreter.models.Scope
 import hitsedu.interpreter.models.Value
 import hitsedu.interpreter.models.operation.Operation
 import hitsedu.interpreter.models.operation.OperationArray
+import hitsedu.interpreter.models.operation.OperationArrayIndex
 import hitsedu.interpreter.models.operation.OperationElse
 import hitsedu.interpreter.models.operation.OperationFor
 import hitsedu.interpreter.models.operation.OperationIf
@@ -13,6 +14,7 @@ import hitsedu.interpreter.models.operation.OperationVariable
 import hitsedu.ui_kit.models.ProjectUIO
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.ValueUIO
+import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationElseUIO
 import hitsedu.ui_kit.models.operation.OperationForUIO
@@ -54,7 +56,11 @@ fun OperationUIO.toOperation(): Operation = when (this) {
 
     is OperationForUIO -> OperationFor(
         scope = scope.toScope(),
-        variable = variable.toValue(),
+        variable = OperationVariable(
+            name = variable.name,
+            value = variable.value.toValue(),
+            id = variable.id
+        ),
         condition = condition.toValue(),
         value = value.toValue(),
         id = id,
@@ -72,6 +78,13 @@ fun OperationUIO.toOperation(): Operation = when (this) {
     )
 
     is OperationOutputUIO -> OperationOutput(
+        value = value.toValue(),
+        id = id,
+    )
+
+    is OperationArrayIndexUIO -> OperationArrayIndex(
+        name = name,
+        index = index.toValue(),
         value = value.toValue(),
         id = id,
     )
@@ -110,7 +123,11 @@ fun Operation.toOperationUIO(): OperationUIO = when (this) {
 
     is OperationFor -> OperationForUIO(
         scope = scope.toScopeUIO(),
-        variable = variable.toValueUIO(),
+        variable = OperationVariableUIO(
+            name = variable.name,
+            value = variable.value.toValueUIO(),
+            id = variable.id,
+        ),
         condition = condition.toValueUIO(),
         value = value.toValueUIO(),
         id = id,
@@ -128,6 +145,13 @@ fun Operation.toOperationUIO(): OperationUIO = when (this) {
     )
 
     is OperationOutput -> OperationOutputUIO(
+        value = value.toValueUIO(),
+        id = id,
+    )
+
+    is OperationArrayIndex -> OperationArrayIndexUIO(
+        name = name,
+        index = index.toValueUIO(),
         value = value.toValueUIO(),
         id = id,
     )

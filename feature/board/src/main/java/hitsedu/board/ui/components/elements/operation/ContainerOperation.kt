@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.dnd.DropHere
 import hitsedu.ui_kit.models.ScopeUIO
+import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationElseUIO
 import hitsedu.ui_kit.models.operation.OperationForUIO
@@ -36,6 +37,7 @@ fun ContainerOperation(
             val operationWithId = when (operation) {
                 is OperationVariableUIO -> operation.copy(id = viewModel.getRandom())
                 is OperationArrayUIO -> operation.copy(id = viewModel.getRandom())
+                is OperationArrayIndexUIO -> operation.copy(id = viewModel.getRandom())
                 is OperationIfUIO -> {
                     val newScope = ScopeUIO(
                         operationUIOS = operation.scope.operationUIOS,

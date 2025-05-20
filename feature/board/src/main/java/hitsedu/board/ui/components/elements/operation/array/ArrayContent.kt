@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.dnd.DraggableItem
+import hitsedu.board.ui.components.elements.operation.array.actions.ArrayIndexMock
 import hitsedu.board.ui.components.elements.operation.array.actions.ArrayMock
 import hitsedu.board.ui.utils.Default
 
@@ -39,6 +40,18 @@ fun ArrayContent(
             onDragStart = onDragStart,
         ) {
             ArrayMock()
+        }
+        Text(
+            text = stringResource(hitsedu.ui_kit.R.string.array_index),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onPrimary,
+        )
+        DraggableItem(
+            dataToDrop = Default.arrayIndex,
+            viewModel = viewModel,
+            onDragStart = onDragStart,
+        ) {
+            ArrayIndexMock()
         }
     }
 }

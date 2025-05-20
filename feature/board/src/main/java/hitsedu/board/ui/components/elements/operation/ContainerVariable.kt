@@ -17,23 +17,27 @@ import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.dnd.DropHere
 import hitsedu.ui_kit.R
+import hitsedu.ui_kit.models.ScopeUIO
+import hitsedu.ui_kit.models.operation.OperationForUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
 import hitsedu.ui_kit.theme.red
 
 @Composable
 fun ContainerVariable(
+    parentScope: ScopeUIO,
     parentOperation: OperationUIO,
     viewModel: BoardViewModel,
 ) {
     DropHere(OperationVariableUIO::class) { isInBound, operation ->
         if (operation != null) {
             LaunchedEffect(key1 = operation) {
-                TODO("")
-//                viewModel.addVariableToOperation(
-//                    operation = parentOperation,
-//                    variable = operation.copy(id = viewModel.getRandom())
-//                )
+                if (parentOperation is OperationForUIO)
+                    viewModel.addVariableToFor(
+                        parentScope = parentScope,
+                        parent = parentOperation,
+                        operation = operation,
+                    )
             }
         }
         val text = if (isInBound) R.string.drop else R.string.variable

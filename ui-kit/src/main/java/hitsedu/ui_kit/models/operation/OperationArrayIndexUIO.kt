@@ -2,9 +2,9 @@ package hitsedu.ui_kit.models.operation
 
 import hitsedu.ui_kit.models.ValueUIO
 
-data class OperationArrayUIO(
+data class OperationArrayIndexUIO(
     val name: String,
-    val size: Int = 0,
-    val values: List<ValueUIO>,
+    val index: ValueUIO,
+    val value: ValueUIO,
     override val id: Long = 0,
 ) : OperationUIO(id)
