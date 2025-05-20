@@ -1,10 +1,10 @@
 package hitsedu.interpreter.models.operation
 
-import hitsedu.interpreter.models.data.DataType
+import hitsedu.interpreter.models.Value
 
 data class OperationArray(
     val name: String,
     val size: Int,
-    val type: DataType,
-    val values: List<OperationValue>,
-) : Operation()
+    val values: List<Value>,
+    override val id: Long = 0,
+) : Operation(id)
