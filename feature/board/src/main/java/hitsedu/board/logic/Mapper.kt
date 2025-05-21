@@ -56,11 +56,7 @@ fun OperationUIO.toOperation(): Operation = when (this) {
 
     is OperationForUIO -> OperationFor(
         scope = scope.toScope(),
-        variable = OperationVariable(
-            name = variable.name,
-            value = variable.value.toValue(),
-            id = variable.id
-        ),
+        variable = variable.toValue(),
         condition = condition.toValue(),
         value = value.toValue(),
         id = id,
@@ -123,11 +119,7 @@ fun Operation.toOperationUIO(): OperationUIO = when (this) {
 
     is OperationFor -> OperationForUIO(
         scope = scope.toScopeUIO(),
-        variable = OperationVariableUIO(
-            name = variable.name,
-            value = variable.value.toValueUIO(),
-            id = variable.id,
-        ),
+        variable = variable.toValueUIO(),
         condition = condition.toValueUIO(),
         value = value.toValueUIO(),
         id = id,

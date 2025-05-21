@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.elements.operation.array.actions.Array
 import hitsedu.board.ui.components.elements.operation.array.actions.ArrayIndex
-import hitsedu.board.ui.components.elements.operation.array.actions.ArrayIndexMock
 import hitsedu.board.ui.components.elements.operation.condition.actions.ConditionElse
 import hitsedu.board.ui.components.elements.operation.condition.actions.ConditionIf
 import hitsedu.board.ui.components.elements.operation.loop.actions.Loop

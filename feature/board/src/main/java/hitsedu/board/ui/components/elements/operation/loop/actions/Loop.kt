@@ -15,9 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.elements.operation.ContainerOperation
-import hitsedu.board.ui.components.elements.operation.ContainerVariable
 import hitsedu.board.ui.components.elements.operation.OperationBox
-import hitsedu.board.ui.components.elements.operation.variable.actions.Variable
 import hitsedu.board.ui.components.elements.value.ContainerValue
 import hitsedu.board.ui.components.elements.value.Value
 import hitsedu.board.ui.utils.RenderOperation
@@ -59,17 +57,19 @@ fun Loop(
                     style = MaterialTheme.typography.titleSmall,
                     color = darkPrimary,
                 )
-                if (loop.variable.id == 0L)
-                    ContainerVariable(
-                        parentScope = parentScope,
-                        parentOperation = loop,
+                if (loop.variable.value.isBlank())
+                    ContainerValue(
+                        parent = loop,
                         viewModel = viewModel,
                     )
                 else
-                    Variable(
-                        parentScope = parentScope,
-                        variable = loop.variable,
+                    Value(
+                        parent = loop,
+                        value = loop.variable,
                         viewModel = viewModel,
+                        onDeleteClick = {
+                            viewModel.removeValue(loop, loop.variable)
+                        },
                     )
             }
             Row(

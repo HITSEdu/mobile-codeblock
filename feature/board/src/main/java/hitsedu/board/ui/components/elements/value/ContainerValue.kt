@@ -17,14 +17,7 @@ import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.dnd.DropHere
 import hitsedu.ui_kit.models.ValueUIO
-import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
-import hitsedu.ui_kit.models.operation.OperationArrayUIO
-import hitsedu.ui_kit.models.operation.OperationElseUIO
-import hitsedu.ui_kit.models.operation.OperationForUIO
-import hitsedu.ui_kit.models.operation.OperationIfUIO
-import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
-import hitsedu.ui_kit.models.operation.OperationVariableUIO
 import hitsedu.ui_kit.theme.red
 
 @Composable

@@ -1,6 +1,5 @@
 package hitsedu.board.ui.utils
 
-import hitsedu.interpreter.models.operation.OperationArray
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.ValueUIO
 import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
@@ -30,10 +29,7 @@ object Default {
 
     val loop = OperationForUIO(
         scope = ScopeUIO(operationUIOS = emptyList()),
-        variable = OperationVariableUIO(
-            name = "i",
-            value = ValueUIO(),
-        ),
+        variable = ValueUIO(),
         condition = ValueUIO(),
         value = ValueUIO(),
     )

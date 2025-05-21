@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import hitsedu.board.ui.components.elements.operation.variable.actions.Variable
 import hitsedu.board.ui.utils.UpdateType
 import hitsedu.ui_kit.models.ScopeGlobalUIO
 import hitsedu.ui_kit.models.ScopeUIO
@@ -118,7 +117,7 @@ class BoardViewModel(
             is OperationArrayUIO -> parent.copy(values = parent.values + value.copy(id = getRandom()))
             is OperationIfUIO -> parent.copy(value = value.copy(id = getRandom()))
             is OperationForUIO -> parent.copy(
-                variable = parent.variable.copy(value = value.copy(id = getRandom())),
+                variable = value.copy(id = getRandom()),
                 condition = value.copy(id = getRandom()),
                 value = value.copy(id = getRandom()),
             )
@@ -150,7 +149,7 @@ class BoardViewModel(
             is OperationArrayUIO -> parent.copy(values = parent.values.filterNot { it == value })
             is OperationIfUIO -> parent.copy(value = ValueUIO())
             is OperationForUIO -> parent.copy(
-                variable = parent.variable.copy(value = ValueUIO()),
+                variable = ValueUIO(),
                 condition = ValueUIO(),
                 value = ValueUIO(),
             )
@@ -202,22 +201,6 @@ class BoardViewModel(
         updateGlobalScope(operation, UpdateType.DELETE)
     }
 
-    fun addVariableToFor(
-        parentScope: ScopeUIO,
-        parent: OperationForUIO,
-        operation: OperationVariableUIO,
-    ) {
-        val new = parent.copy(variable = operation.copy(id = getRandom()))
-
-        _globalScope.update { root ->
-            updateScope(
-                root,
-                parentScope,
-                new,
-                UpdateType.REPLACE,
-            ) as ScopeGlobalUIO
-        }
-    }
 
     private fun updateScope(
         scope: ScopeUIO,
@@ -239,10 +222,7 @@ class BoardViewModel(
             newOperationUIOS = scope.operationUIOS.map { o ->
                 when (o) {
                     is OperationIfUIO -> o.copy(scope = updateScope(o.scope, parent, operation, type))
-                    is OperationForUIO -> o.copy(
-                        variable = o.variable.copy(),
-                        scope = updateScope(o.scope, parent, operation, type)
-                    )
+                    is OperationForUIO -> o.copy(scope = updateScope(o.scope, parent, operation, type))
                     is OperationElseUIO -> o.copy(scope = updateScope(o.scope, parent, operation, type))
                     else -> o
                 }
@@ -355,20 +335,13 @@ class BoardViewModel(
             is OperationForUIO ->
                 when (type) {
                     UpdateType.ADD -> op.copy(
-                        variable = OperationVariableUIO(
-                            name = op.variable.name,
-                            value = value.copy(id = getRandom()),
-                            id = getRandom(),
-                        ),
+                        variable = value.copy(id = getRandom()),
                         condition = value.copy(id = getRandom()),
                         value = value.copy(id = getRandom()),
                     )
 
                     UpdateType.DELETE -> op.copy(
-                        variable = OperationVariableUIO(
-                            name = op.variable.name,
-                            value = ValueUIO(),
-                        ),
+                        variable = ValueUIO(),
                         condition = ValueUIO(),
                         value = ValueUIO(),
                     )
@@ -462,6 +435,7 @@ class BoardViewModel(
             is OperationIfUIO -> op.copy(value = newValue.copy(id = newId))
             is OperationForUIO ->
                 op.copy(
+                    variable = if (op.variable.id == oldValue.id) newValue.copy(id = newId) else op.variable,
                     condition = if (op.condition.id == oldValue.id) newValue.copy(id = newId) else op.condition,
                     value = if (op.value.id == oldValue.id) newValue.copy(id = newId) else op.value,
                 )
