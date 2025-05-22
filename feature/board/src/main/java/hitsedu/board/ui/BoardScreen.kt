@@ -1,8 +1,11 @@
 package hitsedu.board.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -14,13 +17,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import hitsedu.board.ui.components.Console
 import hitsedu.board.ui.components.Elements
 import hitsedu.board.ui.components.FunctionMain
 import hitsedu.board.ui.components.MoveWrapper
 import hitsedu.board.ui.components.Workspace
 import hitsedu.board.ui.components.dnd.DraggableScreen
+import hitsedu.board.ui.utils.BottomSheetClick
+import hitsedu.ui_kit.R
 import hitsedu.ui_kit.components.BottomContainer
 import hitsedu.ui_kit.components.BottomSheet
 import hitsedu.ui_kit.components.ButtonBoard
@@ -49,6 +56,7 @@ private fun BoardScreenUI(
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
+    var bottomSheetContent = BottomSheetClick.CONSOLE
     val scope = rememberCoroutineScope()
 
     DraggableScreen {
@@ -65,14 +73,35 @@ private fun BoardScreenUI(
             },
             bottomBar = {
                 BottomContainer {
-                    ButtonBoard(
-                        onClick = {
-                            scope.launch {
-                                viewModel.expandBottomSheet()
-                                sheetState.expand()
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        ButtonBoard(
+                            text = R.string.elements,
+                            icon = R.drawable.icon_element,
+                            onClick = {
+                                bottomSheetContent = BottomSheetClick.ELEMENTS
+                                scope.launch {
+                                    viewModel.expandBottomSheet()
+                                    sheetState.expand()
+                                }
                             }
-                        }
-                    )
+                        )
+                        ButtonBoard(
+                            text = R.string.console,
+                            icon = R.drawable.icon_console,
+                            onClick = {
+                                bottomSheetContent = BottomSheetClick.CONSOLE
+                                scope.launch {
+                                    viewModel.expandBottomSheet()
+                                    sheetState.expand()
+                                }
+                            }
+                        )
+                    }
                 }
             },
             containerColor = MaterialTheme.colorScheme.background,
@@ -101,12 +130,17 @@ private fun BoardScreenUI(
                     }
                 }
             ) {
-                Elements(
-                    viewModel = viewModel,
-                    onDragStart = {
-                        scope.launch { sheetState.hide() }
-                    },
-                )
+                when (bottomSheetContent) {
+                    BottomSheetClick.ELEMENTS -> Elements(
+                        viewModel = viewModel,
+                        onDragStart = {
+                            scope.launch { sheetState.hide() }
+                        },
+                    )
+                    BottomSheetClick.CONSOLE -> Console(
+
+                    )
+                }
             }
         }
     }

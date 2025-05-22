@@ -34,7 +34,7 @@ fun Value(
             Text(
                 text = value.value,
                 style = MaterialTheme.typography.bodyMedium,
-                color = darkPrimary,
+                color = MaterialTheme.colorScheme.onPrimary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

@@ -46,4 +46,6 @@
     <string name="for_stop">stop</string>
     <string name="for_step">step</string>
     <string name="array_index">Index of array</string>
+    <string name="console">Console</string>
+    <string name="elements">Elements</string>
 </resources>

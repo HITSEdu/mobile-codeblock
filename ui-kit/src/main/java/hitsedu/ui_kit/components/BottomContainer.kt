@@ -33,13 +33,6 @@ fun BottomContainer(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Box(
-            modifier = Modifier
-                .height(4.dp)
-                .width(64.dp)
-                .clip(CircleShape)
-                .background(Color.White.copy(0.3f)),
-        )
         content()
     }
 }
