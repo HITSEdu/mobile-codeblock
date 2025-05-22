@@ -1,6 +1,7 @@
 package hitsedu.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -16,11 +17,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hitsedu.ui_kit.components.BottomContainer
 import hitsedu.ui_kit.components.ButtonCreate
+import hitsedu.ui_kit.components.ButtonInfo
 
 @Composable
 fun BottomSection(
     onBoardClick: () -> Unit,
     onScriptClick: () -> Unit,
+    onInfoClick: () -> Unit,
 ) {
     BottomContainer {
         Row(
@@ -31,7 +34,7 @@ fun BottomSection(
         ) {
             Text(
                 text = stringResource(hitsedu.ui_kit.R.string.create),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
             )
@@ -51,21 +54,34 @@ fun BottomSection(
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.spacedBy(24.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ButtonCreate(
-                icon = hitsedu.ui_kit.R.drawable.icon_board,
-                text = hitsedu.ui_kit.R.string.board,
-                backgroundColor = MaterialTheme.colorScheme.primary,
-                onClick = onBoardClick
-            )
-            ButtonCreate(
-                icon = hitsedu.ui_kit.R.drawable.icon_script,
-                text = hitsedu.ui_kit.R.string.script,
-                backgroundColor = MaterialTheme.colorScheme.secondary,
-                onClick = onScriptClick
-            )
+            Box(
+                modifier = Modifier.weight(1f),
+            ) {
+                ButtonCreate(
+                    icon = hitsedu.ui_kit.R.drawable.icon_board,
+                    text = hitsedu.ui_kit.R.string.board,
+                    backgroundColor = MaterialTheme.colorScheme.primary,
+                    onClick = onBoardClick
+                )
+            }
+            Box(
+                modifier = Modifier.weight(1f),
+            ) {
+                ButtonCreate(
+                    icon = hitsedu.ui_kit.R.drawable.icon_script,
+                    text = hitsedu.ui_kit.R.string.script,
+                    backgroundColor = MaterialTheme.colorScheme.secondary,
+                    onClick = onScriptClick
+                )
+            }
         }
+        ButtonInfo(
+            icon = hitsedu.ui_kit.R.drawable.icon_help,
+            text = hitsedu.ui_kit.R.string.documentation,
+            onClick = onInfoClick,
+        )
     }
 }

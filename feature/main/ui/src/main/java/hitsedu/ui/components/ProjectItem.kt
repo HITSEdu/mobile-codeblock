@@ -31,6 +31,8 @@ import hitsedu.ui_kit.R
 @Composable
 fun ProjectItem(
     caption: String,
+    onNavigate: () -> Unit,
+    onDelete: () -> Unit,
     // navController
 ) {
     val containerColor = MaterialTheme.colorScheme.primary
@@ -83,14 +85,14 @@ fun ProjectItem(
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
-//                    TODO("Edit")
+//                    TODO("Delete Project")
                 },
                 modifier = Modifier
                     .size(32.dp)
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.icon_edit),
-                    contentDescription = "Edit",
+                    painter = painterResource(R.drawable.icon_delete),
+                    contentDescription = "Delete",
                     modifier = Modifier
                         .size(24.dp)
                         .fillMaxSize()

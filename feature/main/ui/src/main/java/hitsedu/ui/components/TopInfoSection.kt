@@ -25,11 +25,7 @@ fun TopInfoSection(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        ButtonInfo(
-            icon = hitsedu.ui_kit.R.drawable.icon_help,
-            text = hitsedu.ui_kit.R.string.documentation,
-            onClick = onHelpClick,
-        )
+
         ButtonInfo(
             icon = hitsedu.ui_kit.R.drawable.icon_info,
             text = hitsedu.ui_kit.R.string.about,

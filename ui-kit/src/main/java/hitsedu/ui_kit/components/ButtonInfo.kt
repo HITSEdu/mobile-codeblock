@@ -1,11 +1,14 @@
 package hitsedu.ui_kit.components
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -30,38 +33,39 @@ fun ButtonInfo(
     Button(
         onClick = onClick,
         modifier = Modifier
-            .height(116.dp)
-            .width(172.dp)
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(10.dp),
-                ambientColor = MaterialTheme.colorScheme.onPrimary,
-            ),
-        shape = RoundedCornerShape(10.dp),
+            .height(48.dp)
+            .fillMaxWidth(),
+        border = BorderStroke(
+            width = 2.dp,
+            color = MaterialTheme.colorScheme.onPrimary.copy(0.3f),
+        ),
+        shape = RoundedCornerShape(12.dp),
         contentPadding = PaddingValues(4.dp),
         colors = ButtonDefaults.elevatedButtonColors(
             containerColor = MaterialTheme.colorScheme.primary,
         ),
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = "Info",
-                modifier = Modifier
-                    .size(24.dp)
-                    .align(Alignment.TopEnd),
-                tint = MaterialTheme.colorScheme.onPrimary,
-            )
             Text(
                 text = stringResource(text),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier
-                    .align(Alignment.Center),
+                modifier = Modifier,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
+            )
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = "Info",
+                modifier = Modifier
+                    .size(24.dp),
+                tint = MaterialTheme.colorScheme.onPrimary,
             )
         }
     }

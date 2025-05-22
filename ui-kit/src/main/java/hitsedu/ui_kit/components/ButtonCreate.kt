@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -33,9 +33,9 @@ fun ButtonCreate(
     Button(
         onClick = onClick,
         modifier = Modifier
-            .height(116.dp)
-            .width(172.dp),
-        shape = RoundedCornerShape(10.dp),
+            .height(92.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
         contentPadding = PaddingValues(4.dp),
         colors = ButtonDefaults.elevatedButtonColors(
             containerColor = backgroundColor,

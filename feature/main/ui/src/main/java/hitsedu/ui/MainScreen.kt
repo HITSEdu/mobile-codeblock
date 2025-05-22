@@ -28,11 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import hitsedu.ui.components.AboutContent
 import hitsedu.ui.components.BottomSection
 import hitsedu.ui.components.DocumentationContent
 import hitsedu.ui.components.ProjectItem
-import hitsedu.ui.components.TopInfoSection
 import hitsedu.ui_kit.Destinations
 import hitsedu.ui_kit.components.BottomSheet
 import hitsedu.ui_kit.components.Header
@@ -60,7 +58,6 @@ private fun MainScreenUI(
         skipPartiallyExpanded = true
     )
     val scope = rememberCoroutineScope()
-    var topSectionClick = TopSectionClick.ABOUT
 
     Scaffold(
         topBar = { Header() },
@@ -72,22 +69,6 @@ private fun MainScreenUI(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            TopInfoSection(
-                onHelpClick = {
-                    scope.launch {
-                        topSectionClick = TopSectionClick.DOCUMENTATION
-                        isBottomSheetVisible = true
-                        sheetState.expand()
-                    }
-                },
-                onInfoClick = {
-                    scope.launch {
-                        topSectionClick = TopSectionClick.ABOUT
-                        isBottomSheetVisible = true
-                        sheetState.expand()
-                    }
-                },
-            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -99,7 +80,7 @@ private fun MainScreenUI(
             ) {
                 Text(
                     text = stringResource(hitsedu.ui_kit.R.string.projects),
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier
                 )
@@ -127,7 +108,9 @@ private fun MainScreenUI(
             ) {
                 items(projects) { p ->
                     ProjectItem(
-                        p.caption,
+                        caption = p.caption,
+                        onNavigate = {},
+                        onDelete = {},
                     )
                 }
             }
@@ -138,6 +121,10 @@ private fun MainScreenUI(
                 onScriptClick = {
 
                 },
+                onInfoClick = {
+                    scope.launch { sheetState.expand() }
+                        .invokeOnCompletion { isBottomSheetVisible = true }
+                }
             )
         }
         BottomSheet(
@@ -148,10 +135,7 @@ private fun MainScreenUI(
                     .invokeOnCompletion { isBottomSheetVisible = false }
             }
         ) {
-            when (topSectionClick) {
-                TopSectionClick.DOCUMENTATION -> DocumentationContent()
-                TopSectionClick.ABOUT -> AboutContent()
-            }
+            DocumentationContent()
         }
     }
 }
