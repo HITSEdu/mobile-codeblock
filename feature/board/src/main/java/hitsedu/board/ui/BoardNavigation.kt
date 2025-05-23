@@ -1,6 +1,5 @@
 package hitsedu.board.ui
 
-import android.util.Log
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType

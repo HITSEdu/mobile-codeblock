@@ -1,7 +1,6 @@
 package hitsedu.ui.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,11 +32,7 @@ fun ProjectItem(
     caption: String,
     onNavigate: () -> Unit,
     onDelete: () -> Unit,
-    // navController
 ) {
-    val containerColor = MaterialTheme.colorScheme.primary
-    val icon = R.drawable.icon_board
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,8 +63,8 @@ fun ProjectItem(
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    painter = painterResource(icon),
-                    contentDescription = "Type",
+                    painter = painterResource(R.drawable.icon_board),
+                    contentDescription = "Project item",
                     modifier = Modifier
                         .fillMaxSize(),
                     tint = MaterialTheme.colorScheme.onPrimary,
@@ -78,6 +73,7 @@ fun ProjectItem(
             Text(
                 text = caption,
                 style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
             )

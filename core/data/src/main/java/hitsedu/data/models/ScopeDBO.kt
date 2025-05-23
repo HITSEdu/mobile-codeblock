@@ -1,7 +1,6 @@
 package hitsedu.data.models
 
 import hitsedu.data.models.operation.OperationDBO
-import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.Serializable
 
 @Serializable

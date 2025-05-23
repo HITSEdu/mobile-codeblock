@@ -3,7 +3,6 @@ package hitsedu.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hitsedu.data.ProjectRepository
-import hitsedu.data.models.ProjectDBO
 import hitsedu.ui_kit.models.ProjectUIO
 import hitsedu.ui_kit.utils.toProject
 import hitsedu.ui_kit.utils.toProjectUIO

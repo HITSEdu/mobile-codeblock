@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import hitsedu.board.ui.utils.Default
 import hitsedu.board.ui.utils.UpdateType
 import hitsedu.data.ProjectRepository
 import hitsedu.ui_kit.models.ProjectUIO
@@ -31,14 +32,6 @@ import kotlin.random.Random
 class BoardViewModel(
     private val repository: ProjectRepository,
 ) : ViewModel() {
-    /**
-     * Это просто ужас,
-     * я за 4 часа написал вью модель,
-     * там такой говнокод, я бы убил себя
-     * если у меня будет время, то я отрефакторю,
-     * но пока лишь бы работало, простите,
-     * я просто писал первое что пришло в голову
-     * **/
     private var isCurrentlyDragging by mutableStateOf(false)
     var isBottomSheetVisible by mutableStateOf(false)
 
@@ -58,21 +51,10 @@ class BoardViewModel(
         isBottomSheetVisible = false
     }
 
-    private val defaultProject = ProjectUIO(
-        caption = "Init",
-        scale = 1f,
-        scopeUIOS = emptyList(),
-        globalScope = ScopeUIO(
-            operationUIOS = emptyList(),
-            id = 75L
-        ),
-        id = 203L,
-    )
-
     private val _project = MutableStateFlow<ProjectUIO?>(null)
     val project: StateFlow<ProjectUIO?> = _project
 
-    private val _projectCaption = MutableStateFlow(_project.value?.caption ?: "Enter project name...")
+    private val _projectCaption = MutableStateFlow(_project.value?.caption ?: "Project №")
     val projectCaption: StateFlow<String> = _projectCaption
 
     fun setProjectCaption(newCaption: String) {
@@ -81,14 +63,6 @@ class BoardViewModel(
         viewModelScope.launch {
             repository.update(_project.value!!.toProject())
         }
-    }
-
-    private suspend fun initProject(id: Long): ProjectUIO {
-        val p = repository.get(id)?.toProjectUIO() ?: defaultProject
-        _project.value = p
-        _projectCaption.value = _project.value!!.caption
-        Log.e("Project value", _project.value.toString())
-        return p
     }
 
     fun init(id: Long) {
@@ -201,8 +175,6 @@ class BoardViewModel(
 
     fun addOperation(parent: ScopeUIO, operation: OperationUIO) {
         hideBottomSheet()
-        Log.e("Add operation", "$operation")
-        Log.e("Project", "${_project.value!!.globalScope}")
         _project.update { root ->
             updateProjectWithScope(root, parent, operation, UpdateType.ADD)
         }
@@ -253,7 +225,7 @@ class BoardViewModel(
         type: UpdateType,
     ) {
         val updatedGlobalScope = updateScopeWithOperation(
-            scope = _project.value?.globalScope ?: defaultProject.globalScope,
+            scope = _project.value?.globalScope ?: Default.project.globalScope,
             parent = parent,
             newValue = newValue,
             type = type,
@@ -264,89 +236,151 @@ class BoardViewModel(
         }
     }
 
-    private fun updateScopeWithOperation(
-        scope: ScopeUIO,
-        parent: OperationUIO,
-        newValue: ValueUIO,
-        type: UpdateType,
-    ): ScopeUIO {
-        val updatedOperations = scope.operationUIOS.map { op ->
-            if (op.id == parent.id) updateOperationWithValue(op, newValue, type)
-            else updateNestedOperation(op, parent, newValue, type)
-        }
-
-        return copyScope(scope, updatedOperations)
-    }
 
     private fun updateOperationWithValue(
         op: OperationUIO,
         value: ValueUIO,
         type: UpdateType,
-    ): OperationUIO {
-        return when (op) {
-            is OperationVariableUIO ->
-                when (type) {
-                    UpdateType.ADD -> op.copy(value = value.copy(id = getRandom()))
-                    UpdateType.DELETE -> op.copy(value = ValueUIO())
-                    UpdateType.REPLACE -> op
-                }
+    ): OperationUIO = when (op) {
+        is OperationVariableUIO ->
+            when (type) {
+                UpdateType.ADD -> op.copy(value = value.copy(id = getRandom()))
+                UpdateType.DELETE -> op.copy(value = ValueUIO())
+                UpdateType.REPLACE -> op
+            }
 
-            is OperationArrayUIO ->
-                when (type) {
-                    UpdateType.ADD -> op.copy(values = op.values + value.copy(id = getRandom()))
-                    UpdateType.DELETE -> op.copy(values = op.values.filterNot { it == value })
-                    UpdateType.REPLACE -> op
-                }
+        is OperationArrayUIO ->
+            when (type) {
+                UpdateType.ADD -> op.copy(values = op.values + value.copy(id = getRandom()))
+                UpdateType.DELETE -> op.copy(values = op.values.filterNot { it == value })
+                UpdateType.REPLACE -> op
+            }
 
-            is OperationIfUIO ->
-                when (type) {
-                    UpdateType.ADD -> op.copy(value = value.copy(id = getRandom()))
-                    UpdateType.DELETE -> op.copy(value = ValueUIO())
-                    UpdateType.REPLACE -> op
-                }
+        is OperationIfUIO ->
+            when (type) {
+                UpdateType.ADD -> op.copy(value = value.copy(id = getRandom()))
+                UpdateType.DELETE -> op.copy(value = ValueUIO())
+                UpdateType.REPLACE -> op
+            }
 
-            is OperationForUIO ->
-                when (type) {
-                    UpdateType.ADD -> op.copy(
-                        variable = value.copy(id = getRandom()),
-                        condition = value.copy(id = getRandom()),
-                        value = value.copy(id = getRandom()),
-                    )
+        is OperationForUIO ->
+            when (type) {
+                UpdateType.ADD -> op.copy(
+                    variable = value.copy(id = getRandom()),
+                    condition = value.copy(id = getRandom()),
+                    value = value.copy(id = getRandom()),
+                )
 
-                    UpdateType.DELETE -> op.copy(
-                        variable = ValueUIO(),
-                        condition = ValueUIO(),
-                        value = ValueUIO(),
-                    )
+                UpdateType.DELETE -> op.copy(
+                    variable = ValueUIO(),
+                    condition = ValueUIO(),
+                    value = ValueUIO(),
+                )
 
-                    UpdateType.REPLACE -> op
-                }
+                UpdateType.REPLACE -> op
+            }
 
-            is OperationOutputUIO ->
-                when (type) {
-                    UpdateType.ADD -> op.copy(value = value.copy(id = getRandom()))
-                    UpdateType.DELETE -> op.copy(value = ValueUIO())
-                    UpdateType.REPLACE -> op
-                }
+        is OperationOutputUIO ->
+            when (type) {
+                UpdateType.ADD -> op.copy(value = value.copy(id = getRandom()))
+                UpdateType.DELETE -> op.copy(value = ValueUIO())
+                UpdateType.REPLACE -> op
+            }
 
-            is OperationArrayIndexUIO ->
-                when (type) {
-                    UpdateType.ADD -> op.copy(
-                        index = value.copy(id = getRandom()),
-                        value = value.copy(id = getRandom())
-                    )
+        is OperationArrayIndexUIO ->
+            when (type) {
+                UpdateType.ADD -> op.copy(
+                    index = value.copy(id = getRandom()),
+                    value = value.copy(id = getRandom())
+                )
 
-                    UpdateType.DELETE -> op.copy(
-                        index = ValueUIO(),
-                        value = ValueUIO(),
-                    )
+                UpdateType.DELETE -> op.copy(
+                    index = ValueUIO(),
+                    value = ValueUIO(),
+                )
 
-                    UpdateType.REPLACE -> op
-                }
+                UpdateType.REPLACE -> op
+            }
 
-            else -> op
-        }
+        else -> op
     }
+
+    private fun updateValueInGlobalScope(
+        parent: OperationUIO,
+        oldValue: ValueUIO,
+        newValue: ValueUIO,
+    ) {
+        val updated = updateScopeValues(
+            scope = _project.value!!.globalScope,
+            parent = parent,
+            oldValue = oldValue,
+            newValue = newValue
+        )
+        _project.update { it?.copy(globalScope = updated) }
+    }
+
+
+    private fun replaceValueInOperation(
+        op: OperationUIO,
+        oldValue: ValueUIO,
+        newValue: ValueUIO,
+    ): OperationUIO = when (op) {
+        is OperationVariableUIO -> op.copy(value = newValue.copy(id = getRandom()))
+        is OperationArrayUIO ->
+            op.copy(
+                values = op.values.map { v ->
+                    if (v.id == oldValue.id) newValue.copy(id = getRandom()) else v
+                }
+            )
+
+        is OperationIfUIO -> op.copy(value = newValue.copy(id = getRandom()))
+        is OperationForUIO ->
+            op.copy(
+                variable = if (op.variable.id == oldValue.id) newValue.copy(id = getRandom()) else op.variable,
+                condition = if (op.condition.id == oldValue.id) newValue.copy(id = getRandom()) else op.condition,
+                value = if (op.value.id == oldValue.id) newValue.copy(id = getRandom()) else op.value,
+            )
+
+        is OperationOutputUIO -> op.copy(value = newValue.copy(id = getRandom()))
+        is OperationArrayIndexUIO -> op.copy(
+            index = if (op.index.id == oldValue.id) newValue.copy(id = getRandom()) else op.index,
+            value = if (op.value.id == oldValue.id) newValue else op.value,
+        )
+
+        else -> op
+    }
+
+    private fun updateScopeValues(
+        scope: ScopeUIO,
+        parent: OperationUIO,
+        oldValue: ValueUIO,
+        newValue: ValueUIO,
+    ): ScopeUIO = copyScope(scope, scope.operationUIOS.map { op ->
+        if (op.id == parent.id) replaceValueInOperation(op, oldValue, newValue)
+        else recurseNested(op, parent, oldValue, newValue)
+    })
+
+    private fun recurseNested(
+        op: OperationUIO,
+        parent: OperationUIO,
+        oldValue: ValueUIO,
+        newValue: ValueUIO,
+    ): OperationUIO = when (op) {
+        is OperationIfUIO -> op.copy(scope = updateScopeValues(op.scope, parent, oldValue, newValue))
+        is OperationForUIO -> op.copy(scope = updateScopeValues(op.scope, parent, oldValue, newValue))
+        is OperationElseUIO -> op.copy(scope = updateScopeValues(op.scope, parent, oldValue, newValue))
+        else -> op
+    }
+
+    private fun updateScopeWithOperation(
+        scope: ScopeUIO,
+        parent: OperationUIO,
+        newValue: ValueUIO,
+        type: UpdateType,
+    ): ScopeUIO = copyScope(scope, scope.operationUIOS.map { op ->
+        if (op.id == parent.id) updateOperationWithValue(op, newValue, type)
+        else updateNestedOperation(op, parent, newValue, type)
+    })
 
     private fun updateNestedOperation(
         op: OperationUIO,
@@ -360,81 +394,6 @@ class BoardViewModel(
         else -> op
     }
 
-    private fun updateValueInGlobalScope(
-        parent: OperationUIO,
-        oldValue: ValueUIO,
-        newValue: ValueUIO,
-    ) {
-
-        val updated = updateScopeValues(
-            scope = _project.value!!.globalScope,
-            parent = parent,
-            oldValue = oldValue,
-            newValue = newValue
-        )
-        _project.update { it?.copy(globalScope = updated) }
-    }
-
-    private fun updateScopeValues(
-        scope: ScopeUIO,
-        parent: OperationUIO,
-        oldValue: ValueUIO,
-        newValue: ValueUIO,
-    ): ScopeUIO {
-        val updatedOps = scope.operationUIOS.map { op ->
-            if (op.id == parent.id) replaceValueInOperation(op, oldValue, newValue)
-            else recurseNested(op, parent, oldValue, newValue)
-        }
-        return copyScope(scope, updatedOps)
-    }
-
-    private fun replaceValueInOperation(
-        op: OperationUIO,
-        oldValue: ValueUIO,
-        newValue: ValueUIO,
-    ): OperationUIO {
-        val newId = getRandom()
-        return when (op) {
-            is OperationVariableUIO -> op.copy(value = newValue.copy(id = newId))
-            is OperationArrayUIO ->
-                op.copy(
-                    values = op.values.map { v ->
-                        if (v.id == oldValue.id) newValue.copy(id = newId) else v
-                    }
-                )
-
-            is OperationIfUIO -> op.copy(value = newValue.copy(id = newId))
-            is OperationForUIO ->
-                op.copy(
-                    variable = if (op.variable.id == oldValue.id) newValue.copy(id = newId) else op.variable,
-                    condition = if (op.condition.id == oldValue.id) newValue.copy(id = newId) else op.condition,
-                    value = if (op.value.id == oldValue.id) newValue.copy(id = newId) else op.value,
-                )
-
-            is OperationOutputUIO -> op.copy(value = newValue.copy(id = newId))
-            is OperationArrayIndexUIO -> op.copy(
-                index = if (op.index.id == oldValue.id) newValue.copy(id = getRandom()) else op.index,
-                value = if (op.value.id == oldValue.id) newValue else op.value,
-            )
-
-            else -> op
-        }
-    }
-
-    private fun recurseNested(
-        op: OperationUIO,
-        parent: OperationUIO,
-        oldValue: ValueUIO,
-        newValue: ValueUIO,
-    ): OperationUIO {
-        return when (op) {
-            is OperationIfUIO -> op.copy(scope = updateScopeValues(op.scope, parent, oldValue, newValue))
-            is OperationForUIO -> op.copy(scope = updateScopeValues(op.scope, parent, oldValue, newValue))
-            is OperationElseUIO -> op.copy(scope = updateScopeValues(op.scope, parent, oldValue, newValue))
-            else -> op
-        }
-    }
-
     private fun updateProjectWithScope(
         project: ProjectUIO?,
         parent: ScopeUIO,
@@ -442,18 +401,22 @@ class BoardViewModel(
         type: UpdateType,
     ): ProjectUIO? {
         if (project == null) return null
-
         val updatedGlobalScope = updateScope(project.globalScope, parent, operation, type)
-
         val updatedScopeUIOS = project.scopeUIOS.map { scope ->
             if (scope == parent) {
                 updateScope(scope, parent, operation, type)
             } else scope
         }
-
         return project.copy(
             globalScope = updatedGlobalScope,
             scopeUIOS = updatedScopeUIOS
         )
+    }
+
+    private suspend fun initProject(id: Long): ProjectUIO {
+        val p = repository.get(id)?.toProjectUIO() ?: Default.project
+        _project.value = p
+        _projectCaption.value = _project.value!!.caption
+        return p
     }
 }
