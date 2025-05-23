@@ -23,6 +23,18 @@ navigationCompose = "2.8.6"
 # Splash screen
 coreSplashscreen = "1.0.0"
 
+# Serialization
+kotlin-serialization = "2.1.0"
+kotlin-serialization-json = "1.8.0-RC"
+
+# DataStore
+datastore = "1.1.7"
+
+# DI
+dagger = "2.51.1"
+javax-inject = "1"
+ksp = "2.0.20-1.0.25"
+
 # Project settings
 minSdk = "24"
 compileSdk = "34"
@@ -59,9 +71,25 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 # Splash screen
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 
+# Serialization
+kotlinx-serealization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
+
+# DataStore
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+
+# Dagger-Hilt
+dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+dagger-main = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

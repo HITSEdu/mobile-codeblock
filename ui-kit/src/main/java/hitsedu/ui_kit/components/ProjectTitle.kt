@@ -94,5 +94,5 @@ fun ProjectTitle(
 }
 
 fun checkTitleLength(title: String): Boolean {
-    return !(title.length <= 1 || title.length >= 30)
+    return title.length < 30
 }

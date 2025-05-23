@@ -27,6 +27,7 @@ fun ProjectUIO.toProject() = Project(
     caption = caption,
     scale = scale,
     scopes = scopeUIOS.map { it.toScope() },
+    globalScope = globalScope.toScope(),
     id = id,
 )
 
@@ -90,6 +91,7 @@ fun Project.toProjectUIO() = ProjectUIO(
     caption = caption,
     scale = scale,
     scopeUIOS = scopes.map { it.toScopeUIO() },
+    globalScope = globalScope.toScopeUIO(),
     id = id,
 )
 

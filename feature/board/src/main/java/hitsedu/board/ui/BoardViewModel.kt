@@ -5,8 +5,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import hitsedu.board.ui.utils.UpdateType
-import hitsedu.ui_kit.models.ScopeGlobalUIO
+import hitsedu.data.ProjectRepository
+import hitsedu.ui_kit.models.ProjectUIO
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.ValueUIO
 import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
@@ -18,13 +20,16 @@ import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
 import hitsedu.ui_kit.utils.copyScope
+import hitsedu.ui_kit.utils.toProject
+import hitsedu.ui_kit.utils.toProjectUIO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class BoardViewModel(
-
+    private val repository: ProjectRepository,
 ) : ViewModel() {
     /**
      * Это просто ужас,
@@ -53,19 +58,48 @@ class BoardViewModel(
         isBottomSheetVisible = false
     }
 
-    private var _globalScope = MutableStateFlow(
-        ScopeGlobalUIO(
+    private val defaultProject = ProjectUIO(
+        caption = "Init",
+        scale = 1f,
+        scopeUIOS = emptyList(),
+        globalScope = ScopeUIO(
             operationUIOS = emptyList(),
-            id = Random.nextLong(1, Long.MAX_VALUE),
-            variableUIOS = emptyList(),
-            arrayUIOS = emptyList(),
-        )
+            id = 75L
+        ),
+        id = 203L,
     )
-    val globalScope: StateFlow<ScopeUIO> = _globalScope
+
+    private val _project = MutableStateFlow<ProjectUIO?>(null)
+    val project: StateFlow<ProjectUIO?> = _project
+
+    private val _projectCaption = MutableStateFlow(_project.value?.caption ?: "Enter project name...")
+    val projectCaption: StateFlow<String> = _projectCaption
+
+    fun setProjectCaption(newCaption: String) {
+        _projectCaption.value = newCaption
+        _project.value = _project.value?.copy(caption = newCaption)
+        viewModelScope.launch {
+            repository.update(_project.value!!.toProject())
+        }
+    }
+
+    private suspend fun initProject(id: Long): ProjectUIO {
+        val p = repository.get(id)?.toProjectUIO() ?: defaultProject
+        _project.value = p
+        _projectCaption.value = _project.value!!.caption
+        Log.e("Project value", _project.value.toString())
+        return p
+    }
+
+    fun init(id: Long) {
+        viewModelScope.launch {
+            initProject(id)
+        }
+    }
 
     fun run() {
         // TODO()
-        Log.e("Run", globalScope.value.toString())
+        Log.e("Run", project.value!!.globalScope.operationUIOS.toString())
     }
 
     fun getRandom(): Long = Random.nextLong(1, Long.MAX_VALUE)
@@ -73,41 +107,27 @@ class BoardViewModel(
     fun updateName(parent: ScopeUIO, operation: OperationUIO, newName: String) {
         when (operation) {
             is OperationArrayUIO -> {
-                _globalScope.update { root ->
-                    updateScope(
-                        root,
-                        parent,
-                        operation.copy(name = newName),
-                        UpdateType.REPLACE
-                    ) as ScopeGlobalUIO
+                _project.update { root ->
+                    updateProjectWithScope(root, parent, operation.copy(name = newName), UpdateType.REPLACE)
                 }
-                updateGlobalScope(operation.copy(name = newName), UpdateType.REPLACE)
             }
 
             is OperationVariableUIO -> {
-                _globalScope.update { root ->
-                    updateScope(
-                        root,
-                        parent,
-                        operation.copy(name = newName),
-                        UpdateType.REPLACE
-                    ) as ScopeGlobalUIO
+                _project.update { root ->
+                    updateProjectWithScope(root, parent, operation.copy(name = newName), UpdateType.REPLACE)
                 }
-                updateGlobalScope(operation.copy(name = newName), UpdateType.REPLACE)
             }
 
             is OperationArrayIndexUIO -> {
-                _globalScope.update { root ->
-                    updateScope(
-                        root,
-                        parent,
-                        operation.copy(name = newName),
-                        UpdateType.REPLACE
-                    ) as ScopeGlobalUIO
+                _project.update { root ->
+                    updateProjectWithScope(root, parent, operation.copy(name = newName), UpdateType.REPLACE)
                 }
             }
 
             else -> {}
+        }
+        viewModelScope.launch {
+            repository.update(_project.value!!.toProject())
         }
     }
 
@@ -132,15 +152,10 @@ class BoardViewModel(
                 return
             }
         }
-        updateOperationValue(parent, value, UpdateType.ADD)
-        _globalScope.value = _globalScope.value.copy(
-            variableUIOS = _globalScope.value.variableUIOS.map {
-                if (it == parent) updatedOperation as OperationVariableUIO else it
-            },
-            arrayUIOS = _globalScope.value.arrayUIOS.map {
-                if (it == parent) updatedOperation as OperationArrayUIO else it
-            }
-        )
+        updateOperationValue(updatedOperation, value, UpdateType.ADD)
+        viewModelScope.launch {
+            repository.update(_project.value!!.toProject())
+        }
     }
 
     fun removeValue(parent: OperationUIO, value: ValueUIO) {
@@ -164,15 +179,10 @@ class BoardViewModel(
                 return
             }
         }
-        updateOperationValue(parent, value, type = UpdateType.DELETE)
-        _globalScope.value = _globalScope.value.copy(
-            variableUIOS = _globalScope.value.variableUIOS.map {
-                if (it == parent) updatedOperation as OperationVariableUIO else it
-            },
-            arrayUIOS = _globalScope.value.arrayUIOS.map {
-                if (it == parent) updatedOperation as OperationArrayUIO else it
-            }
-        )
+        updateOperationValue(updatedOperation, value, type = UpdateType.DELETE)
+        viewModelScope.launch {
+            repository.update(_project.value!!.toProject())
+        }
     }
 
     fun updateValue(parent: OperationUIO, value: ValueUIO, newValue: String) {
@@ -184,23 +194,31 @@ class BoardViewModel(
                 value = newValue,
             ),
         )
+        viewModelScope.launch {
+            repository.update(_project.value!!.toProject())
+        }
     }
 
     fun addOperation(parent: ScopeUIO, operation: OperationUIO) {
         hideBottomSheet()
-        _globalScope.update { root ->
-            updateScope(root, parent, operation, UpdateType.ADD) as ScopeGlobalUIO
+        Log.e("Add operation", "$operation")
+        Log.e("Project", "${_project.value!!.globalScope}")
+        _project.update { root ->
+            updateProjectWithScope(root, parent, operation, UpdateType.ADD)
         }
-        updateGlobalScope(operation, UpdateType.ADD)
+        viewModelScope.launch {
+            repository.update(_project.value!!.toProject())
+        }
     }
 
     fun removeOperation(parent: ScopeUIO, operation: OperationUIO) {
-        _globalScope.update { root ->
-            updateScope(root, parent, operation, UpdateType.DELETE) as ScopeGlobalUIO
+        _project.update { root ->
+            updateProjectWithScope(root, parent, operation, UpdateType.DELETE)
         }
-        updateGlobalScope(operation, UpdateType.DELETE)
+        viewModelScope.launch {
+            repository.update(_project.value!!.toProject())
+        }
     }
-
 
     private fun updateScope(
         scope: ScopeUIO,
@@ -208,7 +226,6 @@ class BoardViewModel(
         operation: OperationUIO,
         type: UpdateType,
     ): ScopeUIO = if (scope == parent) {
-        Log.e("vm", operation.toString())
         when (type) {
             UpdateType.ADD -> copyScope(scope, scope.operationUIOS + operation)
             UpdateType.DELETE -> copyScope(scope, scope.operationUIOS.filterNot { it == operation })
@@ -230,61 +247,21 @@ class BoardViewModel(
         )
     }
 
-    private fun updateGlobalScope(operation: OperationUIO, type: UpdateType) {
-        when (operation) {
-            is OperationArrayUIO -> {
-                when (type) {
-                    UpdateType.ADD -> _globalScope.value = _globalScope.value.copy(
-                        arrayUIOS = _globalScope.value.arrayUIOS + operation
-                    )
-
-                    UpdateType.DELETE -> _globalScope.value = _globalScope.value.copy(
-                        arrayUIOS = _globalScope.value.arrayUIOS.filterNot { it == operation }
-                    )
-
-                    UpdateType.REPLACE -> _globalScope.value = _globalScope.value.copy(
-                        arrayUIOS = _globalScope.value.arrayUIOS.map {
-                            if (it.id == operation.id) operation else it
-                        }
-                    )
-                }
-            }
-
-            is OperationVariableUIO -> {
-                when (type) {
-                    UpdateType.ADD -> _globalScope.value = _globalScope.value.copy(
-                        variableUIOS = _globalScope.value.variableUIOS + operation
-                    )
-
-                    UpdateType.DELETE -> _globalScope.value = _globalScope.value.copy(
-                        variableUIOS = _globalScope.value.variableUIOS.filterNot { it == operation }
-                    )
-
-                    UpdateType.REPLACE -> _globalScope.value = _globalScope.value.copy(
-                        variableUIOS = _globalScope.value.variableUIOS.map {
-                            if (it.id == operation.id) operation else it
-                        }
-                    )
-                }
-            }
-
-            else -> {}
-        }
-    }
-
     private fun updateOperationValue(
         parent: OperationUIO,
         newValue: ValueUIO,
         type: UpdateType,
     ) {
         val updatedGlobalScope = updateScopeWithOperation(
-            scope = _globalScope.value,
+            scope = _project.value?.globalScope ?: defaultProject.globalScope,
             parent = parent,
             newValue = newValue,
             type = type,
         )
 
-        _globalScope.value = updatedGlobalScope as ScopeGlobalUIO
+        _project.update {
+            it?.copy(globalScope = updatedGlobalScope)
+        }
     }
 
     private fun updateScopeWithOperation(
@@ -294,14 +271,11 @@ class BoardViewModel(
         type: UpdateType,
     ): ScopeUIO {
         val updatedOperations = scope.operationUIOS.map { op ->
-            if (op == parent) updateOperationWithValue(op, newValue, type)
+            if (op.id == parent.id) updateOperationWithValue(op, newValue, type)
             else updateNestedOperation(op, parent, newValue, type)
         }
 
-        return when (scope) {
-            is ScopeGlobalUIO -> scope.copy(operationUIOS = updatedOperations)
-            else -> copyScope(scope, updatedOperations)
-        }
+        return copyScope(scope, updatedOperations)
     }
 
     private fun updateOperationWithValue(
@@ -309,25 +283,24 @@ class BoardViewModel(
         value: ValueUIO,
         type: UpdateType,
     ): OperationUIO {
-        val newId = getRandom()
         return when (op) {
             is OperationVariableUIO ->
                 when (type) {
-                    UpdateType.ADD -> op.copy(value = value.copy(id = newId))
+                    UpdateType.ADD -> op.copy(value = value.copy(id = getRandom()))
                     UpdateType.DELETE -> op.copy(value = ValueUIO())
                     UpdateType.REPLACE -> op
                 }
 
             is OperationArrayUIO ->
                 when (type) {
-                    UpdateType.ADD -> op.copy(values = op.values + value.copy(id = newId))
+                    UpdateType.ADD -> op.copy(values = op.values + value.copy(id = getRandom()))
                     UpdateType.DELETE -> op.copy(values = op.values.filterNot { it == value })
                     UpdateType.REPLACE -> op
                 }
 
             is OperationIfUIO ->
                 when (type) {
-                    UpdateType.ADD -> op.copy(value = value.copy(id = newId))
+                    UpdateType.ADD -> op.copy(value = value.copy(id = getRandom()))
                     UpdateType.DELETE -> op.copy(value = ValueUIO())
                     UpdateType.REPLACE -> op
                 }
@@ -351,7 +324,7 @@ class BoardViewModel(
 
             is OperationOutputUIO ->
                 when (type) {
-                    UpdateType.ADD -> op.copy(value = value.copy(id = newId))
+                    UpdateType.ADD -> op.copy(value = value.copy(id = getRandom()))
                     UpdateType.DELETE -> op.copy(value = ValueUIO())
                     UpdateType.REPLACE -> op
                 }
@@ -359,7 +332,7 @@ class BoardViewModel(
             is OperationArrayIndexUIO ->
                 when (type) {
                     UpdateType.ADD -> op.copy(
-                        index = value.copy(id = newId),
+                        index = value.copy(id = getRandom()),
                         value = value.copy(id = getRandom())
                     )
 
@@ -392,13 +365,14 @@ class BoardViewModel(
         oldValue: ValueUIO,
         newValue: ValueUIO,
     ) {
+
         val updated = updateScopeValues(
-            scope = _globalScope.value,
+            scope = _project.value!!.globalScope,
             parent = parent,
             oldValue = oldValue,
             newValue = newValue
         )
-        _globalScope.value = updated as ScopeGlobalUIO
+        _project.update { it?.copy(globalScope = updated) }
     }
 
     private fun updateScopeValues(
@@ -408,13 +382,10 @@ class BoardViewModel(
         newValue: ValueUIO,
     ): ScopeUIO {
         val updatedOps = scope.operationUIOS.map { op ->
-            if (op == parent) replaceValueInOperation(op, oldValue, newValue)
+            if (op.id == parent.id) replaceValueInOperation(op, oldValue, newValue)
             else recurseNested(op, parent, oldValue, newValue)
         }
-        return when (scope) {
-            is ScopeGlobalUIO -> scope.copy(operationUIOS = updatedOps)
-            else -> copyScope(scope, updatedOps)
-        }
+        return copyScope(scope, updatedOps)
     }
 
     private fun replaceValueInOperation(
@@ -462,5 +433,27 @@ class BoardViewModel(
             is OperationElseUIO -> op.copy(scope = updateScopeValues(op.scope, parent, oldValue, newValue))
             else -> op
         }
+    }
+
+    private fun updateProjectWithScope(
+        project: ProjectUIO?,
+        parent: ScopeUIO,
+        operation: OperationUIO,
+        type: UpdateType,
+    ): ProjectUIO? {
+        if (project == null) return null
+
+        val updatedGlobalScope = updateScope(project.globalScope, parent, operation, type)
+
+        val updatedScopeUIOS = project.scopeUIOS.map { scope ->
+            if (scope == parent) {
+                updateScope(scope, parent, operation, type)
+            } else scope
+        }
+
+        return project.copy(
+            globalScope = updatedGlobalScope,
+            scopeUIOS = updatedScopeUIOS
+        )
     }
 }

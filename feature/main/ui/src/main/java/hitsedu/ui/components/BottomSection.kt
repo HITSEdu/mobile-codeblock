@@ -22,7 +22,7 @@ import hitsedu.ui_kit.components.ButtonInfo
 @Composable
 fun BottomSection(
     onBoardClick: () -> Unit,
-    onScriptClick: () -> Unit,
+    onTemplatesClick: () -> Unit,
     onInfoClick: () -> Unit,
 ) {
     BottomContainer {
@@ -72,9 +72,9 @@ fun BottomSection(
             ) {
                 ButtonCreate(
                     icon = hitsedu.ui_kit.R.drawable.icon_script,
-                    text = hitsedu.ui_kit.R.string.script,
+                    text = hitsedu.ui_kit.R.string.templates,
                     backgroundColor = MaterialTheme.colorScheme.secondary,
-                    onClick = onScriptClick
+                    onClick = onTemplatesClick
                 )
             }
         }

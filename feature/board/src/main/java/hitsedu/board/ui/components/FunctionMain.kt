@@ -38,13 +38,13 @@ import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.elements.operation.ContainerOperation
 import hitsedu.board.ui.utils.RenderOperation
 import hitsedu.ui_kit.R
+import hitsedu.ui_kit.models.ProjectUIO
 
 @Composable
 fun FunctionMain(
+    project: ProjectUIO,
     viewModel: BoardViewModel,
 ) {
-    val globalScope by viewModel.globalScope.collectAsState()
-
     Box(
         modifier = Modifier
             .padding(vertical = 12.dp)
@@ -69,10 +69,10 @@ fun FunctionMain(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
-            globalScope.operationUIOS.forEach { it.RenderOperation(globalScope, viewModel) }
+            project.globalScope.operationUIOS.forEach { it.RenderOperation(project.globalScope, viewModel) }
             Spacer(modifier = Modifier.height(4.dp))
             ContainerOperation(
-                parentScope = globalScope,
+                parentScope = project.globalScope,
                 viewModel = viewModel,
             )
         }

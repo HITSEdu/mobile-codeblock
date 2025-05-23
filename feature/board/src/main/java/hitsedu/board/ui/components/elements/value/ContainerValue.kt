@@ -29,15 +29,6 @@ fun ContainerValue(
         if (value is ValueUIO) {
             LaunchedEffect(key1 = value) {
                 viewModel.addValue(parent, value)
-//                when (parent) {
-//                    is OperationArrayUIO -> viewModel.addValue(parent, value)
-//                    is OperationVariableUIO -> viewModel.addValue(parent, value)
-//                    is OperationIfUIO -> viewModel.addValue(parent, value)
-//                    is OperationElseUIO -> viewModel.addValue(parent, value)
-//                    is OperationForUIO -> viewModel.addValue(parent, value)
-//                    is OperationOutputUIO -> viewModel.addValue(parent, value)
-//                    is OperationArrayIndexUIO -> viewModel.addValue(parent, value)
-//                }
             }
         }
         val text = if (isInBound) hitsedu.ui_kit.R.string.drop else hitsedu.ui_kit.R.string.drag_value
