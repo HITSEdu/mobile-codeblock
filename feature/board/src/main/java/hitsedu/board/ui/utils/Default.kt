@@ -1,5 +1,6 @@
 package hitsedu.board.ui.utils
 
+import hitsedu.ui_kit.models.ProjectUIO
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.ValueUIO
 import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
@@ -11,6 +12,17 @@ import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
 
 object Default {
+    val project = ProjectUIO(
+        caption = "",
+        scale = 1f,
+        scopeUIOS = emptyList(),
+        globalScope = ScopeUIO(
+            operationUIOS = emptyList(),
+            id = 75L
+        ),
+        id = 203L,
+    )
+
     val value = ValueUIO("0")
 
     val variable = OperationVariableUIO(

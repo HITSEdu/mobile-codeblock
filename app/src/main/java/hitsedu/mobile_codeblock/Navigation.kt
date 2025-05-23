@@ -14,7 +14,7 @@ fun Navigation() {
         val navController = rememberNavController()
         NavHost(
             navController = navController,
-            startDestination = Destinations.MAIN_SCREEN // Destinations.BOARD_SCREEN,
+            startDestination = Destinations.MAIN_SCREEN,
         ) {
             mainScreen(navController)
             boardScreen(navController)

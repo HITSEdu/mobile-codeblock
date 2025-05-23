@@ -31,4 +31,6 @@ dependencies {
     api(libs.androidx.ui.tooling.preview)
     api(libs.androidx.compose.runtime)
     api(libs.androidx.material3)
+    implementation(project(":core:data"))
+    implementation(project(":core:interpreter"))
 }

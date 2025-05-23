@@ -1,4 +1,4 @@
-package hitsedu.board.logic
+package hitsedu.ui_kit.utils.mapper
 
 import hitsedu.interpreter.models.Project
 import hitsedu.interpreter.models.Scope
@@ -45,14 +45,12 @@ fun OperationUIO.toOperation(): Operation = when (this) {
     is OperationVariableUIO -> OperationVariable(
         name = name,
         value = value.toValue(),
-        id = id,
     )
 
     is OperationArrayUIO -> OperationArray(
         name = name,
         size = size,
         values = values.map { it.toValue() },
-        id = id,
     )
 
     is OperationForUIO -> OperationFor(
@@ -60,30 +58,25 @@ fun OperationUIO.toOperation(): Operation = when (this) {
         variable = variable.toValue(),
         condition = condition.toValue(),
         value = value.toValue(),
-        id = id,
     )
 
     is OperationIfUIO -> OperationIf(
         scope = scope.toScope(),
         value = value.toValue(),
-        id = id,
     )
 
     is OperationElseUIO -> OperationElse(
         scope = scope.toScope(),
-        id = id,
     )
 
     is OperationOutputUIO -> OperationOutput(
         value = value.toValue(),
-        id = id,
     )
 
     is OperationArrayIndexUIO -> OperationArrayIndex(
         name = name,
         index = index.toValue(),
         value = value.toValue(),
-        id = id,
     )
 }
 

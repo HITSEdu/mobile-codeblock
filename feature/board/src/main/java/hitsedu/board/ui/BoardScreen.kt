@@ -12,13 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import hitsedu.board.ui.components.Console
 import hitsedu.board.ui.components.Elements
@@ -27,20 +26,28 @@ import hitsedu.board.ui.components.MoveWrapper
 import hitsedu.board.ui.components.Workspace
 import hitsedu.board.ui.components.dnd.DraggableScreen
 import hitsedu.board.ui.utils.BottomSheetClick
+import hitsedu.data.ProjectRepositoryImpl
+import hitsedu.interpreter.InterpreterImpl
 import hitsedu.ui_kit.R
 import hitsedu.ui_kit.components.BottomContainer
 import hitsedu.ui_kit.components.BottomSheet
 import hitsedu.ui_kit.components.ButtonBoard
 import hitsedu.ui_kit.components.Header
 import hitsedu.ui_kit.components.ProjectTitle
+import hitsedu.ui_kit.models.ProjectUIO
+import hitsedu.ui_kit.models.ScopeUIO
 import kotlinx.coroutines.launch
 
 @Composable
 fun BoardScreen(
+    id: Long,
     navController: NavHostController,
 ) {
-    val viewModel = BoardViewModel()
+    val repository = ProjectRepositoryImpl(LocalContext.current)
+    val interpreter = InterpreterImpl()
+    val viewModel = BoardViewModel(repository, interpreter)
     BoardScreenUI(
+        id,
         viewModel,
         navController,
     )
@@ -49,10 +56,14 @@ fun BoardScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun BoardScreenUI(
+    id: Long,
     viewModel: BoardViewModel,
     navController: NavHostController,
 ) {
-    var title by remember { mutableStateOf("Main board") }
+    viewModel.init(id)
+    val project by viewModel.project.collectAsState()
+
+    val title by viewModel.projectCaption.collectAsState()
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
@@ -66,7 +77,9 @@ private fun BoardScreenUI(
                     Header()
                     ProjectTitle(
                         title = title,
-                        onTitleChange = { title = it },
+                        onTitleChange = {
+                            viewModel.setProjectCaption(it)
+                        },
                         onBackClick = { navController.popBackStack() }
                     )
                 }
@@ -115,6 +128,21 @@ private fun BoardScreenUI(
                 Workspace {
                     MoveWrapper {
                         FunctionMain(
+                            project = project ?: ProjectUIO(
+                                caption = "test",
+                                scale = 1f,
+                                scopeUIOS = listOf(
+                                    ScopeUIO(
+                                        operationUIOS = emptyList(),
+                                        id = 1488L,
+                                    )
+                                ),
+                                globalScope = ScopeUIO(
+                                    operationUIOS = emptyList(),
+                                    id = 1488L,
+                                ),
+                                id = 9L,
+                            ),
                             viewModel = viewModel,
                         )
                     }
@@ -137,6 +165,7 @@ private fun BoardScreenUI(
                             scope.launch { sheetState.hide() }
                         },
                     )
+
                     BottomSheetClick.CONSOLE -> Console(
 
                     )

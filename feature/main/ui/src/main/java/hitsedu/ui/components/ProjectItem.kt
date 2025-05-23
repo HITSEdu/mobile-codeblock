@@ -1,7 +1,6 @@
 package hitsedu.ui.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,21 +32,17 @@ fun ProjectItem(
     caption: String,
     onNavigate: () -> Unit,
     onDelete: () -> Unit,
-    // navController
 ) {
-    val containerColor = MaterialTheme.colorScheme.primary
-    val icon = R.drawable.icon_board
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
             .clickable {
-//                TODO("Navigate to project detail")
+                onNavigate()
             },
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
-            containerColor = containerColor,
+            containerColor = MaterialTheme.colorScheme.background,
         ),
         border = BorderStroke(
             width = 2.dp,
@@ -64,29 +59,27 @@ fun ProjectItem(
             Box(
                 modifier = Modifier
                     .size(32.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(MaterialTheme.colorScheme.onPrimary.copy(0.8f)),
+                    .clip(RoundedCornerShape(10.dp)),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    painter = painterResource(icon),
-                    contentDescription = "Type",
+                    painter = painterResource(R.drawable.icon_board),
+                    contentDescription = "Project item",
                     modifier = Modifier
                         .fillMaxSize(),
-                    tint = containerColor,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                 )
             }
             Text(
                 text = caption,
                 style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
             )
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
-                onClick = {
-//                    TODO("Delete Project")
-                },
+                onClick = onDelete,
                 modifier = Modifier
                     .size(32.dp)
             ) {

@@ -1,4 +1,4 @@
 package hitsedu.interpreter
 
-class Interpreter {
+interface Interpreter {
 }
