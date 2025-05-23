@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import hitsedu.board.ui.utils.Default
 import hitsedu.board.ui.utils.UpdateType
 import hitsedu.data.ProjectRepository
+import hitsedu.interpreter.Interpreter
 import hitsedu.ui_kit.models.ProjectUIO
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.ValueUIO
@@ -21,8 +22,8 @@ import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
 import hitsedu.ui_kit.utils.copyScope
-import hitsedu.ui_kit.utils.toProject
-import hitsedu.ui_kit.utils.toProjectUIO
+import hitsedu.ui_kit.utils.mapper.toProjectDBO
+import hitsedu.ui_kit.utils.mapper.toProjectUIO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -31,6 +32,7 @@ import kotlin.random.Random
 
 class BoardViewModel(
     private val repository: ProjectRepository,
+    private val interpreter: Interpreter,
 ) : ViewModel() {
     private var isCurrentlyDragging by mutableStateOf(false)
     var isBottomSheetVisible by mutableStateOf(false)
@@ -61,7 +63,7 @@ class BoardViewModel(
         _projectCaption.value = newCaption
         _project.value = _project.value?.copy(caption = newCaption)
         viewModelScope.launch {
-            repository.update(_project.value!!.toProject())
+            repository.update(_project.value!!.toProjectDBO())
         }
     }
 
@@ -101,7 +103,7 @@ class BoardViewModel(
             else -> {}
         }
         viewModelScope.launch {
-            repository.update(_project.value!!.toProject())
+            repository.update(_project.value!!.toProjectDBO())
         }
     }
 
@@ -128,7 +130,7 @@ class BoardViewModel(
         }
         updateOperationValue(updatedOperation, value, UpdateType.ADD)
         viewModelScope.launch {
-            repository.update(_project.value!!.toProject())
+            repository.update(_project.value!!.toProjectDBO())
         }
     }
 
@@ -155,7 +157,7 @@ class BoardViewModel(
         }
         updateOperationValue(updatedOperation, value, type = UpdateType.DELETE)
         viewModelScope.launch {
-            repository.update(_project.value!!.toProject())
+            repository.update(_project.value!!.toProjectDBO())
         }
     }
 
@@ -169,7 +171,7 @@ class BoardViewModel(
             ),
         )
         viewModelScope.launch {
-            repository.update(_project.value!!.toProject())
+            repository.update(_project.value!!.toProjectDBO())
         }
     }
 
@@ -179,7 +181,7 @@ class BoardViewModel(
             updateProjectWithScope(root, parent, operation, UpdateType.ADD)
         }
         viewModelScope.launch {
-            repository.update(_project.value!!.toProject())
+            repository.update(_project.value!!.toProjectDBO())
         }
     }
 
@@ -188,7 +190,7 @@ class BoardViewModel(
             updateProjectWithScope(root, parent, operation, UpdateType.DELETE)
         }
         viewModelScope.launch {
-            repository.update(_project.value!!.toProject())
+            repository.update(_project.value!!.toProjectDBO())
         }
     }
 

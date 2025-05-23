@@ -27,6 +27,7 @@ import hitsedu.board.ui.components.Workspace
 import hitsedu.board.ui.components.dnd.DraggableScreen
 import hitsedu.board.ui.utils.BottomSheetClick
 import hitsedu.data.ProjectRepositoryImpl
+import hitsedu.interpreter.InterpreterImpl
 import hitsedu.ui_kit.R
 import hitsedu.ui_kit.components.BottomContainer
 import hitsedu.ui_kit.components.BottomSheet
@@ -43,7 +44,8 @@ fun BoardScreen(
     navController: NavHostController,
 ) {
     val repository = ProjectRepositoryImpl(LocalContext.current)
-    val viewModel = BoardViewModel(repository)
+    val interpreter = InterpreterImpl()
+    val viewModel = BoardViewModel(repository, interpreter)
     BoardScreenUI(
         id,
         viewModel,

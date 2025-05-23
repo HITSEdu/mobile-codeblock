@@ -48,7 +48,7 @@ import hitsedu.ui_kit.theme.blue
 import hitsedu.ui_kit.theme.orange
 import hitsedu.ui_kit.theme.pink
 import hitsedu.ui_kit.theme.purple
-import hitsedu.ui_kit.utils.toProjectUIO
+import hitsedu.ui_kit.utils.mapper.toProjectUIO
 import kotlinx.coroutines.launch
 
 @Composable

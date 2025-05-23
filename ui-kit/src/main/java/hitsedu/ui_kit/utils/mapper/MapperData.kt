@@ -1,4 +1,4 @@
-package hitsedu.ui_kit.utils
+package hitsedu.ui_kit.utils.mapper
 
 import hitsedu.data.models.ProjectDBO
 import hitsedu.data.models.ScopeDBO
@@ -23,60 +23,60 @@ import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
 
-fun ProjectUIO.toProject() = ProjectDBO(
+fun ProjectUIO.toProjectDBO() = ProjectDBO(
     caption = caption,
     scale = scale,
-    scopeDBOS = scopeUIOS.map { it.toScope() },
-    globalScope = globalScope.toScope(),
+    scopeDBOS = scopeUIOS.map { it.toScopeDBO() },
+    globalScope = globalScope.toScopeDBO(),
     id = id,
 )
 
-fun ScopeUIO.toScope() = ScopeDBO(
-    operationDBOS = operationUIOS.map { it.toOperation() },
+fun ScopeUIO.toScopeDBO() = ScopeDBO(
+    operationDBOS = operationUIOS.map { it.toOperationDBO() },
     id = id,
 )
 
-fun ValueUIO.toValue() = ValueDBO(
+fun ValueUIO.toValueDBO() = ValueDBO(
     value = value,
     id = id,
 )
 
-fun OperationUIO.toOperation(): OperationDBO = when (this) {
+fun OperationUIO.toOperationDBO(): OperationDBO = when (this) {
     is OperationVariableUIO -> OperationVariableDBO(
         name = name,
-        valueDBO = value.toValue(),
+        valueDBO = value.toValueDBO(),
     )
 
     is OperationArrayUIO -> OperationArrayDBO(
         name = name,
         size = size,
-        valueDBOS = values.map { it.toValue() },
+        valueDBOS = values.map { it.toValueDBO() },
     )
 
     is OperationForUIO -> OperationForDBO(
-        scopeDBO = scope.toScope(),
-        variable = variable.toValue(),
-        condition = condition.toValue(),
-        valueDBO = value.toValue(),
+        scopeDBO = scope.toScopeDBO(),
+        variable = variable.toValueDBO(),
+        condition = condition.toValueDBO(),
+        valueDBO = value.toValueDBO(),
     )
 
     is OperationIfUIO -> OperationIfDBO(
-        scopeDBO = scope.toScope(),
-        valueDBO = value.toValue(),
+        scopeDBO = scope.toScopeDBO(),
+        valueDBO = value.toValueDBO(),
     )
 
     is OperationElseUIO -> OperationElseDBO(
-        scopeDBO = scope.toScope(),
+        scopeDBO = scope.toScopeDBO(),
     )
 
     is OperationOutputUIO -> OperationOutputDBO(
-        valueDBO = value.toValue(),
+        valueDBO = value.toValueDBO(),
     )
 
     is OperationArrayIndexUIO -> OperationArrayIndexDBO(
         name = name,
-        index = index.toValue(),
-        valueDBO = value.toValue(),
+        index = index.toValueDBO(),
+        valueDBO = value.toValueDBO(),
     )
 }
 

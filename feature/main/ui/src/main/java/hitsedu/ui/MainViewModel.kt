@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hitsedu.data.ProjectRepository
 import hitsedu.ui_kit.models.ProjectUIO
-import hitsedu.ui_kit.utils.toProject
-import hitsedu.ui_kit.utils.toProjectUIO
+import hitsedu.ui_kit.utils.mapper.toProjectDBO
+import hitsedu.ui_kit.utils.mapper.toProjectUIO
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -24,7 +24,7 @@ class MainViewModel(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     fun add(project: ProjectUIO) = viewModelScope.launch {
-        repository.add(project.toProject())
+        repository.add(project.toProjectDBO())
     }
 
     fun delete(id: Long) = viewModelScope.launch {

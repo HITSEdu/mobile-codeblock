@@ -32,4 +32,5 @@ dependencies {
     api(libs.androidx.compose.runtime)
     api(libs.androidx.material3)
     implementation(project(":core:data"))
+    implementation(project(":core:interpreter"))
 }
