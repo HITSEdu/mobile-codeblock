@@ -188,7 +188,7 @@ private fun MainScreenUI(
                     .invokeOnCompletion { isTemplatesVisible = false }
             },
         ) {
-            val templates = TemplateBoards.templates.map { it.toProjectUIO() }
+            val templates = TemplateBoards.templates.map { it }
 
             val colorsMap = mapOf(
                 "Bubble Sort" to blue,

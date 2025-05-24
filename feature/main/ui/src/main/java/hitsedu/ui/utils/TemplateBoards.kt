@@ -1,37 +1,46 @@
 package hitsedu.ui.utils
 
-import hitsedu.data.models.ProjectDBO
-import hitsedu.data.models.ScopeDBO
+import hitsedu.ui_kit.models.ProjectUIO
+import hitsedu.ui_kit.models.ScopeUIO
 
 object TemplateBoards {
 
     // TODO("create templates")
-    private val templateBubbleSort = ProjectDBO(
+    private val templateBubbleSort = ProjectUIO(
         caption = "Bubble Sort",
         scale = 1f,
-        scopeDBOS = emptyList(),
-        globalScope = ScopeDBO(
-            operationDBOS = emptyList()
+        scopeUIOS = emptyList(),
+        globalScope = ScopeUIO(
+            operationUIOS = listOf(
+
+            ),
+            id = 10L,
         ),
         id = 0L,
     )
 
-    private val templateFibonacci = ProjectDBO(
+    private val templateFibonacci = ProjectUIO(
         caption = "Fibonacci",
         scale = 1f,
-        scopeDBOS = emptyList(),
-        globalScope = ScopeDBO(
-            operationDBOS = emptyList()
+        scopeUIOS = emptyList(),
+        globalScope = ScopeUIO(
+            operationUIOS = listOf(
+
+            ),
+            id = 11L,
         ),
         id = 1L,
     )
 
-    private val templateFactorial = ProjectDBO(
+    private val templateFactorial = ProjectUIO(
         caption = "Factorial",
         scale = 1f,
-        scopeDBOS = emptyList(),
-        globalScope = ScopeDBO(
-            operationDBOS = emptyList()
+        scopeUIOS = emptyList(),
+        globalScope = ScopeUIO(
+            operationUIOS = listOf(
+
+            ),
+            id = 12L,
         ),
         id = 2L,
     )
