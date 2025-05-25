@@ -21,6 +21,7 @@ import hitsedu.ui_kit.models.operation.OperationIfUIO
 import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
+import hitsedu.ui_kit.utils.TemplateBoards
 import hitsedu.ui_kit.utils.copyScope
 import hitsedu.ui_kit.utils.mapper.toProjectDBO
 import hitsedu.ui_kit.utils.mapper.toProjectUIO
@@ -68,8 +69,13 @@ class BoardViewModel(
     }
 
     fun init(id: Long) {
-        viewModelScope.launch {
-            initProject(id)
+        when (id) {
+            0L -> _project.value = TemplateBoards.templates[0]
+            1L -> _project.value = TemplateBoards.templates[1]
+            2L -> _project.value = TemplateBoards.templates[2]
+            else -> viewModelScope.launch {
+                initProject(id)
+            }
         }
     }
 

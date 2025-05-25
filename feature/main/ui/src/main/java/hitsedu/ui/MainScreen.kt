@@ -37,7 +37,7 @@ import hitsedu.ui.components.BottomSection
 import hitsedu.ui.components.DocumentationContent
 import hitsedu.ui.components.ProjectItem
 import hitsedu.ui.components.TemplateItem
-import hitsedu.ui.utils.TemplateBoards
+import hitsedu.ui_kit.utils.TemplateBoards
 import hitsedu.ui_kit.Destinations
 import hitsedu.ui_kit.R
 import hitsedu.ui_kit.components.BottomSheet
@@ -48,7 +48,6 @@ import hitsedu.ui_kit.theme.blue
 import hitsedu.ui_kit.theme.orange
 import hitsedu.ui_kit.theme.pink
 import hitsedu.ui_kit.theme.purple
-import hitsedu.ui_kit.utils.mapper.toProjectUIO
 import kotlinx.coroutines.launch
 
 @Composable

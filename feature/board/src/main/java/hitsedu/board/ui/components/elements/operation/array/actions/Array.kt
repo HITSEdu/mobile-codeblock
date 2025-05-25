@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
@@ -51,17 +54,12 @@ fun Array(
             style = MaterialTheme.typography.bodyMedium,
             color = darkPrimary,
         )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+        LazyRow(
             modifier = Modifier
                 .fillMaxWidth(0.6f)
                 .heightIn(max = 52.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            userScrollEnabled = true,
-            contentPadding = PaddingValues(
-                vertical = 4.dp,
-            ),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             items(array.values) { value ->
                 Value(
