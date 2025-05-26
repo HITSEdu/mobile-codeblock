@@ -11,14 +11,65 @@ import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
 
 object TemplateBoards {
-
-    // TODO("create templates")
     private val templateFibonacci = ProjectUIO(
         caption = "Fibonacci",
         scale = 1f,
         scopeUIOS = emptyList(),
         globalScope = ScopeUIO(
             operationUIOS = listOf(
+                OperationVariableUIO(
+                    name = "fib1",
+                    value = ValueUIO(value = "1", id = 5444079422085973806),
+                    id = 5474252861578428078
+                ),
+                OperationVariableUIO(
+                    name = "fib2",
+                    value = ValueUIO(value = "1", id = 4969679268660568987),
+                    id = 1641607409238507608
+                ),
+                OperationOutputUIO(
+                    value = ValueUIO(value = "fib1", id = 743715435025702227),
+                    id = 6294677763737691846
+                ),
+                OperationOutputUIO(
+                    value = ValueUIO(value = "fib2", id = 8619160022746302408),
+                    id = 8226619961881919021
+                ),
+                OperationVariableUIO(
+                    name = "n",
+                    value = ValueUIO(value = "8", id = 8046254054816703905),
+                    id = 5833065406319606471
+                ),
+                OperationForUIO(
+                    scope = ScopeUIO(
+                        operationUIOS = listOf(
+                            OperationVariableUIO(
+                                name = "tmp",
+                                value = ValueUIO(value = "fib1", id = 6205523753785772260),
+                                id = 8693895756309229491
+                            ),
+                            OperationVariableUIO(
+                                name = "fib1",
+                                value = ValueUIO(value = "fib2", id = 4721560872672198346),
+                                id = 3542015424851665495
+                            ),
+                            OperationVariableUIO(
+                                name = "fib2",
+                                value = ValueUIO(value = "fib2 + tmp", id = 7224779749948345158),
+                                id = 7467029361727140353
+                            ),
+                            OperationOutputUIO(
+                                value = ValueUIO(value = "fib2", id = 1233689031817663588),
+                                id = 8390398773412958622
+                            )
+                    ),
+                        id = 1488148814,
+                    ),
+                    variable = ValueUIO(value = "i = 2", id = 1401927823237040063),
+                    condition = ValueUIO(value = "i < n", id = 959695727859821036),
+                    value = ValueUIO(value = "1", id = 7608058419191111832),
+                    id = 4403605073771007443
+                )
 
             ),
             id = 10L,
@@ -126,7 +177,32 @@ object TemplateBoards {
         scopeUIOS = emptyList(),
         globalScope = ScopeUIO(
             operationUIOS = listOf(
-
+                OperationVariableUIO(
+                    name="n", value=ValueUIO(value="6", id=6135235190976617690), id=6718362626412260894
+                ),
+                OperationVariableUIO(
+                    name="factorial", value=ValueUIO(value="1", id=2315848672946864609), id=8015185842331283356
+                ),
+                OperationForUIO(
+                    scope=ScopeUIO(
+                        operationUIOS= listOf(
+                            OperationVariableUIO(
+                                name="factorial",
+                                value=ValueUIO(value="factorial * i", id=4642992067738745861),
+                                id=6673364128309762137,
+                            )
+                        ),
+                        id=99999653
+                    ),
+                    variable=ValueUIO(value="i = 2", id=5139477128428804218),
+                    condition=ValueUIO(value="i < n + 1", id=5595413765052933271),
+                    value=ValueUIO(value="1", id=8380124149128170437),
+                    id=6906137529296532862
+                ),
+                OperationOutputUIO(
+                    value=ValueUIO(value="factorial", id=8801044252029357540),
+                    id=2089160020644639638
+                )
             ),
             id = 12L,
         ),
