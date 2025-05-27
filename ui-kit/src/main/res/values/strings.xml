@@ -48,4 +48,10 @@
     <string name="array_index">Index of array</string>
     <string name="console">Console</string>
     <string name="elements">Elements</string>
+    <string name="docs_variable">About variables</string>
+    <string name="docs_condition">Conditional expressions</string>
+    <string name="docs_loop">For loop</string>
+    <string name="docs_value">About values</string>
+    <string name="docs_arrays">About arrays</string>
+    <string name="docs_basics">Basics</string>
 </resources>
