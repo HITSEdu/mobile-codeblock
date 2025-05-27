@@ -15,12 +15,16 @@ import hitsedu.board.ui.components.MockBox
 import hitsedu.ui_kit.theme.blue
 
 @Composable
-fun ArrayIndexDoc() {
+fun ArrayIndexDoc(
+    name: String,
+    index: String,
+    value: String,
+) {
     MockBox(
         backgroundColor = blue,
     ) {
         Text(
-            text = "arr",
+            text = name,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
@@ -39,7 +43,7 @@ fun ArrayIndexDoc() {
                 .padding(horizontal = 4.dp),
         ) {
             Text(
-                text = "4",
+                text = index,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.align(Alignment.Center),
@@ -66,7 +70,7 @@ fun ArrayIndexDoc() {
                 .padding(horizontal = 4.dp),
         ) {
             Text(
-                text = "16",
+                text = value,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.align(Alignment.Center),

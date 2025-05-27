@@ -22,7 +22,11 @@ import hitsedu.board.ui.components.MockBox
 import hitsedu.ui_kit.theme.green
 
 @Composable
-fun LoopDoc() {
+fun LoopDoc(
+    start: String,
+    stop: String,
+    step: String,
+) {
     MockBox(
         backgroundColor = green,
     ) {
@@ -51,7 +55,14 @@ fun LoopDoc() {
                             MaterialTheme.colorScheme.primary,
                             RoundedCornerShape(16.dp),
                         ),
-                )
+                ) {
+                    Text(
+                        text = start,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.align(Alignment.Center),
+                    )
+                }
             }
             Row(
                 modifier = Modifier
@@ -68,7 +79,7 @@ fun LoopDoc() {
                         )
                 ) {
                     Text(
-                        text = stringResource(hitsedu.ui_kit.R.string.for_start),
+                        text = stop,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.align(Alignment.Center),
@@ -83,7 +94,7 @@ fun LoopDoc() {
                         )
                 ) {
                     Text(
-                        text = stringResource(hitsedu.ui_kit.R.string.for_stop),
+                        text = step,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.align(Alignment.Center),
@@ -98,14 +109,7 @@ fun LoopDoc() {
                         RoundedCornerShape(16.dp),
                     )
                     .padding(horizontal = 4.dp),
-            ) {
-                Text(
-                    text = stringResource(hitsedu.ui_kit.R.string.for_step),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.align(Alignment.Center),
-                )
-            }
+            )
         }
     }
 }

@@ -51,7 +51,14 @@ fun LoopMock() {
                             MaterialTheme.colorScheme.primary,
                             RoundedCornerShape(16.dp),
                         ),
-                )
+                ) {
+                    Text(
+                        text = stringResource(hitsedu.ui_kit.R.string.for_start),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.align(Alignment.Center),
+                    )
+                }
             }
             Row(
                 modifier = Modifier
@@ -68,7 +75,7 @@ fun LoopMock() {
                         )
                 ) {
                     Text(
-                        text = stringResource(hitsedu.ui_kit.R.string.for_start),
+                        text = stringResource(hitsedu.ui_kit.R.string.for_stop),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.align(Alignment.Center),
@@ -83,7 +90,7 @@ fun LoopMock() {
                         )
                 ) {
                     Text(
-                        text = stringResource(hitsedu.ui_kit.R.string.for_stop),
+                        text = stringResource(hitsedu.ui_kit.R.string.for_step),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimary,
                         modifier = Modifier.align(Alignment.Center),
@@ -98,14 +105,7 @@ fun LoopMock() {
                         RoundedCornerShape(16.dp),
                     )
                     .padding(horizontal = 4.dp),
-            ) {
-                Text(
-                    text = stringResource(hitsedu.ui_kit.R.string.for_step),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.align(Alignment.Center),
-                )
-            }
+            )
         }
     }
 }

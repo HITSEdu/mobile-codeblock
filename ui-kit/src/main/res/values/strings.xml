@@ -1,20 +1,11 @@
 <resources>
-    <string name="app_name">Сodeblock</string>
+    <string name="app_name">СodeBlock</string>
     <string name="documentation">Documentation</string>
     <string name="about">About board</string>
     <string name="projects">All projects</string>
     <string name="board">Board</string>
     <string name="templates">Templates</string>
     <string name="create">Create</string>
-    <string name="documentation_description">
-        This is a long description of the documentation,
-        which will describe the syntactic constructions for the compiler,
-        the basic functionality and other important things that no one will read.
-    </string>
-    <string name="board_description">
-        Here you will find a description of all the commands for the board,
-        a description of the colors and the basics of interacting with the board.
-    </string>
     <string name="run">Run</string>
     <string name="show_elements">Show components</string>
     <string name="variable">Variable</string>
@@ -52,6 +43,7 @@
     <string name="docs_condition">Conditional expressions</string>
     <string name="docs_loop">For loop</string>
     <string name="docs_value">About values</string>
+    <string name="docs_output">About output</string>
     <string name="docs_arrays">About arrays</string>
     <string name="docs_basics">Basics</string>
 </resources>

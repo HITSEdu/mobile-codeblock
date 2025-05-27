@@ -15,7 +15,9 @@ import hitsedu.board.ui.components.MockBox
 import hitsedu.ui_kit.theme.purple
 
 @Composable
-fun OutputDoc() {
+fun OutputDoc(
+    value: String
+) {
     MockBox(
         backgroundColor = purple,
     ) {
@@ -34,7 +36,7 @@ fun OutputDoc() {
                 .padding(horizontal = 4.dp),
         ) {
             Text(
-                text = "\"Hello!\"",
+                text = value,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.align(Alignment.Center),

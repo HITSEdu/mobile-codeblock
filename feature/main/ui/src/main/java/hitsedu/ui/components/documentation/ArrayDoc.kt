@@ -16,12 +16,15 @@ import hitsedu.ui_kit.theme.blue
 import hitsedu.ui_kit.theme.darkPrimary
 
 @Composable
-fun ArrayDoc() {
+fun ArrayDoc(
+    name: String,
+    values: List<String>,
+) {
     MockBox(
         backgroundColor = blue,
     ) {
         Text(
-            text = "arr",
+            text = name,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
@@ -35,7 +38,7 @@ fun ArrayDoc() {
             style = MaterialTheme.typography.bodyMedium,
             color = darkPrimary,
         )
-        repeat(3) {
+        values.forEach {
             Box(
                 modifier = Modifier
                     .size(32.dp, 16.dp)
@@ -46,7 +49,7 @@ fun ArrayDoc() {
                     .padding(horizontal = 4.dp),
             ) {
                 Text(
-                    text = "${it + 6}",
+                    text = it,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.align(Alignment.Center),
