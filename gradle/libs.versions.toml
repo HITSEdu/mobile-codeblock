@@ -30,17 +30,13 @@ kotlin-serialization-json = "1.8.0-RC"
 # DataStore
 datastore = "1.1.7"
 
-# DI
-dagger = "2.51.1"
-javax-inject = "1"
-ksp = "2.0.20-1.0.25"
-
 # Project settings
 minSdk = "24"
 compileSdk = "34"
 targetSdk = "34"
 jvmTarget = "11"
 jetbrainsKotlinJvm = "2.0.21"
+junit = "4.13.2"
 
 [libraries]
 # Core
@@ -77,12 +73,8 @@ kotlinx-serealization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 # DataStore
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 
-# Dagger-Hilt
-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
-dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
-dagger-main = { module = "com.google.dagger:dagger", version.ref = "dagger" }
-javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject" }
+# Test
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -91,5 +83,3 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization" }
-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

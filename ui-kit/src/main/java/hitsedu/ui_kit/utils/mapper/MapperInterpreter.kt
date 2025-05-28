@@ -1,5 +1,7 @@
 package hitsedu.ui_kit.utils.mapper
 
+import hitsedu.interpreter.models.ConsoleOutput
+import hitsedu.interpreter.models.E
 import hitsedu.interpreter.models.Project
 import hitsedu.interpreter.models.Scope
 import hitsedu.interpreter.models.Value
@@ -14,6 +16,8 @@ import hitsedu.interpreter.models.operation.OperationVariable
 import hitsedu.ui_kit.models.ProjectUIO
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.ValueUIO
+import hitsedu.ui_kit.models.exception.ConsoleOutputUIO
+import hitsedu.ui_kit.models.exception.EUIO
 import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationElseUIO
@@ -143,3 +147,23 @@ fun Operation.toOperationUIO(): OperationUIO = when (this) {
         id = id,
     )
 }
+
+fun ConsoleOutput.toConsoleOutputUIO() = ConsoleOutputUIO(
+    output = output,
+    e = exception?.toEUIO()
+)
+
+fun E.toEUIO() = EUIO(
+    message = message,
+    blockId = blockId,
+)
+
+fun ConsoleOutputUIO.toConsoleOutput() = ConsoleOutput(
+    output = output,
+    exception = e?.toE()
+)
+
+fun EUIO.toE() = E(
+    message = message,
+    blockId = blockId,
+)

@@ -47,4 +47,6 @@
     <string name="docs_arrays">About arrays</string>
     <string name="docs_basics">Basics</string>
     <string name="error">Error</string>
+    <string name="empty_console">Check your code for errors or run it again.</string>
+    <string name="snackbar">Successfully launched</string>
 </resources>
