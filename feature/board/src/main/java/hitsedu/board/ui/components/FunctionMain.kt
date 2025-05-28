@@ -42,6 +42,7 @@ import hitsedu.ui_kit.models.ProjectUIO
 fun FunctionMain(
     project: ProjectUIO,
     viewModel: BoardViewModel,
+    showSnackbar: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -103,6 +104,7 @@ fun FunctionMain(
         Button(
             onClick = {
                 viewModel.run()
+                showSnackbar()
             },
             modifier = Modifier
                 .widthIn(64.dp, 128.dp)

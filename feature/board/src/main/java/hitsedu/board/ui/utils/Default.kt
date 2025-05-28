@@ -13,7 +13,7 @@ import hitsedu.ui_kit.models.operation.OperationVariableUIO
 
 object Default {
     val project = ProjectUIO(
-        caption = "Default project",
+        caption = "Project",
         scale = 1f,
         scopeUIOS = emptyList(),
         globalScope = ScopeUIO(

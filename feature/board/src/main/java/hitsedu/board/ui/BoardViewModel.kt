@@ -1,11 +1,11 @@
 package hitsedu.board.ui
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import hitsedu.board.logic.toScope
 import hitsedu.board.ui.utils.Default
 import hitsedu.board.ui.utils.UpdateType
 import hitsedu.board.ui.viewModel.updateErrorsInScope
@@ -13,12 +13,11 @@ import hitsedu.board.ui.viewModel.updateProjectWithScope
 import hitsedu.board.ui.viewModel.updateScopeValues
 import hitsedu.board.ui.viewModel.updateScopeWithOperation
 import hitsedu.data.ProjectRepository
-import hitsedu.interpreter.Interpreter
+import hitsedu.interpreter.InterpreterImpl
 import hitsedu.ui_kit.models.ProjectUIO
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.ValueUIO
 import hitsedu.ui_kit.models.exception.ConsoleOutputUIO
-import hitsedu.ui_kit.models.exception.EUIO
 import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationForUIO
@@ -27,6 +26,7 @@ import hitsedu.ui_kit.models.operation.OperationOutputUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
 import hitsedu.ui_kit.utils.TemplateBoards
+import hitsedu.ui_kit.utils.mapper.toConsoleOutputUIO
 import hitsedu.ui_kit.utils.mapper.toProjectDBO
 import hitsedu.ui_kit.utils.mapper.toProjectUIO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +38,6 @@ import kotlin.random.Random
 
 class BoardViewModel(
     private val repository: ProjectRepository,
-    private val interpreter: Interpreter,
 ) : ViewModel() {
     private var isCurrentlyDragging by mutableStateOf(false)
     var isBottomSheetVisible by mutableStateOf(false)
@@ -62,6 +61,9 @@ class BoardViewModel(
     private val _project = MutableStateFlow<ProjectUIO?>(null)
     val project: StateFlow<ProjectUIO?> = _project.asStateFlow()
 
+    private val _consoleOut = MutableStateFlow<List<ConsoleOutputUIO>>(emptyList())
+    val consoleOutput = _consoleOut.asStateFlow()
+
     fun setProjectCaption(newCaption: String) {
         _project.value = _project.value?.copy(caption = newCaption)
         viewModelScope.launch {
@@ -81,19 +83,22 @@ class BoardViewModel(
     }
 
     fun run() {
-        val ids = project.value!!.globalScope.operationUIOS.map { it.id }
-        val randomId = ids.random()
-        val consoleOutput: List<ConsoleOutputUIO> = listOf(
-            ConsoleOutputUIO(
-                "",
-                EUIO(
-                    message = "Test error $randomId",
-                    blockId = randomId,
-                )
-            )
-        )
-        showError(consoleOutput)
-        Log.e("[RUN]", project.value!!.globalScope.operationUIOS.toString())
+        val interpreter = InterpreterImpl()
+        _consoleOut.value = emptyList()
+        val scope = project.value?.globalScope?.toScope()
+        if (scope != null) {
+            interpreter.process(scope)
+            val out = interpreter.getConsole()
+            val outUIO = out.map {
+                if (it.exception != null) {
+                    showError(listOf(it.toConsoleOutputUIO()))
+                } else {
+                    // TODO("Hide error")
+                }
+                it.toConsoleOutputUIO()
+            }
+            _consoleOut.value = outUIO
+        }
     }
 
     fun getRandom(): Long = Random.nextLong(1, Long.MAX_VALUE)
