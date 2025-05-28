@@ -46,4 +46,5 @@
     <string name="docs_output">About output</string>
     <string name="docs_arrays">About arrays</string>
     <string name="docs_basics">Basics</string>
+    <string name="error">Error</string>
 </resources>

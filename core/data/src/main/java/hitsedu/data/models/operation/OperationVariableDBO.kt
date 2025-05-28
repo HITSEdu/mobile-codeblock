@@ -9,4 +9,5 @@ import kotlinx.serialization.Serializable
 data class OperationVariableDBO(
     val name: String,
     val valueDBO: ValueDBO,
+    val id: Long,
 ) : OperationDBO()

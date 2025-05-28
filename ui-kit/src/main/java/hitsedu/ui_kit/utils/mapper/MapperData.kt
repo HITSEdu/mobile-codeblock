@@ -43,17 +43,20 @@ fun ValueUIO.toValueDBO() = ValueDBO(
 
 fun OperationUIO.toOperationDBO(): OperationDBO = when (this) {
     is OperationVariableUIO -> OperationVariableDBO(
+        id = id,
         name = name,
         valueDBO = value.toValueDBO(),
     )
 
     is OperationArrayUIO -> OperationArrayDBO(
+        id = id,
         name = name,
         size = size,
         valueDBOS = values.map { it.toValueDBO() },
     )
 
     is OperationForUIO -> OperationForDBO(
+        id = id,
         scopeDBO = scope.toScopeDBO(),
         variable = variable.toValueDBO(),
         condition = condition.toValueDBO(),
@@ -61,19 +64,23 @@ fun OperationUIO.toOperationDBO(): OperationDBO = when (this) {
     )
 
     is OperationIfUIO -> OperationIfDBO(
+        id = id,
         scopeDBO = scope.toScopeDBO(),
         valueDBO = value.toValueDBO(),
     )
 
     is OperationElseUIO -> OperationElseDBO(
+        id = id,
         scopeDBO = scope.toScopeDBO(),
     )
 
     is OperationOutputUIO -> OperationOutputDBO(
+        id = id,
         valueDBO = value.toValueDBO(),
     )
 
     is OperationArrayIndexUIO -> OperationArrayIndexDBO(
+        id = id,
         name = name,
         index = index.toValueDBO(),
         valueDBO = value.toValueDBO(),

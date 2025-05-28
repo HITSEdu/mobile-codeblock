@@ -28,7 +28,7 @@ fun Output(
     ) {
         Text(
             text = "Print: ",
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,
         )
         if (output.value.value.isBlank())

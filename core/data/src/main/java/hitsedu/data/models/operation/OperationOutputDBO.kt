@@ -7,5 +7,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("Output")
 data class OperationOutputDBO(
+    val id: Long,
     val valueDBO: ValueDBO,
 ) : OperationDBO()

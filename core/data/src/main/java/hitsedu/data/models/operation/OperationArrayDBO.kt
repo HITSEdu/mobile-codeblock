@@ -10,4 +10,5 @@ data class OperationArrayDBO(
     val name: String,
     val size: Int,
     val valueDBOS: List<ValueDBO>,
+    val id: Long,
 ) : OperationDBO()

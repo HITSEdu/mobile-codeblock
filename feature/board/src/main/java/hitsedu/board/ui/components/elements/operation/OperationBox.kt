@@ -28,11 +28,13 @@ import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.EditNameAlertDialog
 import hitsedu.ui_kit.R
+import hitsedu.ui_kit.components.ShowErrorAlertDialog
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.models.operation.OperationArrayIndexUIO
 import hitsedu.ui_kit.models.operation.OperationArrayUIO
 import hitsedu.ui_kit.models.operation.OperationUIO
 import hitsedu.ui_kit.models.operation.OperationVariableUIO
+import hitsedu.ui_kit.theme.red
 
 @Composable
 fun OperationBox(
@@ -46,6 +48,9 @@ fun OperationBox(
     val isValid = operationUIO is OperationVariableUIO ||
             operationUIO is OperationArrayUIO || operationUIO is OperationArrayIndexUIO
     val openAlertDialog = remember { mutableStateOf(false) }
+    val isShowError = remember { mutableStateOf(false) }
+
+    val borderColor = if (operationUIO.e == null) MaterialTheme.colorScheme.onPrimary else red
 
     when {
         openAlertDialog.value -> {
@@ -54,6 +59,13 @@ fun OperationBox(
                 operationUIO = operationUIO,
                 viewModel = viewModel,
                 onDismissRequest = { openAlertDialog.value = false },
+            )
+        }
+
+        isShowError.value && operationUIO.e != null -> {
+            ShowErrorAlertDialog(
+                message = operationUIO.e!!,
+                onDismissRequest = { isShowError.value = false },
             )
         }
     }
@@ -69,7 +81,7 @@ fun OperationBox(
                 .align(Alignment.BottomCenter)
                 .border(
                     2.dp,
-                    MaterialTheme.colorScheme.onPrimary,
+                    borderColor,
                     RoundedCornerShape(0.dp, 24.dp, 24.dp, 12.dp)
                 )
                 .background(
@@ -89,6 +101,22 @@ fun OperationBox(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            if (operationUIO.e != null) {
+                IconButton(
+                    onClick = {
+                        isShowError.value = true
+                    },
+                    modifier = Modifier
+                        .size(20.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_e),
+                        contentDescription = "Show error",
+                        tint = red,
+                        modifier = Modifier,
+                    )
+                }
+            }
             content()
         }
         Box(
@@ -118,5 +146,6 @@ fun OperationBox(
                 )
             }
         }
+        // TODO("Волнистое подчеркивание")
     }
 }
