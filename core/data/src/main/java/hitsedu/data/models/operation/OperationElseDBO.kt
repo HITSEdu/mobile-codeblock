@@ -7,5 +7,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("Else")
 data class OperationElseDBO(
+    val id: Long,
     val scopeDBO: ScopeDBO,
 ) : OperationDBO()

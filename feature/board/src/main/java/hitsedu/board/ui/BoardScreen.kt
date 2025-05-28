@@ -63,7 +63,6 @@ private fun BoardScreenUI(
     viewModel.init(id)
     val project by viewModel.project.collectAsState()
 
-    val title by viewModel.projectCaption.collectAsState()
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
@@ -75,13 +74,15 @@ private fun BoardScreenUI(
             topBar = {
                 Column {
                     Header()
-                    ProjectTitle(
-                        title = title,
-                        onTitleChange = {
-                            viewModel.setProjectCaption(it)
-                        },
-                        onBackClick = { navController.popBackStack() }
-                    )
+                    project?.caption?.let {
+                        ProjectTitle(
+                            title = it,
+                            onTitleChange = {
+                                viewModel.setProjectCaption(it)
+                            },
+                            onBackClick = { navController.popBackStack() }
+                        )
+                    }
                 }
             },
             bottomBar = {

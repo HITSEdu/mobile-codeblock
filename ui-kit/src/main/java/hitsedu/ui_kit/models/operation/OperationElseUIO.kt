@@ -4,5 +4,6 @@ import hitsedu.ui_kit.models.ScopeUIO
 
 data class OperationElseUIO(
     val scope: ScopeUIO,
+    override val e: String? = null,
     override val id: Long = 0,
 ) : OperationUIO(id)

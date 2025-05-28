@@ -206,12 +206,15 @@ fun DocumentationContent() {
                 ) {
                     Text(
                         text = "Условный оператор имеет две части: If и Else. " +
-                                "Оператор Else всегда идет после оператора If в одном скопе, а не в дочернем.\n" +
-                                "",
+                                "Оператор Else всегда идет после оператора If в одном скопе, а не в дочернем.\n\n" +
+                                "Поддерживаемые логические операции:\n" +
+                                "\t1. Логическое ИЛИ - \"||\"\n" +
+                                "\t2. Логическое И - \"&&\"\n" +
+                                "\t3. Операторы сравнения: \"==\", \"!=\", \">\", \">=\", \"<\", \"<=\"\n",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
-                    ConditionIfDoc("true")
+                    ConditionIfDoc("a > 3 && a != 7")
                     ConditionElseDoc()
                 }
             }
@@ -231,12 +234,12 @@ fun DocumentationContent() {
                         text = "Циклы представлены оператором For.\n\n" +
                                 "Первое значение, которое получает оператор - это название переменной для итерации. " +
                                 "Второе значение - условие выхода из цикла. " +
-                                "Третье - значение, которое будет прибавляться к переменной",
+                                "Третье - действие, если условие выполняется.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    LoopDoc("i = 0", "i < 5", "1")
+                    LoopDoc("i = 0", "i < 5", "i = i + 1")
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Если необходимо выполнить реверсивный цикл, то в поле значение следует прописать -1",
@@ -244,7 +247,7 @@ fun DocumentationContent() {
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    LoopDoc("i = 5", "i > 0", "-1")
+                    LoopDoc("i = 5", "i > 0", "i = i - 1")
                 }
             }
         }

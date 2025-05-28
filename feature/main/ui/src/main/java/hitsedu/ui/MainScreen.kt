@@ -2,6 +2,7 @@ package hitsedu.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,7 +21,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,7 +38,6 @@ import hitsedu.ui.components.BottomSection
 import hitsedu.ui.components.DocumentationContent
 import hitsedu.ui.components.ProjectItem
 import hitsedu.ui.components.TemplateItem
-import hitsedu.ui_kit.utils.TemplateBoards
 import hitsedu.ui_kit.Destinations
 import hitsedu.ui_kit.R
 import hitsedu.ui_kit.components.BottomSheet
@@ -48,6 +48,8 @@ import hitsedu.ui_kit.theme.blue
 import hitsedu.ui_kit.theme.orange
 import hitsedu.ui_kit.theme.pink
 import hitsedu.ui_kit.theme.purple
+import hitsedu.ui_kit.theme.red
+import hitsedu.ui_kit.utils.TemplateBoards
 import kotlinx.coroutines.launch
 
 @Composable
@@ -59,14 +61,48 @@ fun MainScreen(
     MainScreenUI(viewModel, navController)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MainScreenUI(
     viewModel: MainViewModel,
     navController: NavHostController,
 ) {
-    val projects = viewModel.projects.collectAsState()
+    when (val state = viewModel.state) {
+        is MainScreenState.Loading -> Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+            CircularProgressIndicator(
+                color = red,
+                modifier = Modifier.size(128.dp)
+            )
+        }
 
+        is MainScreenState.Success -> MainScreenContent(
+            projects = state.projects,
+            viewModel = viewModel,
+            navController = navController,
+        )
+
+        is MainScreenState.Error -> Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = state.message,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MainScreenContent(
+    projects: List<ProjectUIO>,
+    viewModel: MainViewModel,
+    navController: NavHostController,
+) {
     var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
@@ -124,7 +160,7 @@ private fun MainScreenUI(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                items(projects.value) { p ->
+                items(projects) { p ->
                     ProjectItem(
                         caption = p.caption,
                         onNavigate = {

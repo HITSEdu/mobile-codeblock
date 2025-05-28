@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("If")
 data class OperationIfDBO(
+    val id: Long,
     val scopeDBO: ScopeDBO,
     val valueDBO: ValueDBO,
 ) : OperationDBO()

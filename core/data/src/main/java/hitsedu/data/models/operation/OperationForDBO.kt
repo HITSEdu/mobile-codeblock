@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("For")
 data class OperationForDBO(
+    val id: Long,
     val scopeDBO: ScopeDBO,
     val variable: ValueDBO,
     val condition: ValueDBO,
