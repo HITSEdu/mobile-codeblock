@@ -7,7 +7,7 @@ import hitsedu.interpreter.models.operation.OperationOutput
 
 object ExceptionMock {
     val EXPECTED_CANNOT_RESOLVE_VALUE = E(
-        message = "Cannot resolve value: a",
+        message = "Error processing expression: Cannot resolve value: a",
         blockId = 12,
     )
 

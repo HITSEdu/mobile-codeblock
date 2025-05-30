@@ -88,7 +88,12 @@ fun OperationOutput.process(
         when (Validator.validate(value.value)) {
             Type.MATH -> {
                 val result = ParserMath.parseMathExpression(value.value, ::resolve)
-                ConsoleOutput(result.toString())
+                val stringResult = if (result.toString().endsWith(".0")) {
+                    result.toString().substringBefore(".0")
+                } else {
+                    result.toString()
+                }
+                ConsoleOutput(stringResult)
             }
 
             Type.LOGIC -> {

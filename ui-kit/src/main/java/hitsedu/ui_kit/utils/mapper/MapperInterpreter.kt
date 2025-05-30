@@ -47,17 +47,20 @@ fun ValueUIO.toValue() = Value(
 
 fun OperationUIO.toOperation(): Operation = when (this) {
     is OperationVariableUIO -> OperationVariable(
+        id = id,
         name = name,
         value = value.toValue(),
     )
 
     is OperationArrayUIO -> OperationArray(
+        id = id,
         name = name,
         size = size,
         values = values.map { it.toValue() },
     )
 
     is OperationForUIO -> OperationFor(
+        id = id,
         scope = scope.toScope(),
         variable = variable.toValue(),
         condition = condition.toValue(),
@@ -65,19 +68,23 @@ fun OperationUIO.toOperation(): Operation = when (this) {
     )
 
     is OperationIfUIO -> OperationIf(
+        id = id,
         scope = scope.toScope(),
         value = value.toValue(),
     )
 
     is OperationElseUIO -> OperationElse(
+        id = id,
         scope = scope.toScope(),
     )
 
     is OperationOutputUIO -> OperationOutput(
+        id = id,
         value = value.toValue(),
     )
 
     is OperationArrayIndexUIO -> OperationArrayIndex(
+        id = id,
         name = name,
         index = index.toValue(),
         value = value.toValue(),

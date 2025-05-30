@@ -13,7 +13,7 @@ class TestOutput {
         interpreter.process(OutputMock.outputTestString)
         val output = interpreter.getConsole()[0]
         assertEquals(
-            expected = OutputMock.EXPECTED_STRING_OUT,
+            expected = "Output string",
             actual = output.output,
             message = "[Console output]: simple string",
         )
