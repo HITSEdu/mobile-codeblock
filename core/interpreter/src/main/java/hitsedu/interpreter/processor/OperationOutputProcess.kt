@@ -6,7 +6,8 @@ import hitsedu.interpreter.models.Value
 import hitsedu.interpreter.models.operation.OperationArray
 import hitsedu.interpreter.models.operation.OperationOutput
 import hitsedu.interpreter.models.operation.OperationVariable
-import hitsedu.interpreter.syntax.Parser
+import hitsedu.interpreter.syntax.ParserLogic
+import hitsedu.interpreter.syntax.ParserMath
 import hitsedu.interpreter.utils.Operators
 
 fun OperationOutput.process(
@@ -19,7 +20,7 @@ fun OperationOutput.process(
     for (operator in Operators.LOGIC) {
         if (value.value.contains(operator.key)) {
             return try {
-                val logic = Parser.parseLogicExpression(
+                val logic = ParserLogic.parseLogicExpression(
                     value.value,
                     resolve = { name ->
                         variables.find { it.name == name }?.value?.value?.toIntOrNull()
@@ -53,7 +54,7 @@ fun OperationOutput.process(
             } else {
                 return try {
                     val indexExpr = parts[1].split("]")[0]
-                    val index = Parser.parseMathExpression(
+                    val index = ParserMath.parseMathExpression(
                         indexExpr,
                         resolve = { name ->
                             Value(name).process(variables, arrays)
@@ -64,14 +65,14 @@ fun OperationOutput.process(
                     else
                         ConsoleOutput(it.values[index].value)
                 } catch (e: Exception) {
-                    ConsoleOutput("", E("Invalid array index expression: ${e.message}", id))
+                    ConsoleOutput("", E("${e.message}", id))
                 }
             }
         }
     }
 
     return try {
-        val result = Parser.parseMathExpression(
+        val result = ParserMath.parseMathExpression(
             value.value,
             resolve = { name ->
                 Value(name).process(variables, arrays)
@@ -79,6 +80,6 @@ fun OperationOutput.process(
         )
         ConsoleOutput(result.toString())
     } catch (e: Exception) {
-        ConsoleOutput("", E("It is impossible to output the value: ${e.message}", id))
+        ConsoleOutput("", E("${e.message}", id))
     }
 }

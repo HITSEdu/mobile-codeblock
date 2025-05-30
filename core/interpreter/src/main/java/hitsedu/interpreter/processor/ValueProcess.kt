@@ -40,7 +40,7 @@ fun Value.process(
     }
 
     return Parser.parseAssignment(
-        exp = this.value,
+        exp = value,
         resolve = ::resolve,
         assignVar = ::assignVar,
         assignArray = ::assignArray

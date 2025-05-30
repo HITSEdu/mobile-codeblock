@@ -3,7 +3,7 @@ package hitsedu.interpreter.processor
 import hitsedu.interpreter.models.operation.OperationArray
 import hitsedu.interpreter.models.operation.OperationIf
 import hitsedu.interpreter.models.operation.OperationVariable
-import hitsedu.interpreter.syntax.Parser
+import hitsedu.interpreter.syntax.ParserLogic
 
 fun OperationIf.process(
     variables: MutableList<OperationVariable>,
@@ -20,5 +20,5 @@ fun OperationIf.process(
             } ?: error("Cannot resolve value: $name")
     }
 
-    return Parser.parseLogicExpression(this.value.value, ::resolve)
+    return ParserLogic.parseLogicExpression(this.value.value, ::resolve)
 }
