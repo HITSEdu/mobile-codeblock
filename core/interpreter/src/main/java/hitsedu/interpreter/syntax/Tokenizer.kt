@@ -3,7 +3,7 @@ package hitsedu.interpreter.syntax
 import hitsedu.interpreter.utils.Operators.LOGIC
 
 object Tokenizer {
-    fun tokenize(exp: String): List<String> {
+    fun tokenizeMath(exp: String): List<String> {
         val result = mutableListOf<String>()
         val buffer = StringBuilder()
         var i = 0
@@ -12,12 +12,46 @@ object Tokenizer {
             val c = exp[i]
             when {
                 c.isWhitespace() -> i++
-
-                c.isDigit() || c.isLetter() || c == '_' -> {
+                c.isDigit() || c == '.' && i + 1 < exp.length && exp[i + 1].isDigit() -> {
                     buffer.append(c)
                     i++
+                    while (i < exp.length) {
+                        val nextChar = exp[i]
+                        if (nextChar.isDigit() || nextChar == '.') {
+                            buffer.append(nextChar)
+                            i++
+                        } else {
+                            break
+                        }
+                    }
+                    result.add(buffer.toString())
+                    buffer.clear()
                 }
-
+                c.isLetter() || c == '_' -> {
+                    buffer.append(c)
+                    i++
+                    while (i < exp.length) {
+                        val nextChar = exp[i]
+                        if (nextChar.isLetterOrDigit() || nextChar == '_' || nextChar == '[' || nextChar == ']') {
+                            buffer.append(nextChar)
+                            i++
+                            if (nextChar == '[') {
+                                while (i < exp.length && exp[i] != ']') {
+                                    buffer.append(exp[i])
+                                    i++
+                                }
+                                if (i < exp.length) {
+                                    buffer.append(exp[i])
+                                    i++
+                                }
+                            }
+                        } else {
+                            break
+                        }
+                    }
+                    result.add(buffer.toString())
+                    buffer.clear()
+                }
                 else -> {
                     if (buffer.isNotEmpty()) {
                         result.add(buffer.toString())

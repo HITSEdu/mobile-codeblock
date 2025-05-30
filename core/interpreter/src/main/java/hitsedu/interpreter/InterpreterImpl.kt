@@ -1,6 +1,7 @@
 package hitsedu.interpreter
 
 import hitsedu.interpreter.models.ConsoleOutput
+import hitsedu.interpreter.models.E
 import hitsedu.interpreter.models.Scope
 import hitsedu.interpreter.models.operation.Operation
 import hitsedu.interpreter.models.operation.OperationArray
@@ -18,7 +19,7 @@ class InterpreterImpl : Interpreter {
     private val console = mutableListOf<ConsoleOutput>()
 
     private val visited = mutableSetOf<Long>()
-    private var prevOperation: Operation? = null
+    private var prevOperation: Pair<Operation, Boolean>? = null
 
     override fun process(scope: Scope) {
         if (!visited.add(scope.id)) return
@@ -30,7 +31,7 @@ class InterpreterImpl : Interpreter {
                         console.add(ConsoleOutput("", e))
                         return
                     }
-                    prevOperation = operation
+                    prevOperation = Pair(operation, false)
                 }
 
                 is OperationArray -> {
@@ -39,7 +40,7 @@ class InterpreterImpl : Interpreter {
                         console.add(ConsoleOutput("", e))
                         return
                     }
-                    prevOperation = operation
+                    prevOperation = Pair(operation, false)
                 }
 
                 is OperationArrayIndex -> {
@@ -48,36 +49,53 @@ class InterpreterImpl : Interpreter {
                         console.add(ConsoleOutput("", e))
                         return
                     }
-                    prevOperation = operation
+                    prevOperation = Pair(operation, false)
                 }
 
                 is OperationIf -> {
-                    if (operation.process(variables, arrays)) {
+                    val condition = operation.process(variables, arrays)
+                    if (condition == null) {
+                        console.add(ConsoleOutput("", E("Error in logic expression", operation.id)))
+                        return
+                    }
+                    if (condition) {
                         process(operation.scope)
                     }
-                    prevOperation = operation
+                    prevOperation = Pair(operation, condition)
                 }
 
                 is OperationElse -> {
-                    operation.process(prevOperation)
-                    process(operation.scope)
-                    prevOperation = operation
+                    val (prev, condition) = prevOperation ?: run {
+                        console.add(ConsoleOutput("", E("If must be before else", operation.id)))
+                        return
+                    }
+                    if (prev is OperationIf) {
+                        if (!condition) {
+                            process(operation.scope)
+                        }
+                    } else {
+                        console.add(ConsoleOutput("", E("If must be before else", operation.id)))
+                        return
+                    }
+                    prevOperation = Pair(operation, false)
                 }
 
                 is OperationFor -> {
-                    operation.process()
-                    prevOperation = operation
+                    val e = operation.process(variables, arrays, console)
+                    if (e != null) {
+                        console.add(ConsoleOutput("", e))
+                        return
+                    }
+                    prevOperation = Pair(operation, false)
                 }
 
                 is OperationOutput -> {
                     console.add(operation.process(variables, arrays))
-                    prevOperation = operation
+                    prevOperation = Pair(operation, false)
                 }
             }
         }
     }
 
     override fun getConsole() = console.toList()
-    fun getArrays() = arrays.toList()
-    fun getVariables() = variables.toList()
 }
