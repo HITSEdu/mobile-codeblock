@@ -19,4 +19,6 @@
 
 </details>
 
-![Architecture](img/architecture.png) ![Modules](img/architecture.png)
+|                                                                                |                                                                           |
+|--------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| <div style="padding: 10px;"><img src="img/architecture.png" width="300"></div> | <div style="padding: 10px;"><img src="img/modules.png" width="300"></div> |
