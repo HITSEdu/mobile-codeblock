@@ -25,7 +25,11 @@ import hitsedu.board.ui.components.elements.operation.loop.LoopContent
 import hitsedu.board.ui.components.elements.operation.output.OutputContent
 import hitsedu.board.ui.components.elements.operation.variable.VariableContent
 import hitsedu.board.ui.components.elements.value.ValueContent
+import hitsedu.ui_kit.theme.paddingLarge
+import hitsedu.ui_kit.theme.paddingMedium
+import hitsedu.ui_kit.theme.paddingSmall
 import hitsedu.ui_kit.theme.red
+import hitsedu.ui_kit.theme.spaceMedium
 import hitsedu.ui_kit.utils.ELEMENT_COLORS
 import hitsedu.ui_kit.utils.Elements
 import hitsedu.ui_kit.utils.TITLES
@@ -54,9 +58,12 @@ fun Elements(
                     color = MaterialTheme.colorScheme.primary,
                     shape = RoundedCornerShape(0.dp, 24.dp, 0.dp, 0.dp),
                 )
-                .padding(12.dp),
+                .padding(
+                    horizontal = paddingLarge,
+                    vertical = paddingMedium,
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(spaceMedium),
         ) {
             TITLES.forEach { (element, title) ->
                 ElementItem(
@@ -70,7 +77,10 @@ fun Elements(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(
+                    horizontal = paddingLarge,
+                    vertical = paddingSmall,
+                ),
             verticalArrangement = Arrangement.Bottom,
         ) {
             when (selected) {
@@ -94,7 +104,6 @@ fun Elements(
                     onDragStart,
                 )
 
-                //TODO("create function ui element")
                 Elements.Function -> FunctionContent()
                 Elements.Output -> OutputContent(
                     viewModel,

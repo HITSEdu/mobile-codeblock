@@ -14,10 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import hitsedu.ui_kit.components.BottomContainer
 import hitsedu.ui_kit.components.ButtonCreate
 import hitsedu.ui_kit.components.ButtonInfo
+import hitsedu.ui_kit.theme.size24
+import hitsedu.ui_kit.theme.spaceLarge
 
 @Composable
 fun BottomSection(
@@ -46,7 +47,7 @@ fun BottomSection(
                 Icon(
                     painter = painterResource(hitsedu.ui_kit.R.drawable.icon_settings),
                     contentDescription = "Filter",
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(size24),
                     tint = MaterialTheme.colorScheme.onPrimary,
                 )
             }
@@ -54,7 +55,7 @@ fun BottomSection(
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalArrangement = Arrangement.spacedBy(spaceLarge * 2),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Box(
@@ -64,17 +65,18 @@ fun BottomSection(
                     icon = hitsedu.ui_kit.R.drawable.icon_board,
                     text = hitsedu.ui_kit.R.string.board,
                     backgroundColor = MaterialTheme.colorScheme.primary,
-                    onClick = onBoardClick
+                    onClick = onBoardClick,
                 )
             }
             Box(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f),
             ) {
                 ButtonCreate(
                     icon = hitsedu.ui_kit.R.drawable.icon_script,
                     text = hitsedu.ui_kit.R.string.templates,
                     backgroundColor = MaterialTheme.colorScheme.secondary,
-                    onClick = onTemplatesClick
+                    onClick = onTemplatesClick,
                 )
             }
         }

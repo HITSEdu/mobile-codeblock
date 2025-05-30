@@ -17,9 +17,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.components.MockBox
 import hitsedu.ui_kit.theme.green
+import hitsedu.ui_kit.theme.paddingSmall
+import hitsedu.ui_kit.theme.shapeLarge
+import hitsedu.ui_kit.theme.size156
+import hitsedu.ui_kit.theme.size16
+import hitsedu.ui_kit.theme.size192
+import hitsedu.ui_kit.theme.size8
+import hitsedu.ui_kit.theme.size92
+import hitsedu.ui_kit.theme.spaceSmall
 
 @Composable
 fun LoopDoc(
@@ -34,11 +41,11 @@ fun LoopDoc(
             modifier = Modifier
                 .wrapContentSize(),
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(spaceSmall),
         ) {
             Row(
                 modifier = Modifier
-                    .size(192.dp, 16.dp),
+                    .size(size192, size16),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -47,14 +54,15 @@ fun LoopDoc(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(size8))
                 Box(
                     modifier = Modifier
-                        .size(156.dp, 16.dp)
+                        .size(size156, size16)
                         .background(
                             MaterialTheme.colorScheme.primary,
-                            RoundedCornerShape(16.dp),
-                        ),
+                            RoundedCornerShape(shapeLarge),
+                        )
+                        .padding(horizontal = paddingSmall),
                 ) {
                     Text(
                         text = start,
@@ -66,17 +74,18 @@ fun LoopDoc(
             }
             Row(
                 modifier = Modifier
-                    .size(192.dp, 16.dp),
+                    .size(size192, size16),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Box(
                     modifier = Modifier
-                        .size(92.dp, 16.dp)
+                        .size(size92, size16)
                         .background(
                             MaterialTheme.colorScheme.primary,
-                            RoundedCornerShape(16.dp),
+                            RoundedCornerShape(shapeLarge),
                         )
+                        .padding(horizontal = paddingSmall),
                 ) {
                     Text(
                         text = stop,
@@ -87,11 +96,12 @@ fun LoopDoc(
                 }
                 Box(
                     modifier = Modifier
-                        .size(92.dp, 16.dp)
+                        .size(size92, size16)
                         .background(
                             MaterialTheme.colorScheme.primary,
-                            RoundedCornerShape(16.dp),
+                            RoundedCornerShape(shapeLarge),
                         )
+                        .padding(horizontal = paddingSmall),
                 ) {
                     Text(
                         text = step,
@@ -103,12 +113,12 @@ fun LoopDoc(
             }
             Box(
                 modifier = Modifier
-                    .size(192.dp, 16.dp)
+                    .size(size192, size16)
                     .background(
                         MaterialTheme.colorScheme.primary,
-                        RoundedCornerShape(16.dp),
+                        RoundedCornerShape(shapeLarge),
                     )
-                    .padding(horizontal = 4.dp),
+                    .padding(horizontal = paddingSmall),
             )
         }
     }

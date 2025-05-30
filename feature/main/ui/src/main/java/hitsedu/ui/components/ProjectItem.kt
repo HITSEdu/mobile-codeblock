@@ -24,8 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import hitsedu.ui_kit.R
+import hitsedu.ui_kit.theme.border
+import hitsedu.ui_kit.theme.paddingLarge
+import hitsedu.ui_kit.theme.shapeMedium
+import hitsedu.ui_kit.theme.size24
+import hitsedu.ui_kit.theme.size32
+import hitsedu.ui_kit.theme.size56
+import hitsedu.ui_kit.theme.spaceLarge
 
 @Composable
 fun ProjectItem(
@@ -36,30 +42,30 @@ fun ProjectItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(size56)
             .clickable {
                 onNavigate()
             },
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(shapeMedium),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
         ),
         border = BorderStroke(
-            width = 2.dp,
+            width = border,
             color = MaterialTheme.colorScheme.onPrimary.copy(0.3f),
         )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(paddingLarge),
             verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.spacedBy(spaceLarge),
         ) {
             Box(
                 modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(10.dp)),
+                    .size(size32)
+                    .clip(RoundedCornerShape(shapeMedium)),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
@@ -81,13 +87,13 @@ fun ProjectItem(
             IconButton(
                 onClick = onDelete,
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(size32)
             ) {
                 Icon(
                     painter = painterResource(R.drawable.icon_delete),
                     contentDescription = "Delete",
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(size24)
                         .fillMaxSize()
                         .align(Alignment.Bottom),
                     tint = MaterialTheme.colorScheme.onPrimary,

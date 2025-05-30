@@ -16,6 +16,8 @@ import hitsedu.board.ui.components.dnd.DraggableItem
 import hitsedu.board.ui.components.elements.operation.array.actions.ArrayIndexMock
 import hitsedu.board.ui.components.elements.operation.array.actions.ArrayMock
 import hitsedu.board.ui.utils.Default
+import hitsedu.ui_kit.theme.paddingSmall
+import hitsedu.ui_kit.theme.spaceSmall
 
 @Composable
 fun ArrayContent(
@@ -25,9 +27,9 @@ fun ArrayContent(
     Column(
         modifier = Modifier
             .wrapContentHeight()
-            .padding(vertical = 12.dp),
+            .padding(vertical = paddingSmall),
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(spaceSmall),
     ) {
         Text(
             text = stringResource(hitsedu.ui_kit.R.string.array),

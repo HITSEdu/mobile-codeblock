@@ -23,7 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import hitsedu.ui_kit.theme.paddingMedium
+import hitsedu.ui_kit.theme.size24
+import hitsedu.ui_kit.theme.spaceSmall
 
 @Composable
 fun ExpandedItem(
@@ -46,16 +48,16 @@ fun ExpandedItem(
     ) {
         Row(
             modifier = Modifier
-                .padding(8.dp),
+                .padding(paddingMedium),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(spaceSmall),
         ) {
             Icon(
                 painter = painterResource(hitsedu.ui_kit.R.drawable.icon_left),
                 contentDescription = "Arrow",
                 tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(size24)
                     .graphicsLayer {
                         rotationZ = rotation
                     },

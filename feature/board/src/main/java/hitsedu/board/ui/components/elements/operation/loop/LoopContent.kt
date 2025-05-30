@@ -15,6 +15,8 @@ import hitsedu.board.ui.BoardViewModel
 import hitsedu.board.ui.components.dnd.DraggableItem
 import hitsedu.board.ui.components.elements.operation.loop.actions.LoopMock
 import hitsedu.board.ui.utils.Default
+import hitsedu.ui_kit.theme.paddingSmall
+import hitsedu.ui_kit.theme.spaceSmall
 
 @Composable
 fun LoopContent(
@@ -24,9 +26,9 @@ fun LoopContent(
     Column(
         modifier = Modifier
             .wrapContentHeight()
-            .padding(vertical = 12.dp),
+            .padding(vertical = paddingSmall),
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(spaceSmall),
     ) {
         Text(
             text = stringResource(hitsedu.ui_kit.R.string.loop),

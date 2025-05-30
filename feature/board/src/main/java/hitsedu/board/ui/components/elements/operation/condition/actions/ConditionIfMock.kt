@@ -16,6 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.components.MockBox
+import hitsedu.ui_kit.theme.paddingMedium
+import hitsedu.ui_kit.theme.paddingSmall
+import hitsedu.ui_kit.theme.shapeLarge
+import hitsedu.ui_kit.theme.size12
+import hitsedu.ui_kit.theme.size144
+import hitsedu.ui_kit.theme.size16
+import hitsedu.ui_kit.theme.size192
+import hitsedu.ui_kit.theme.size24
 import hitsedu.ui_kit.theme.yellow
 
 @Composable
@@ -27,11 +35,11 @@ fun ConditionIfMock() {
             modifier = Modifier
                 .wrapContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(paddingSmall),
         ) {
             Row(
                 modifier = Modifier
-                    .size(192.dp, 24.dp),
+                    .size(size192, size16),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -42,29 +50,21 @@ fun ConditionIfMock() {
                 )
                 Box(
                     modifier = Modifier
-                        .size(144.dp, 16.dp)
+                        .size(size144, size12)
                         .background(
                             MaterialTheme.colorScheme.primary,
-                            RoundedCornerShape(16.dp),
+                            RoundedCornerShape(shapeLarge),
                         )
-                        .padding(horizontal = 4.dp),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(
-                        text = "3 < 5",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                    )
-                }
+                        .padding(horizontal = paddingSmall),
+                )
             }
             Box(
                 modifier = Modifier
-                    .size(192.dp, 16.dp)
+                    .size(size192, size12)
                     .background(
                         MaterialTheme.colorScheme.primary,
-                        RoundedCornerShape(16.dp),
-                    )
-                    .padding(horizontal = 4.dp),
+                        RoundedCornerShape(shapeLarge),
+                    ),
             )
         }
     }

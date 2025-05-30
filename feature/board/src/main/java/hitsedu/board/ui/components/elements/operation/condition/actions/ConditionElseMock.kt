@@ -15,6 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.components.MockBox
+import hitsedu.ui_kit.theme.paddingSmall
+import hitsedu.ui_kit.theme.shapeLarge
+import hitsedu.ui_kit.theme.size12
+import hitsedu.ui_kit.theme.size192
 import hitsedu.ui_kit.theme.yellow
 
 @Composable
@@ -26,7 +30,7 @@ fun ConditionElseMock() {
             modifier = Modifier
                 .wrapContentSize(),
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(paddingSmall),
         ) {
             Text(
                 text = "Else",
@@ -35,12 +39,12 @@ fun ConditionElseMock() {
             )
             Box(
                 modifier = Modifier
-                    .size(192.dp, 16.dp)
+                    .size(size192, size12)
                     .background(
                         MaterialTheme.colorScheme.primary,
-                        RoundedCornerShape(16.dp),
+                        RoundedCornerShape(shapeLarge),
                     )
-                    .padding(horizontal = 4.dp),
+                    .padding(horizontal = paddingSmall),
             )
         }
     }

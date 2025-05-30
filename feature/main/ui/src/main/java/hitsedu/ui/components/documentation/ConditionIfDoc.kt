@@ -14,8 +14,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import hitsedu.board.ui.components.MockBox
+import hitsedu.ui_kit.theme.paddingSmall
+import hitsedu.ui_kit.theme.shapeLarge
+import hitsedu.ui_kit.theme.size144
+import hitsedu.ui_kit.theme.size16
+import hitsedu.ui_kit.theme.size192
+import hitsedu.ui_kit.theme.size24
+import hitsedu.ui_kit.theme.spaceMedium
 import hitsedu.ui_kit.theme.yellow
 
 @Composable
@@ -29,11 +35,11 @@ fun ConditionIfDoc(
             modifier = Modifier
                 .wrapContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(spaceMedium),
         ) {
             Row(
                 modifier = Modifier
-                    .size(192.dp, 24.dp),
+                    .size(size192, size24),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -44,12 +50,12 @@ fun ConditionIfDoc(
                 )
                 Box(
                     modifier = Modifier
-                        .size(144.dp, 16.dp)
+                        .size(size144, size16)
                         .background(
                             MaterialTheme.colorScheme.primary,
-                            RoundedCornerShape(16.dp),
+                            RoundedCornerShape(shapeLarge),
                         )
-                        .padding(horizontal = 4.dp),
+                        .padding(horizontal = paddingSmall),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
@@ -61,12 +67,12 @@ fun ConditionIfDoc(
             }
             Box(
                 modifier = Modifier
-                    .size(192.dp, 16.dp)
+                    .size(size192, size16)
                     .background(
                         MaterialTheme.colorScheme.primary,
-                        RoundedCornerShape(16.dp),
+                        RoundedCornerShape(shapeLarge),
                     )
-                    .padding(horizontal = 4.dp),
+                    .padding(horizontal = paddingSmall),
             )
         }
     }
