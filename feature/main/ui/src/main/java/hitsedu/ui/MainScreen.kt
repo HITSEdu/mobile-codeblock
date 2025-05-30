@@ -118,6 +118,39 @@ private fun MainScreenContent(
         topBar = {
             Header()
         },
+        bottomBar = {
+            BottomSection(
+                onBoardClick = {
+                    val newProjectId = Random.nextLong(1, Long.MAX_VALUE)
+                    val globalScopeId = Random.nextLong(1, Long.MAX_VALUE)
+                    val newProject = ProjectUIO(
+                        id = newProjectId,
+                        caption = "Project $newProjectId",
+                        scale = 1f,
+                        globalScope = ScopeUIO(
+                            operationUIOS = emptyList(),
+                            id = globalScopeId,
+                        ),
+                        scopeUIOS = listOf(
+                            ScopeUIO(
+                                operationUIOS = emptyList(),
+                                id = globalScopeId,
+                            )
+                        ),
+                    )
+                    viewModel.add(newProject)
+                    navController.navigate(Destinations.boardScreen(newProjectId))
+                },
+                onTemplatesClick = {
+                    scope.launch { templatesState.expand() }
+                        .invokeOnCompletion { isTemplatesVisible = true }
+                },
+                onInfoClick = {
+                    scope.launch { sheetState.expand() }
+                        .invokeOnCompletion { isBottomSheetVisible = true }
+                }
+            )
+        },
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier
             .fillMaxSize(),
@@ -176,37 +209,6 @@ private fun MainScreenContent(
                     )
                 }
             }
-            BottomSection(
-                onBoardClick = {
-                    val newProjectId = Random.nextLong(1, Long.MAX_VALUE)
-                    val globalScopeId = Random.nextLong(1, Long.MAX_VALUE)
-                    val newProject = ProjectUIO(
-                        id = newProjectId,
-                        caption = "Project $newProjectId",
-                        scale = 1f,
-                        globalScope = ScopeUIO(
-                            operationUIOS = emptyList(),
-                            id = globalScopeId,
-                        ),
-                        scopeUIOS = listOf(
-                            ScopeUIO(
-                                operationUIOS = emptyList(),
-                                id = globalScopeId,
-                            )
-                        ),
-                    )
-                    viewModel.add(newProject)
-                    navController.navigate(Destinations.boardScreen(newProjectId))
-                },
-                onTemplatesClick = {
-                    scope.launch { templatesState.expand() }
-                        .invokeOnCompletion { isTemplatesVisible = true }
-                },
-                onInfoClick = {
-                    scope.launch { sheetState.expand() }
-                        .invokeOnCompletion { isBottomSheetVisible = true }
-                }
-            )
         }
         BottomSheet(
             isBottomSheetVisible = isBottomSheetVisible,

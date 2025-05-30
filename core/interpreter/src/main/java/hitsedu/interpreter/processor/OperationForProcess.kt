@@ -151,7 +151,8 @@ fun OperationFor.process(
 
             val expressionToProcess = stepExpression.replace(varName, currentValue)
 
-            Value(expressionToProcess).process(variables, arrays) ?: return E("Failed to process step value: $stepExpression", id)
+            Value(expressionToProcess).process(variables, arrays)
+                ?: return E("Failed to process step value: $stepExpression", id)
         } catch (e: Exception) {
             val error = E("Error processing step value: ${e.message}", id)
             return error

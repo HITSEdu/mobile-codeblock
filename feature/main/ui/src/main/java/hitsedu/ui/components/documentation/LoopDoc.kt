@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import hitsedu.board.ui.components.MockBox
+import hitsedu.board.components.MockBox
 import hitsedu.ui_kit.theme.green
 import hitsedu.ui_kit.theme.paddingSmall
 import hitsedu.ui_kit.theme.shapeLarge

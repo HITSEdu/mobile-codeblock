@@ -82,8 +82,8 @@ fun ProjectItem(
                 color = MaterialTheme.colorScheme.onPrimary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
+                modifier = Modifier.weight(1f),
             )
-            Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = onDelete,
                 modifier = Modifier

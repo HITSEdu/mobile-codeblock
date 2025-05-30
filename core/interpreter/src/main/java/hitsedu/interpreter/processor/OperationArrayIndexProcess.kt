@@ -23,15 +23,14 @@ fun OperationArrayIndex.process(
     }
 
     val processedValue = try {
-        Value(value.value).process(variables, arrays) ?:
-        return E("Failed to process value expression: '${value.value}'", id)
+        Value(value.value).process(variables, arrays)
+            ?: return E("Failed to process value expression: '${value.value}'", id)
     } catch (e: Exception) {
         return E("Error processing value: ${e.message}", id)
     }
 
 
-    val array = arrays.find { it.name == name } ?:
-    return E("Array '$name' not found", id)
+    val array = arrays.find { it.name == name } ?: return E("Array '$name' not found", id)
 
     if (indexInt !in array.values.indices) {
         return E("Index $indexInt out of bounds for array '$name' (size: ${array.values.size})", id)
