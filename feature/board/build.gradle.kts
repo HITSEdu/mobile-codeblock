@@ -38,5 +38,4 @@ dependencies {
     implementation(project(":ui-kit"))
     implementation(project(":core:interpreter"))
     implementation(project(":core:data"))
-    implementation(project(":core:interpreter"))
 }
