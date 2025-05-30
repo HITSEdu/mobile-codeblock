@@ -10,9 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import hitsedu.board.ui.components.MockBox
+import hitsedu.board.components.MockBox
 import hitsedu.ui_kit.theme.orange
+import hitsedu.ui_kit.theme.paddingSmall
+import hitsedu.ui_kit.theme.shapeLarge
 
 @Composable
 fun VariableDoc(
@@ -37,9 +38,9 @@ fun VariableDoc(
                 .wrapContentWidth()
                 .background(
                     MaterialTheme.colorScheme.primary,
-                    RoundedCornerShape(16.dp),
+                    RoundedCornerShape(shapeLarge),
                 )
-                .padding(horizontal = 4.dp),
+                .padding(horizontal = paddingSmall),
             contentAlignment = Alignment.Center,
         ) {
             Text(

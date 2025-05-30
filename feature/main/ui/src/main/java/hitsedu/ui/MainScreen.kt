@@ -1,6 +1,5 @@
 package hitsedu.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,11 +45,17 @@ import hitsedu.ui_kit.models.ProjectUIO
 import hitsedu.ui_kit.models.ScopeUIO
 import hitsedu.ui_kit.theme.blue
 import hitsedu.ui_kit.theme.orange
-import hitsedu.ui_kit.theme.pink
+import hitsedu.ui_kit.theme.paddingExtraLarge
+import hitsedu.ui_kit.theme.paddingLarge
+import hitsedu.ui_kit.theme.paddingSmall
 import hitsedu.ui_kit.theme.purple
 import hitsedu.ui_kit.theme.red
+import hitsedu.ui_kit.theme.size24
+import hitsedu.ui_kit.theme.size312
+import hitsedu.ui_kit.theme.spaceMedium
 import hitsedu.ui_kit.utils.TemplateBoards
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 @Composable
 fun MainScreen(
@@ -104,19 +109,51 @@ private fun MainScreenContent(
     navController: NavHostController,
 ) {
     var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
     var isTemplatesVisible by rememberSaveable { mutableStateOf(false) }
-    val templatesState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val templatesState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        topBar = { Header() },
+        topBar = {
+            Header()
+        },
+        bottomBar = {
+            BottomSection(
+                onBoardClick = {
+                    val newProjectId = Random.nextLong(1, Long.MAX_VALUE)
+                    val globalScopeId = Random.nextLong(1, Long.MAX_VALUE)
+                    val newProject = ProjectUIO(
+                        id = newProjectId,
+                        caption = "Project $newProjectId",
+                        scale = 1f,
+                        globalScope = ScopeUIO(
+                            operationUIOS = emptyList(),
+                            id = globalScopeId,
+                        ),
+                        scopeUIOS = listOf(
+                            ScopeUIO(
+                                operationUIOS = emptyList(),
+                                id = globalScopeId,
+                            )
+                        ),
+                    )
+                    viewModel.add(newProject)
+                    navController.navigate(Destinations.boardScreen(newProjectId))
+                },
+                onTemplatesClick = {
+                    scope.launch { templatesState.expand() }
+                        .invokeOnCompletion { isTemplatesVisible = true }
+                },
+                onInfoClick = {
+                    scope.launch { sheetState.expand() }
+                        .invokeOnCompletion { isBottomSheetVisible = true }
+                }
+            )
+        },
         containerColor = MaterialTheme.colorScheme.background,
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -127,7 +164,7 @@ private fun MainScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        horizontal = 16.dp,
+                        horizontal = paddingExtraLarge,
                     ),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -136,17 +173,17 @@ private fun MainScreenContent(
                     text = stringResource(R.string.projects),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier
+                    modifier = Modifier,
                 )
                 IconButton(
                     onClick = {
 //                        TODO("Filter")
-                    }
+                    },
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.icon_filter),
                         contentDescription = "Filter",
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.size(size24),
                         tint = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
@@ -154,11 +191,11 @@ private fun MainScreenContent(
             LazyColumn(
                 modifier = Modifier
                     .padding(
-                        horizontal = 16.dp,
+                        horizontal = paddingExtraLarge,
                     )
                     .weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(spaceMedium),
             ) {
                 items(projects) { p ->
                     ProjectItem(
@@ -172,38 +209,6 @@ private fun MainScreenContent(
                     )
                 }
             }
-            BottomSection(
-                onBoardClick = {
-                    val newProjectId = viewModel.getRandom()
-                    val globalScopeId = viewModel.getRandom()
-                    val newProject = ProjectUIO(
-                        id = newProjectId,
-                        caption = "Project $newProjectId",
-                        scale = 1f,
-                        globalScope = ScopeUIO(
-                            operationUIOS = emptyList(),
-                            id = globalScopeId
-                        ),
-                        scopeUIOS = listOf(
-                            ScopeUIO(
-                                operationUIOS = emptyList(),
-                                id = globalScopeId
-                            )
-                        ),
-                    )
-                    viewModel.add(newProject)
-                    Log.e("Create", newProject.toString())
-                    navController.navigate(Destinations.boardScreen(newProjectId))
-                },
-                onTemplatesClick = {
-                    scope.launch { templatesState.expand() }
-                        .invokeOnCompletion { isTemplatesVisible = true }
-                },
-                onInfoClick = {
-                    scope.launch { sheetState.expand() }
-                        .invokeOnCompletion { isBottomSheetVisible = true }
-                }
-            )
         }
         BottomSheet(
             isBottomSheetVisible = isBottomSheetVisible,
@@ -234,17 +239,17 @@ private fun MainScreenContent(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(max = 312.dp)
+                    .heightIn(max = size312)
                     .padding(
-                        horizontal = 12.dp,
-                        vertical = 4.dp,
+                        horizontal = paddingLarge,
+                        vertical = paddingSmall,
                     ),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(spaceMedium),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 items(templates) { p ->
                     TemplateItem(
-                        color = colorsMap[p.caption] ?: pink,
+                        color = colorsMap[p.caption] ?: red,
                         caption = p.caption,
                         onNavigate = {
                             navController.navigate(Destinations.boardScreen(p.id))

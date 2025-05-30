@@ -2,14 +2,12 @@ package hitsedu.interpreter.processor
 
 import hitsedu.interpreter.models.ConsoleOutput
 import hitsedu.interpreter.models.E
-import hitsedu.interpreter.models.Value
 import hitsedu.interpreter.models.operation.OperationArray
 import hitsedu.interpreter.models.operation.OperationOutput
 import hitsedu.interpreter.models.operation.OperationVariable
 import hitsedu.interpreter.syntax.ParserLogic
 import hitsedu.interpreter.syntax.ParserMath
 import hitsedu.interpreter.syntax.Validator
-import hitsedu.interpreter.utils.Operators
 import hitsedu.interpreter.utils.Type
 
 fun OperationOutput.process(
@@ -92,10 +90,12 @@ fun OperationOutput.process(
                 val result = ParserMath.parseMathExpression(value.value, ::resolve)
                 ConsoleOutput(result.toString())
             }
+
             Type.LOGIC -> {
                 val result = ParserLogic.parseLogicExpression(value.value, ::resolve)
                 ConsoleOutput(result.toString())
             }
+
             else -> {
                 val resolved = resolve(value.value)
                 ConsoleOutput(resolved.toString())

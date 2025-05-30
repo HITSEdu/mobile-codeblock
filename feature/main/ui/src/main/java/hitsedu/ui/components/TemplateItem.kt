@@ -23,8 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import hitsedu.ui_kit.R
+import hitsedu.ui_kit.theme.border
+import hitsedu.ui_kit.theme.paddingLarge
+import hitsedu.ui_kit.theme.shapeMedium
+import hitsedu.ui_kit.theme.size12
+import hitsedu.ui_kit.theme.size32
+import hitsedu.ui_kit.theme.size56
 
 @Composable
 fun TemplateItem(
@@ -35,23 +40,23 @@ fun TemplateItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(size56)
             .clickable {
                 onNavigate()
             },
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(shapeMedium),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
         ),
         border = BorderStroke(
-            width = 2.dp,
+            width = border,
             color = color,
         ),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp),
+                .padding(paddingLarge),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.Bottom,
         ) {
@@ -59,10 +64,10 @@ fun TemplateItem(
                 painter = painterResource(R.drawable.icon_board),
                 contentDescription = "Board",
                 modifier = Modifier
-                    .size(32.dp),
+                    .size(size32),
                 tint = MaterialTheme.colorScheme.onPrimary,
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(size12))
             Text(
                 text = caption,
                 style = MaterialTheme.typography.bodyLarge,

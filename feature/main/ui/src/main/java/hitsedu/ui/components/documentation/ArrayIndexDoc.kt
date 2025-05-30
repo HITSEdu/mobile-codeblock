@@ -10,9 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import hitsedu.board.ui.components.MockBox
+import hitsedu.board.components.MockBox
 import hitsedu.ui_kit.theme.blue
+import hitsedu.ui_kit.theme.paddingSmall
+import hitsedu.ui_kit.theme.shapeLarge
+import hitsedu.ui_kit.theme.size16
+import hitsedu.ui_kit.theme.size32
 
 @Composable
 fun ArrayIndexDoc(
@@ -35,12 +38,12 @@ fun ArrayIndexDoc(
         )
         Box(
             modifier = Modifier
-                .size(32.dp, 16.dp)
+                .size(size32, size16)
                 .background(
                     MaterialTheme.colorScheme.primary,
-                    RoundedCornerShape(16.dp),
+                    RoundedCornerShape(shapeLarge),
                 )
-                .padding(horizontal = 4.dp),
+                .padding(horizontal = paddingSmall),
         ) {
             Text(
                 text = index,
@@ -62,12 +65,12 @@ fun ArrayIndexDoc(
         )
         Box(
             modifier = Modifier
-                .size(32.dp, 16.dp)
+                .size(size32, size16)
                 .background(
                     MaterialTheme.colorScheme.primary,
-                    RoundedCornerShape(16.dp),
+                    RoundedCornerShape(shapeLarge),
                 )
-                .padding(horizontal = 4.dp),
+                .padding(horizontal = paddingSmall),
         ) {
             Text(
                 text = value,

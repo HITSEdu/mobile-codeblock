@@ -1,10 +1,5 @@
 package hitsedu.interpreter.syntax
 
-import hitsedu.interpreter.syntax.Handler.handleClosingParenthesis
-import hitsedu.interpreter.syntax.Handler.handleOperator
-
-import hitsedu.interpreter.syntax.ParserMath.parseMathExpression
-import hitsedu.interpreter.syntax.Tokenizer.tokenizeLogic
 import hitsedu.interpreter.utils.Operators.LOGIC
 import java.util.Stack
 

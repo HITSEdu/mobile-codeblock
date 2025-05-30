@@ -27,6 +27,7 @@ object Tokenizer {
                     result.add(buffer.toString())
                     buffer.clear()
                 }
+
                 c.isLetter() || c == '_' -> {
                     buffer.append(c)
                     i++
@@ -52,6 +53,7 @@ object Tokenizer {
                     result.add(buffer.toString())
                     buffer.clear()
                 }
+
                 else -> {
                     if (buffer.isNotEmpty()) {
                         result.add(buffer.toString())
