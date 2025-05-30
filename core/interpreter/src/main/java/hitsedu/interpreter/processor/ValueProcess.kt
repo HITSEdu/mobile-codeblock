@@ -3,46 +3,102 @@ package hitsedu.interpreter.processor
 import hitsedu.interpreter.models.Value
 import hitsedu.interpreter.models.operation.OperationArray
 import hitsedu.interpreter.models.operation.OperationVariable
-import hitsedu.interpreter.syntax.Parser
+import hitsedu.interpreter.syntax.ParserLogic
+import hitsedu.interpreter.syntax.ParserMath
+import hitsedu.interpreter.syntax.Validator
+import hitsedu.interpreter.utils.Type
 
 fun Value.process(
     variables: MutableList<OperationVariable>,
     arrays: MutableList<OperationArray>,
-): Int {
-    fun resolve(name: String): Int {
-        return variables.find { it.name == name }?.value?.value?.toIntOrNull()
-            ?: arrays.firstOrNull { array ->
-                name.startsWith(array.name + "[") && name.endsWith("]")
-            }?.let { array ->
-                val indexStr = name.substring(array.name.length + 1, name.length - 1)
-                val index = indexStr.toIntOrNull() ?: return@let null
-                array.values.getOrNull(index)?.value?.toIntOrNull()
-            } ?: error("Cannot resolve value: $name")
+): Value? {
+    val type = try {
+        Validator.validate(value)
+    } catch (e: Exception) {
+        return null
     }
 
-    fun assignVar(name: String, value: Int) {
-        val index = variables.indexOfFirst { it.name == name }
-        if (index != -1) {
-            variables[index] = variables[index].copy(value = Value(value.toString()))
-        } else {
-            variables.add(OperationVariable(name, Value(value.toString())))
+    fun resolve(v: String): Any {
+        when {
+            v == "true" -> return true
+            v == "false" -> return false
+            v.toIntOrNull() != null -> return v.toInt()
+            v.toDoubleOrNull() != null -> return v.toDouble()
+        }
+
+        variables.find { it.name == v }?.value?.let { value ->
+            return when (value.type) {
+                Type.BOOLEAN -> value.value.toBoolean()
+                Type.INT -> value.value.toInt()
+                Type.DOUBLE -> value.value.toDouble()
+                Type.LOGIC -> ParserLogic.parseLogicExpression(value.value, ::resolve)
+                Type.MATH -> ParserMath.parseMathExpression(value.value, ::resolve)
+                else -> value.value
+            }
+        }
+
+        if (v.contains("[") && v.endsWith("]")) {
+            val arrayName = v.substringBefore("[")
+            val indexExpr = v.substringAfter("[").substringBefore("]")
+
+            val indexValue = try {
+                ParserMath.parseMathExpression(indexExpr) { name ->
+                    variables.find { it.name == name }?.value?.value?.toDoubleOrNull()
+                        ?: error("Cannot resolve variable: $name")
+                }.toInt()
+            } catch (e: Exception) {
+                error("Error processing array index: ${e.message}")
+            }
+
+            return arrays.find { it.name == arrayName }?.values?.getOrNull(indexValue)?.let { value ->
+                when (value.type) {
+                    Type.BOOLEAN -> value.value.toBoolean()
+                    Type.INT -> value.value.toInt()
+                    Type.DOUBLE -> value.value.toDouble()
+                    else -> error("Array element must be number or boolean")
+                }
+            } ?: error("Array element not found: $v")
+        }
+
+        error("Cannot resolve value: $v")
+    }
+
+    return when (type) {
+        Type.MATH -> {
+            val result = ParserMath.parseMathExpression(value, ::resolve)
+            this.copy(value = result.toString(), type = fromValue(result))
+        }
+
+        Type.LOGIC -> {
+            val result = ParserLogic.parseLogicExpression(value, ::resolve)
+            this.copy(value = result.toString(), type = fromValue(result))
+        }
+
+        Type.VARIABLE -> {
+            val resolved = resolve(value)
+            this.copy(value = resolved.toString(), type = fromValue(resolved))
+        }
+
+        Type.ARRAY_ACCESS -> {
+            val resolved = resolve(value)
+            this.copy(value = resolved.toString(), type = fromValue(resolved))
+        }
+
+        Type.BOOLEAN, Type.INT, Type.DOUBLE, Type.STRING ->
+            this.copy(type = type)
+
+        Type.UNKNOWN -> {
+            val resolved = resolve(value)
+            this.copy(value = resolved.toString(), type = fromValue(resolved))
         }
     }
+}
 
-    fun assignArray(name: String, index: Int, value: Int) {
-        val array = arrays.find { it.name == name } ?: error("Array $name not found")
-        if (index !in array.values.indices) error("Index $index out of bounds for array $name")
-
-        val newValues = array.values.toMutableList().apply {
-            this[index] = Value(value.toString())
-        }
-        arrays[arrays.indexOf(array)] = array.copy(values = newValues)
+fun fromValue(value: Any): Type {
+    return when (value) {
+        is Boolean -> Type.BOOLEAN
+        is Int -> Type.INT
+        is Double -> Type.DOUBLE
+        else -> Type.STRING
     }
-
-    return Parser.parseAssignment(
-        exp = value,
-        resolve = ::resolve,
-        assignVar = ::assignVar,
-        assignArray = ::assignArray
-    )
 }
