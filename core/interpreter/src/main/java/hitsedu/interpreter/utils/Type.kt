@@ -5,4 +5,9 @@ enum class Type {
     DOUBLE,
     STRING,
     BOOLEAN,
+    MATH,
+    LOGIC,
+    VARIABLE,
+    ARRAY_ACCESS,
+    UNKNOWN,
 }

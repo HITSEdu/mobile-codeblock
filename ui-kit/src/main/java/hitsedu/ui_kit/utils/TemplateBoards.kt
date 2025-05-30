@@ -27,20 +27,15 @@ object TemplateBoards {
                     value = ValueUIO(value = "1", id = 4969679268660568987),
                     id = 1641607409238507608
                 ),
-                OperationOutputUIO(
-                    value = ValueUIO(value = "fib1", id = 743715435025702227),
-                    id = 6294677763737691846
-                ),
-                OperationOutputUIO(
-                    value = ValueUIO(value = "fib2", id = 8619160022746302408),
-                    id = 8226619961881919021
-                ),
                 OperationVariableUIO(
                     name = "n",
                     value = ValueUIO(value = "8", id = 8046254054816703905),
                     id = 5833065406319606471
                 ),
                 OperationForUIO(
+                    variable = ValueUIO(value = "i = 0", id = 1401927823237040063),  // Исправлено на "i = 0"
+                    condition = ValueUIO(value = "i < n", id = 959695727859821036),
+                    value = ValueUIO(value = "i + 1", id = 7608058419191111832),
                     scope = ScopeUIO(
                         operationUIOS = listOf(
                             OperationVariableUIO(
@@ -55,22 +50,23 @@ object TemplateBoards {
                             ),
                             OperationVariableUIO(
                                 name = "fib2",
-                                value = ValueUIO(value = "fib2 + tmp", id = 7224779749948345158),
+                                value = ValueUIO(value = "tmp + fib2", id = 7224779749948345158),
                                 id = 7467029361727140353
                             ),
                             OperationOutputUIO(
-                                value = ValueUIO(value = "fib2", id = 1233689031817663588),
-                                id = 8390398773412958622
+                                value = ValueUIO(value = "fib2", id = 8619160022746302408),
+                                id = 8226619961881919031
                             )
                         ),
                         id = 1488148814,
                     ),
-                    variable = ValueUIO(value = "i = 2", id = 1401927823237040063),
-                    condition = ValueUIO(value = "i < n", id = 959695727859821036),
-                    value = ValueUIO(value = "1", id = 7608058419191111832),
                     id = 4403605073771007443
-                )
+                ),
 
+                OperationOutputUIO(
+                    value = ValueUIO(value = "fib2", id = 8619160022746302408),
+                    id = 8226619961881919021
+                )
             ),
             id = 10L,
         ),
@@ -147,18 +143,18 @@ object TemplateBoards {
                                 ),
                                 variable = ValueUIO(value = "j = 0", id = 7308805161538049441),
                                 condition = ValueUIO(
-                                    value = "< 3", id = 1940319611165523968
+                                    value = "j < (3 - i)", id = 1940319611165523968
                                 ),
-                                value = ValueUIO(value = "1", id = 2422223287350580335),
+                                value = ValueUIO(value = "j + 1", id = 2422223287350580335),
                                 id = 7823909612345678925,
                             ),
                         )
                     ),
                     variable = ValueUIO(value = "i = 0", id = 7308805166531049491),
                     condition = ValueUIO(
-                        value = "< 3", id = 7940319611035523968
+                        value = "i < 3", id = 7940319611035523968
                     ),
-                    value = ValueUIO(value = "1", id = 2414543947350580335),
+                    value = ValueUIO(value = "i + 1", id = 2414543947350580335),
                     id = 7823909680555324825
                 ),
                 OperationOutputUIO(
@@ -200,7 +196,7 @@ object TemplateBoards {
                     ),
                     variable = ValueUIO(value = "i = 2", id = 5139477128428804218),
                     condition = ValueUIO(value = "i < n + 1", id = 5595413765052933271),
-                    value = ValueUIO(value = "1", id = 8380124149128170437),
+                    value = ValueUIO(value = "i + 1", id = 8380124149128170437),
                     id = 6906137529296532862
                 ),
                 OperationOutputUIO(
