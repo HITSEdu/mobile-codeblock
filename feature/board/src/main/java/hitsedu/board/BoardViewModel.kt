@@ -30,6 +30,7 @@ import hitsedu.ui_kit.utils.mapper.toConsoleOutputUIO
 import hitsedu.ui_kit.utils.mapper.toProjectDBO
 import hitsedu.ui_kit.utils.mapper.toProjectUIO
 import hitsedu.ui_kit.utils.mapper.toScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -84,19 +85,21 @@ class BoardViewModel(
     }
 
     fun run() {
-        val interpreter = InterpreterImpl()
-        _consoleOut.value = emptyList()
-        val scope = project.value?.globalScope?.toScope()
-        if (scope != null) {
-            interpreter.process(scope)
-            val out = interpreter.getConsole()
-            val outUIO = out.map {
-                if (it.exception != null) {
-                    showError(listOf(it.toConsoleOutputUIO()))
+        viewModelScope.launch(Dispatchers.IO) {
+            val interpreter = InterpreterImpl()
+            _consoleOut.value = emptyList()
+            val scope = project.value?.globalScope?.toScope()
+            if (scope != null) {
+                interpreter.process(scope)
+                val out = interpreter.getConsole()
+                val outUIO = out.map {
+                    if (it.exception != null) {
+                        showError(listOf(it.toConsoleOutputUIO()))
+                    }
+                    it.toConsoleOutputUIO()
                 }
-                it.toConsoleOutputUIO()
+                _consoleOut.value = outUIO
             }
-            _consoleOut.value = outUIO
         }
     }
 

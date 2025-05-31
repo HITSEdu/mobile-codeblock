@@ -48,6 +48,8 @@ fun OperationFor.process(
         iteration++
 
         val conditionResult = try {
+            if (iteration > 3000)
+                throw Exception("Loop overflow")
             ParserLogic.parseLogicExpression(
                 condition.value,
                 resolve = { name ->

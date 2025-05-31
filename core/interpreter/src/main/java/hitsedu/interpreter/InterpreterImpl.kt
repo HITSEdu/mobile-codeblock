@@ -21,7 +21,7 @@ class InterpreterImpl : Interpreter {
     private val visited = mutableSetOf<Long>()
     private var prevOperation: Pair<Operation, Boolean>? = null
 
-    override fun process(scope: Scope) {
+    override suspend fun process(scope: Scope) {
         if (!visited.add(scope.id)) return
         for (operation in scope.operations) {
             when (operation) {

@@ -42,7 +42,7 @@ fun ButtonBoard(
     ) {
         Row(
             modifier = Modifier
-                .width(156.dp),
+                .width(132.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
